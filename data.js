@@ -184,7 +184,7 @@
           { name: 'soft blush cream', hex: '#F3EBE7' },
           { name: 'pale peach wash', hex: '#F8F0EC' },
           { name: 'warm taupe accent', hex: '#A29894' },
-          { name: 'terracotta CTA orange', hex: '#A5755F' }
+          { name: 'terracotta CTA orange', hex: '#C06038' }
         ],
         typography: 'Heavy sans-serif display headline paired with a lighter serif-italic word for emphasis (e.g. "90 Days" set in italic serif); small tracked all-caps eyebrow labels above section headers; clean sans body copy.',
         layoutNotes: 'Long vertical sales-page structure: hero, three-card "how it works" row, a vertical dotted-line roadmap with alternating left/right phase cards and numbered circular nodes, a benefits checklist, a dark testimonial/message-bubble block with a "$12k Client Closed" proof card, a pricing card, an FAQ accordion, and a multi-step application form footer.',
