@@ -188,10 +188,51 @@ function setupModalHandlers() {
   });
 }
 
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  return Promise.resolve();
+}
+
+function wireCopyButton(button, getText) {
+  button.addEventListener('click', function () {
+    if (!currentModalImage || !currentModalCategory) return;
+    copyToClipboard(getText()).then(function () {
+      var original = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('copied');
+      setTimeout(function () {
+        button.textContent = original;
+        button.classList.remove('copied');
+      }, 1200);
+    });
+  });
+}
+
+function setupCopyButtons() {
+  wireCopyButton(document.getElementById('copy-prompt-btn'), function () {
+    return TasteContent.buildImagePrompt(currentModalImage, currentModalCategory);
+  });
+  wireCopyButton(document.getElementById('copy-brief-btn'), function () {
+    return TasteContent.buildBrief(currentModalImage, currentModalCategory);
+  });
+}
+
 function init() {
   renderFilters();
   renderSections();
   setupModalHandlers();
+  setupCopyButtons();
 }
 
 document.addEventListener('DOMContentLoaded', init);
