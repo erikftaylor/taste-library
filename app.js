@@ -205,15 +205,18 @@ function copyToClipboard(text) {
 }
 
 function wireCopyButton(button, getText) {
+  var label = button.textContent;
+  var revertTimer = null;
   button.addEventListener('click', function () {
     if (!currentModalImage || !currentModalCategory) return;
     copyToClipboard(getText()).then(function () {
-      var original = button.textContent;
+      if (revertTimer) clearTimeout(revertTimer);
       button.textContent = 'Copied!';
       button.classList.add('copied');
-      setTimeout(function () {
-        button.textContent = original;
+      revertTimer = setTimeout(function () {
+        button.textContent = label;
         button.classList.remove('copied');
+        revertTimer = null;
       }, 1200);
     });
   });
