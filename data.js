@@ -99,7 +99,7 @@
           { name: 'medium mint green', hex: '#61DC86' },
           { name: 'pale sand', hex: '#D9CFB1' }
         ],
-        typography: "Bold grotesk display type used for both the headline and the form's sentence-style copy, so the form itself reads like enlarged headline text; small tracked all-caps micro-labels above each blank (\"FIRST NAME\", \"PROJECT OR GOAL\").",
+        typography: 'Bold grotesk display type used for both the headline and the form’s sentence-style copy, so the form itself reads like enlarged headline text; small tracked all-caps micro-labels above each blank ("FIRST NAME", "PROJECT OR GOAL").',
         layoutNotes: 'Form is written as a single flowing sentence ("My name is ___ with ___...") with underlined blanks standing in for input fields, breaking the conventional label-above-input form pattern; hero illustration paired with a flat mint watercolor-wash background.',
         imagerySubject: 'two people talking through paper cups connected by string, seated among potted plants',
         mood: ['conversational', 'warm', 'human']
