@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taste Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-title">Taste Library — Design Inspiration Gallery</div>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="upload-section">
+    <div class="dropzone" id="dropzone">
+      Drop screenshots here, or
+      <button type="button" id="file-picker-btn">choose files</button>
+      <input type="file" id="file-input" accept="image/*" multiple hidden>
+    </div>
+    <div class="inbox-grid" id="inbox-grid"></div>
+  </div>
+
+  <div id="category-sections"></div>
+
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-image"><img id="modal-img" src="" alt=""></div>
+      <div class="modal-panel">
+        <div class="modal-header-row">
+          <h2 class="modal-title" id="modal-title"></h2>
+          <span class="modal-badge" id="modal-badge"></span>
+        </div>
+        <div class="modal-descriptor" id="modal-descriptor"></div>
+        <div class="modal-tags" id="modal-tags"></div>
+        <div class="recipe-box">
+          <div class="recipe-label">IMAGE RECIPE — fill [SUBJECT]</div>
+          <div class="recipe-text" id="modal-recipe"></div>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="btn" id="copy-brief-btn">Copy Brief</button>
+          <button type="button" class="btn" id="copy-prompt-btn">Copy Image Prompt</button>
+          <button type="button" class="btn secondary" id="modal-close-btn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="lib/content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
