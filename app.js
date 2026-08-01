@@ -12,12 +12,23 @@ function renderFilters() {
   counts.forEach(function (entry) {
     var chip = document.createElement('div');
     chip.className = 'chip' + (entry.id === activeCategoryId ? ' active' : '');
-    chip.textContent = entry.name.toUpperCase() + '  ' + entry.count;
-    chip.addEventListener('click', function () {
+    chip.textContent = entry.name + '  ' + entry.count;
+    chip.tabIndex = 0;
+    chip.setAttribute('role', 'button');
+
+    var selectChip = function () {
       activeCategoryId = entry.id;
       renderFilters();
       renderSections();
+    };
+    chip.addEventListener('click', selectChip);
+    chip.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectChip();
+      }
     });
+
     container.appendChild(chip);
   });
 }
@@ -127,19 +138,34 @@ function createCard(image, category, index, total) {
   body.appendChild(footer);
 
   card.appendChild(body);
-  card.addEventListener('click', function () { openModal(image, category); });
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-label', 'Open details for ' + image.title);
+
+  var openThisModal = function () { openModal(image, category); };
+  card.addEventListener('click', openThisModal);
+  card.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openThisModal();
+    }
+  });
+
   return card;
 }
 
 var currentModalImage = null;
 var currentModalCategory = null;
+var lastFocusedElement = null;
 
 function openModal(image, category) {
   currentModalImage = image;
   currentModalCategory = category;
+  lastFocusedElement = document.activeElement;
 
-  document.getElementById('modal-img').src = image.display;
-  document.getElementById('modal-img').alt = image.title;
+  var modalImg = document.getElementById('modal-img');
+  modalImg.src = image.display;
+  modalImg.alt = image.title;
   document.getElementById('modal-title').textContent = image.title;
   document.getElementById('modal-badge').textContent = '◆ ' + category.name;
   document.getElementById('modal-descriptor').textContent = image.descriptor;
@@ -156,12 +182,18 @@ function openModal(image, category) {
   renderRecipe(document.getElementById('modal-recipe'), image, category);
 
   document.getElementById('modal-overlay').hidden = false;
+  document.getElementById('modal-close-btn').focus();
 }
 
 function closeModal() {
   document.getElementById('modal-overlay').hidden = true;
   currentModalImage = null;
   currentModalCategory = null;
+
+  if (lastFocusedElement) {
+    lastFocusedElement.focus();
+    lastFocusedElement = null;
+  }
 }
 
 function renderRecipe(container, image, category) {
