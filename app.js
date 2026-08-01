@@ -228,11 +228,121 @@ function setupCopyButtons() {
   });
 }
 
+var inboxImages = [];
+var inboxIdCounter = 0;
+
+function addFilesToInbox(fileList) {
+  Array.prototype.forEach.call(fileList, function (file) {
+    if (!file.type || file.type.indexOf('image/') !== 0) return;
+    inboxIdCounter += 1;
+    inboxImages.push({
+      id: 'inbox-' + inboxIdCounter,
+      file: file,
+      name: file.name,
+      previewUrl: URL.createObjectURL(file)
+    });
+  });
+  renderInbox();
+}
+
+function removeFromInbox(id) {
+  var index = -1;
+  inboxImages.forEach(function (item, i) { if (item.id === id) index = i; });
+  if (index === -1) return;
+  URL.revokeObjectURL(inboxImages[index].previewUrl);
+  inboxImages.splice(index, 1);
+  renderInbox();
+}
+
+function downloadInboxItem(id) {
+  var item = null;
+  inboxImages.forEach(function (i) { if (i.id === id) item = i; });
+  if (!item) return;
+  var link = document.createElement('a');
+  link.href = item.previewUrl;
+  link.download = item.name;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function renderInbox() {
+  var grid = document.getElementById('inbox-grid');
+  grid.textContent = '';
+  inboxImages.forEach(function (item) {
+    var card = document.createElement('div');
+    card.className = 'inbox-card';
+
+    var img = document.createElement('img');
+    img.src = item.previewUrl;
+    img.alt = item.name;
+    card.appendChild(img);
+
+    var body = document.createElement('div');
+    body.className = 'inbox-card-body';
+
+    var badge = document.createElement('span');
+    badge.className = 'inbox-badge';
+    badge.textContent = '◇ Uncategorized';
+    body.appendChild(badge);
+
+    var name = document.createElement('div');
+    name.className = 'inbox-card-name';
+    name.textContent = item.name;
+    body.appendChild(name);
+
+    var actions = document.createElement('div');
+    actions.className = 'inbox-actions';
+
+    var downloadBtn = document.createElement('button');
+    downloadBtn.type = 'button';
+    downloadBtn.textContent = 'Download';
+    downloadBtn.addEventListener('click', function () { downloadInboxItem(item.id); });
+    actions.appendChild(downloadBtn);
+
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', function () { removeFromInbox(item.id); });
+    actions.appendChild(removeBtn);
+
+    body.appendChild(actions);
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+function setupDropzone() {
+  var dropzone = document.getElementById('dropzone');
+  var fileInput = document.getElementById('file-input');
+  var pickerBtn = document.getElementById('file-picker-btn');
+
+  pickerBtn.addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function (e) {
+    addFilesToInbox(e.target.files);
+    fileInput.value = '';
+  });
+
+  dropzone.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+  });
+  dropzone.addEventListener('dragleave', function () {
+    dropzone.classList.remove('dragover');
+  });
+  dropzone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    addFilesToInbox(e.dataTransfer.files);
+  });
+}
+
 function init() {
   renderFilters();
   renderSections();
   setupModalHandlers();
   setupCopyButtons();
+  setupDropzone();
 }
 
 document.addEventListener('DOMContentLoaded', init);
