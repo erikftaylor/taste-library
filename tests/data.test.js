@@ -20,6 +20,8 @@ test('every image has the required non-empty fields and a valid categoryId', fun
   data.images.forEach(function (image) {
     assert.ok(image.id, 'image missing id');
     assert.ok(image.file, image.id + ' missing file');
+    assert.ok(image.thumb, image.id + ' missing thumb');
+    assert.ok(image.display, image.id + ' missing display');
     assert.ok(categoryIds.indexOf(image.categoryId) !== -1, image.id + ' has unknown categoryId: ' + image.categoryId);
     assert.ok(image.title, image.id + ' missing title');
     assert.ok(image.descriptor, image.id + ' missing descriptor');

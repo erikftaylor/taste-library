@@ -79,7 +79,7 @@ function createCard(image, category, index, total) {
   var imageWrap = document.createElement('div');
   imageWrap.className = 'card-image';
   var img = document.createElement('img');
-  img.src = image.file;
+  img.src = image.thumb;
   img.alt = image.title;
   imageWrap.appendChild(img);
   card.appendChild(imageWrap);
@@ -138,7 +138,7 @@ function openModal(image, category) {
   currentModalImage = image;
   currentModalCategory = category;
 
-  document.getElementById('modal-img').src = image.file;
+  document.getElementById('modal-img').src = image.display;
   document.getElementById('modal-img').alt = image.title;
   document.getElementById('modal-title').textContent = image.title;
   document.getElementById('modal-badge').textContent = '◆ ' + category.name;

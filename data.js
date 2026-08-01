@@ -62,6 +62,8 @@
       {
         id: 'usman-home',
         file: 'images/Boutique-Design-Digital-Strategy-Agency-in-Denver-Colorado.png',
+        thumb: 'images/thumbs/Boutique-Design-Digital-Strategy-Agency-in-Denver-Colorado.webp',
+        display: 'images/display/Boutique-Design-Digital-Strategy-Agency-in-Denver-Colorado.webp',
         categoryId: 'illustrated-editorial-blocking',
         title: 'Usman Group — Homepage',
         descriptor: 'Hand-drawn line-art figures set against flat watercolor-wash color blocks — approachable, human, editorial.',
@@ -90,6 +92,8 @@
       {
         id: 'usman-blog',
         file: 'images/Business-Communication-Digital-Strategy-Blog-by-Usman-Group.png',
+        thumb: 'images/thumbs/Business-Communication-Digital-Strategy-Blog-by-Usman-Group.webp',
+        display: 'images/display/Business-Communication-Digital-Strategy-Blog-by-Usman-Group.webp',
         categoryId: 'illustrated-editorial-blocking',
         title: 'Usman Group — Blog Index',
         descriptor: 'Flat 4-up color-block card grid for article previews, with the same hand-drawn illustration style in the hero.',
@@ -116,6 +120,8 @@
       {
         id: 'usman-contact',
         file: 'images/Contact-Usman-Group.png',
+        thumb: 'images/thumbs/Contact-Usman-Group.webp',
+        display: 'images/display/Contact-Usman-Group.webp',
         categoryId: 'illustrated-editorial-blocking',
         title: 'Usman Group — Contact',
         descriptor: 'Mad-libs-style conversational form built from underlined fill-in-the-blank fields.',
@@ -140,6 +146,8 @@
       {
         id: 'usman-about',
         file: 'images/Web-Consultant-Marketing-Design-Development-Consulting.png',
+        thumb: 'images/thumbs/Web-Consultant-Marketing-Design-Development-Consulting.webp',
+        display: 'images/display/Web-Consultant-Marketing-Design-Development-Consulting.webp',
         categoryId: 'illustrated-editorial-blocking',
         title: 'Usman Group — About / Team',
         descriptor: 'Team headshot grid and numbered process steps inside a bold coral color-block section.',
@@ -166,6 +174,8 @@
       {
         id: 'chase-ai-mentorship',
         file: 'images/1-1-Mentorship-Program-Chase-AI.png',
+        thumb: 'images/thumbs/1-1-Mentorship-Program-Chase-AI.webp',
+        display: 'images/display/1-1-Mentorship-Program-Chase-AI.webp',
         categoryId: 'soft-gradient-ai-editorial',
         title: 'Chase AI — 1:1 Mentorship Program',
         descriptor: 'Long-form sales page for an AI mentorship program, built on soft gradient washes and a dotted-line 90-day roadmap.',
@@ -194,6 +204,8 @@
       {
         id: 'chase-ai-homepage',
         file: 'images/Chase-AI-Turn-AI-Into-Your-Unfair-Advantage.png',
+        thumb: 'images/thumbs/Chase-AI-Turn-AI-Into-Your-Unfair-Advantage.webp',
+        display: 'images/display/Chase-AI-Turn-AI-Into-Your-Unfair-Advantage.webp',
         categoryId: 'soft-gradient-ai-editorial',
         title: 'Chase AI — Homepage',
         descriptor: 'AI automation agency homepage pairing a pastel gradient hero with a dark code-editor UI mockup.',
@@ -221,6 +233,8 @@
       {
         id: 'think-company-session',
         file: 'images/Enterprise-Software-Modernization-Think-Session.png',
+        thumb: 'images/thumbs/Enterprise-Software-Modernization-Think-Session.webp',
+        display: 'images/display/Enterprise-Software-Modernization-Think-Session.webp',
         categoryId: 'editorial-consulting-photography',
         title: 'Think Company — Think Session Landing Page',
         descriptor: 'Enterprise-consulting landing page pairing documentary workshop photography with a serif editorial headline and muted steel-blue sections.',
