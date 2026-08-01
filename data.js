@@ -23,6 +23,39 @@
         ],
         imageryTechnique: 'loose single-line vector illustration with minimal facial detail, flat watercolor-wash color field behind the figures, no gradients, generous white negative space around the scene',
         imageryExclusions: 'no text, no interface elements, no logos'
+      },
+      {
+        id: 'soft-gradient-ai-editorial',
+        name: 'Soft Gradient AI Editorial',
+        description: 'A pastel, atmospheric SaaS/AI-startup style built from soft gradient-mesh color washes (blush, periwinkle, peach) layered with a fine grid texture, paired with dark code-editor UI mockups that visually ground the abstract background in real product screenshots. Headlines mix a heavy sans display face with a lighter serif-italic accent word for emphasis, and terracotta pill buttons carry the calls to action. Roadmaps and process steps are shown as a vertical dotted-line timeline with circular numbered nodes. Reads as calm, premium, and technical at once — common on AI/automation-agency and consulting-adjacent SaaS sites that want to feel sophisticated rather than loud.',
+        vocabulary: [
+          'pastel gradient-mesh wash',
+          'fine grid texture overlay',
+          'dark code-editor UI mockup',
+          'serif-italic accent word',
+          'terracotta pill CTA button',
+          'dotted-line roadmap timeline',
+          'circular numbered milestone node',
+          'dark testimonial card'
+        ],
+        imageryTechnique: 'soft atmospheric gradient-mesh color wash with a faint grid texture overlay, no illustrated figures, abstract and airy — like a blurred color field rather than a scene',
+        imageryExclusions: 'no text, no interface elements, no logos, no hard edges or sharp shapes'
+      },
+      {
+        id: 'editorial-consulting-photography',
+        name: 'Editorial Consulting Photography',
+        description: 'A photography-led enterprise-consulting style that pairs real documentary-style photos of people in workshops and meetings with a serif editorial headline and muted steel-blue section blocks. Content is organized into clean two-column comparison panels, checkmark bullet lists, and a testimonial block with a circular photo avatar. Where the illustrated and gradient styles in this library reach for warmth through drawing or abstraction, this one reaches for credibility through real photographic evidence of the work happening — common on enterprise consulting and B2B strategy-firm sites selling trust and seniority rather than personality.',
+        vocabulary: [
+          'documentary workshop photography',
+          'serif editorial headline',
+          'muted steel-blue section block',
+          'checkmark bullet list',
+          'circular photo-avatar testimonial',
+          'two-column comparison panel',
+          'numbered request-flow list'
+        ],
+        imageryTechnique: 'real documentary-style photography of people in a professional workshop or meeting setting, natural light, candid composition, muted cool color grading — not illustration, not abstract',
+        imageryExclusions: 'no text overlay, no interface elements, no logos, no illustration or vector art'
       }
     ],
     images: [
@@ -129,6 +162,90 @@
         layoutNotes: 'Three-column flat-color value-prop blocks (cyan/coral/mint) under a two-column intro; horizontal accordion-style capability bar (Strategy/Communications/Technology); dense 3x3 headshot grid for the team section, all inside a full-bleed coral background block; numbered circular badges (01/02/03) mark process steps.',
         imagerySubject: 'two people high-fiving in front of a whiteboard and desk',
         mood: ['confident', 'established', 'trustworthy']
+      },
+      {
+        id: 'chase-ai-mentorship',
+        file: 'images/1-1-Mentorship-Program-Chase-AI.png',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Chase AI — 1:1 Mentorship Program',
+        descriptor: 'Long-form sales page for an AI mentorship program, built on soft gradient washes and a dotted-line 90-day roadmap.',
+        keywords: [
+          'pastel gradient-mesh hero background',
+          'fine grid texture overlay',
+          'dotted-line roadmap timeline',
+          'circular numbered milestone nodes',
+          'terracotta pill CTA button',
+          'serif-italic accent word in headline',
+          'dark testimonial message-bubble card',
+          'client proof screenshot grid'
+        ],
+        colors: [
+          { name: 'pale periwinkle wash', hex: '#E2EAF9' },
+          { name: 'soft blush cream', hex: '#F3EBE7' },
+          { name: 'pale peach wash', hex: '#F8F0EC' },
+          { name: 'warm taupe accent', hex: '#A29894' },
+          { name: 'terracotta CTA orange', hex: '#A5755F' }
+        ],
+        typography: 'Heavy sans-serif display headline paired with a lighter serif-italic word for emphasis (e.g. "90 Days" set in italic serif); small tracked all-caps eyebrow labels above section headers; clean sans body copy.',
+        layoutNotes: 'Long vertical sales-page structure: hero, three-card "how it works" row, a vertical dotted-line roadmap with alternating left/right phase cards and numbered circular nodes, a benefits checklist, a dark testimonial/message-bubble block with a "$12k Client Closed" proof card, a pricing card, an FAQ accordion, and a multi-step application form footer.',
+        imagerySubject: 'a soft blush-to-periwinkle gradient wash with a faint diagonal color transition and subtle grid texture, no figures',
+        mood: ['calm', 'premium', 'aspirational', 'technical']
+      },
+      {
+        id: 'chase-ai-homepage',
+        file: 'images/Chase-AI-Turn-AI-Into-Your-Unfair-Advantage.png',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Chase AI — Homepage',
+        descriptor: 'AI automation agency homepage pairing a pastel gradient hero with a dark code-editor UI mockup.',
+        keywords: [
+          'pastel gradient-mesh hero background',
+          'dark code-editor UI mockup',
+          'file-tree and syntax-highlighted code panel',
+          'serif-italic accent word in headline',
+          'terracotta pill CTA button',
+          'four-step numbered process cards',
+          'connected-line process diagram'
+        ],
+        colors: [
+          { name: 'pale periwinkle wash', hex: '#E8EDF7' },
+          { name: 'soft blush cream', hex: '#F8EEE9' },
+          { name: 'pale sky-blue wash', hex: '#DBE6F8' },
+          { name: 'terracotta CTA orange', hex: '#A5755F' },
+          { name: 'warm taupe accent', hex: '#BFA498' }
+        ],
+        typography: 'Same heavy sans display plus serif-italic accent-word pairing as the mentorship page ("Turn AI Into Your Unfair Advantage", with the last word rendered in soft italic serif); small tracked all-caps section eyebrows ("WHAT WE BUILD", "OUR APPROACH").',
+        layoutNotes: 'Hero with a floating dark code-editor window (file tree plus syntax-highlighted TypeScript) layered over the gradient wash; a "what we build" card row with small UI-mockup thumbnails; a four-step numbered process section connected by thin vertical lines; a long multi-field contact form as the closing section.',
+        imagerySubject: 'a soft periwinkle-to-blush gradient wash transitioning diagonally across the frame, faint grid texture, no figures',
+        mood: ['calm', 'technical', 'premium', 'confident']
+      },
+      {
+        id: 'think-company-session',
+        file: 'images/Enterprise-Software-Modernization-Think-Session.png',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Think Company — Think Session Landing Page',
+        descriptor: 'Enterprise-consulting landing page pairing documentary workshop photography with a serif editorial headline and muted steel-blue sections.',
+        keywords: [
+          'documentary workshop photography',
+          'serif editorial headline',
+          'muted steel-blue section block',
+          'checkmark bullet list',
+          'circular photo-avatar testimonial',
+          'two-column comparison panel',
+          'numbered request-flow list',
+          'long-form qualification form'
+        ],
+        colors: [
+          { name: 'pale steel-blue wash', hex: '#CBD2D6' },
+          { name: 'muted slate blue', hex: '#BDC7CD' },
+          { name: 'deep navy ink', hex: '#072235' },
+          { name: 'pale ice-blue section', hex: '#DAE3E8' },
+          { name: 'slate blue-gray', hex: '#54616E' },
+          { name: 'charcoal navy', hex: '#263440' }
+        ],
+        typography: 'Serif editorial display headline for section titles ("Before Modernization Stalls, Get Strategic Clarity."); clean sans body copy; small blue sans links for inline emphasis.',
+        layoutNotes: 'Alternating white and pale-steel-blue full-bleed sections; a two-column "what this is / what you get" checkmark comparison panel; a centered pull-quote testimonial with a circular headshot; a numbered "who this is for" list; a long qualification form (name, company, industry, budget range) as the closing section; dark navy footer.',
+        imagerySubject: 'a diverse group of enterprise employees in a modern workshop space, one person presenting at a whiteboard, natural window light, documentary editorial photography',
+        mood: ['credible', 'serious', 'senior', 'calm']
       }
     ]
   };
