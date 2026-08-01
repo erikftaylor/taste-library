@@ -131,9 +131,67 @@ function createCard(image, category, index, total) {
   return card;
 }
 
+var currentModalImage = null;
+var currentModalCategory = null;
+
+function openModal(image, category) {
+  currentModalImage = image;
+  currentModalCategory = category;
+
+  document.getElementById('modal-img').src = image.file;
+  document.getElementById('modal-img').alt = image.title;
+  document.getElementById('modal-title').textContent = image.title;
+  document.getElementById('modal-badge').textContent = '◆ ' + category.name;
+  document.getElementById('modal-descriptor').textContent = image.descriptor;
+
+  var tagsContainer = document.getElementById('modal-tags');
+  tagsContainer.textContent = '';
+  image.keywords.forEach(function (keyword) {
+    var tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = keyword;
+    tagsContainer.appendChild(tag);
+  });
+
+  renderRecipe(document.getElementById('modal-recipe'), image, category);
+
+  document.getElementById('modal-overlay').hidden = false;
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').hidden = true;
+  currentModalImage = null;
+  currentModalCategory = null;
+}
+
+function renderRecipe(container, image, category) {
+  container.textContent = '';
+  var parts = TasteContent.buildImagePromptParts(image, category);
+
+  var subjectSpan = document.createElement('span');
+  subjectSpan.className = 'subject';
+  subjectSpan.textContent = '[SUBJECT: ' + parts.subject + ']';
+  container.appendChild(subjectSpan);
+
+  container.appendChild(document.createTextNode(' ' + parts.rest));
+}
+
+function setupModalHandlers() {
+  document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+
+  document.getElementById('modal-overlay').addEventListener('click', function (e) {
+    if (e.target.id === 'modal-overlay') closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
 function init() {
   renderFilters();
   renderSections();
+  setupModalHandlers();
 }
 
 document.addEventListener('DOMContentLoaded', init);
