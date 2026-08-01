@@ -26,7 +26,7 @@ a new screenshot to an existing category or proposes a new one.
 
 Pure logic (prompt/brief generation, filtering, counts) has automated tests:
 
-    node --test tests/
+    node --test
 
 Everything else (rendering, modal, upload) is verified manually in a
 browser — there's no DOM-testing dependency, to keep the app itself at zero
