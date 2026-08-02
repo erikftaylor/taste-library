@@ -1,84 +1,104 @@
 #!/usr/bin/env python3
-"""Author-side tool: generate resized WebP derivatives for gallery images.
+"""
+Generate WebP derivatives (thumbnail and display versions) for images
 
 Usage:
-  python3 scripts/resize-images.py <image-path>   # one image
-  python3 scripts/resize-images.py --all           # every file directly in images/
-
-Writes:
-  images/thumbs/<basename>.webp    (card-grid thumbnail, ~640px wide,
-                                     top-cropped to THUMB_MAX_HEIGHT to
-                                     match the card's CSS object-fit:cover;
-                                     object-position:top)
-  images/display/<basename>.webp   (modal display version, ~1600px wide,
-                                     full height - the modal scrolls)
-
-Not loaded by the app itself - the app references the generated .webp
-paths (data.js's `thumb`/`display` fields). Run this whenever a new
-screenshot is added, before writing its data.js entry.
+    python3 scripts/resize-images.py images/design.png
+    python3 scripts/resize-images.py images/design-*.png
+    python3 scripts/resize-images.py --all
 """
-import os
-import sys
 
+import sys
+import os
+from pathlib import Path
 from PIL import Image
 
-THUMB_WIDTH = 640
-THUMB_MAX_HEIGHT = 500
-DISPLAY_WIDTH = 1600
-IMAGES_DIR = os.path.join(os.path.dirname(__file__), '..', 'images')
-THUMBS_DIR = os.path.join(IMAGES_DIR, 'thumbs')
-DISPLAY_DIR = os.path.join(IMAGES_DIR, 'display')
+# Target sizes for derivatives
+THUMB_SIZE = (280, 180)  # Thumbnail for grid
+DISPLAY_SIZE = (1080, 720)  # Full modal display
 
 
-def to_rgb(img):
-    if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
-        img = img.convert('RGBA')
-        background = Image.new('RGB', img.size, (255, 255, 255))
-        background.paste(img, mask=img.split()[-1])
-        return background
-    return img.convert('RGB')
+def ensure_dirs():
+    """Create output directories if they don't exist."""
+    Path('images/thumbs').mkdir(parents=True, exist_ok=True)
+    Path('images/display').mkdir(parents=True, exist_ok=True)
 
 
-def resized(img, target_width):
-    if img.width <= target_width:
-        return img
-    target_height = round(img.height * (target_width / img.width))
-    return img.resize((target_width, target_height), Image.LANCZOS)
+def generate_webp_derivative(image_path, output_path, size):
+    """Convert and resize image to WebP format."""
+    try:
+        img = Image.open(image_path)
+        img.thumbnail(size, Image.Resampling.LANCZOS)
+        img.save(output_path, 'WEBP', quality=85)
+        return True
+    except Exception as e:
+        print(f"Error processing {image_path}: {e}")
+        return False
 
 
-def thumb_crop(img):
-    if img.height <= THUMB_MAX_HEIGHT:
-        return img
-    return img.crop((0, 0, img.width, THUMB_MAX_HEIGHT))
+def process_image(image_path):
+    """Generate thumbnail and display versions for an image."""
+    image_path = Path(image_path)
+
+    if not image_path.exists():
+        print(f"⚠️  File not found: {image_path}")
+        return False
+
+    stem = image_path.stem
+    thumb_path = Path('images/thumbs') / f"{stem}.webp"
+    display_path = Path('images/display') / f"{stem}.webp"
+
+    print(f"📸 Processing: {image_path}")
+
+    success = True
+    if generate_webp_derivative(str(image_path), str(thumb_path), THUMB_SIZE):
+        print(f"   ✓ Thumbnail: {thumb_path}")
+    else:
+        success = False
+
+    if generate_webp_derivative(str(image_path), str(display_path), DISPLAY_SIZE):
+        print(f"   ✓ Display: {display_path}")
+    else:
+        success = False
+
+    return success
 
 
-def process(path):
-    basename = os.path.splitext(os.path.basename(path))[0]
-    img = to_rgb(Image.open(path))
+def main():
+    ensure_dirs()
 
-    os.makedirs(THUMBS_DIR, exist_ok=True)
-    os.makedirs(DISPLAY_DIR, exist_ok=True)
-
-    thumb_path = os.path.join(THUMBS_DIR, basename + '.webp')
-    display_path = os.path.join(DISPLAY_DIR, basename + '.webp')
-
-    thumb_crop(resized(img, THUMB_WIDTH)).save(thumb_path, 'WEBP', quality=82, method=6)
-    resized(img, DISPLAY_WIDTH).save(display_path, 'WEBP', quality=85, method=6)
-
-    thumb_kb = os.path.getsize(thumb_path) // 1024
-    display_kb = os.path.getsize(display_path) // 1024
-    print('{}: thumb={}KB display={}KB'.format(os.path.basename(path), thumb_kb, display_kb))
-
-
-if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: python3 scripts/resize-images.py <image-path> | --all', file=sys.stderr)
+        print("Usage: python3 scripts/resize-images.py <image_path> [image_path2 ...]")
+        print("       python3 scripts/resize-images.py --all")
         sys.exit(1)
 
     if sys.argv[1] == '--all':
-        for name in sorted(os.listdir(IMAGES_DIR)):
-            full = os.path.join(IMAGES_DIR, name)
-            if os.path.isfile(full) and name.lower().endswith(('.png', '.jpg', '.jpeg')):
-                process(full)
+        # Process all images in images/ directory
+        image_paths = list(Path('images').glob('*.png')) + list(Path('images').glob('*.jpg')) + list(Path('images').glob('*.jpeg'))
+        if not image_paths:
+            print("❌ No images found in images/")
+            sys.exit(1)
     else:
-        process(sys.argv[1])
+        # Process specified paths
+        image_paths = []
+        for pattern in sys.argv[1:]:
+            matches = list(Path('.').glob(pattern))
+            if matches:
+                image_paths.extend(matches)
+            else:
+                image_paths.append(Path(pattern))
+
+    if not image_paths:
+        print("❌ No images to process")
+        sys.exit(1)
+
+    success_count = 0
+    for image_path in image_paths:
+        if process_image(image_path):
+            success_count += 1
+
+    print(f"\n✅ Processed {success_count}/{len(image_paths)} image(s)")
+
+
+if __name__ == '__main__':
+    main()
