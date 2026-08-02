@@ -145,6 +145,22 @@ and exits non-zero on failure, which is quicker while you are iterating on one e
 
 ## Traps
 
+**Derivatives are constrained by WIDTH only — never use `thumbnail()`.** Pillow's
+`thumbnail()` fits inside *both* dimensions. These are full-page screenshots, often
+six to fifteen times taller than they are wide, so the height bound binds and the
+width collapses: the library once shipped 49×720 display files that the modal then
+stretched across a 540 CSS px pane. Sizing follows what the app presents:
+
+| Derivative | Rule | Why |
+| --- | --- | --- |
+| `display` | 1440px wide, height unbounded, 16MP ceiling, **1080px floor** | `.modal-image` is half of a `min(1080px, 96vw)` modal ≈ 540 CSS px; the floor stops the megapixel ceiling undercutting 2× on very tall pages |
+| `thumb` | 800px wide, cropped to the top 600px | `.card-image` is 200px tall with `object-fit: cover; object-position: top`, so only the top strip is ever visible |
+
+Never upscale past the source. One entry (`ridgeframe-strategies-group`) sits at 1.28×
+because its capture is only 692px wide — that needs a better screenshot, not a pipeline
+change. If you change the CSS that sizes `.modal-image` or `.card-image`, revisit these
+constants; they are derived from those rules, not chosen freely.
+
 **Do not reintroduce a neutral-filtering colour extractor.** Two earlier scripts
 (`extract-colors.py`, `extract-comprehensive-colors.py`) dropped near-white, near-black
 and near-grey pixels before ranking, on the theory that neutrals are not "the palette".
