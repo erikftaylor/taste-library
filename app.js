@@ -570,6 +570,119 @@ function init() {
   setupModalHandlers();
   setupCopyButtons();
   setupDropzone();
+  setupImportBar();
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+/* ---- Import pipeline -------------------------------------------------------
+   These controls only appear when the page is served by taste-library-api.py.
+   Opened straight off disk, or under a plain static server, there is nothing
+   listening for the POSTs — so the bar stays hidden rather than offering
+   buttons that would silently do nothing.                                   */
+
+var importToken = null;
+
+function importLog(text, append) {
+  var box = document.getElementById('import-log');
+  box.hidden = false;
+  box.textContent = append ? box.textContent + '\n' + text : text;
+  box.scrollTop = box.scrollHeight;
+}
+
+function importNote(text, kind) {
+  var note = document.getElementById('import-note');
+  note.textContent = text;
+  note.className = 'import-note' + (kind ? ' ' + kind : '');
+}
+
+function setImportBusy(busy) {
+  ['scan-btn', 'prepare-btn', 'import-btn'].forEach(function (id) {
+    document.getElementById(id).disabled = busy;
+  });
+}
+
+function pollJob(jobId, onDone) {
+  fetch('/api/job?id=' + encodeURIComponent(jobId)).then(function (r) { return r.json(); })
+    .then(function (job) {
+      if (job.log && job.log.length) importLog(job.log.join('\n'));
+      if (!job.done) {
+        setTimeout(function () { pollJob(jobId, onDone); }, 700);
+        return;
+      }
+      setImportBusy(false);
+      onDone(job);
+    }).catch(function () {
+      setImportBusy(false);
+      importNote('Lost contact with the server — is it still running?', 'failed');
+    });
+}
+
+function startJob(endpoint, body, startingNote) {
+  setImportBusy(true);
+  importNote(startingNote);
+  importLog('');
+  fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Taste-Token': importToken },
+    body: JSON.stringify(body || {})
+  }).then(function (r) { return r.json(); }).then(function (data) {
+    if (!data.jobId) {
+      setImportBusy(false);
+      importNote(data.error || 'The server refused the request.', 'failed');
+      return;
+    }
+    pollJob(data.jobId, function (job) {
+      importNote(job.ok ? 'Done.' : 'Finished with problems — read the log.', job.ok ? '' : 'failed');
+      if (job.ok && endpoint === '/api/import') {
+        importNote('Imported. Reload to see the new entries — they are flagged unreviewed.', '');
+      }
+    });
+  }).catch(function () {
+    setImportBusy(false);
+    importNote('Could not reach the import API.', 'failed');
+  });
+}
+
+function runScan() {
+  setImportBusy(true);
+  importNote('Scanning…');
+  fetch('/api/scan').then(function (r) { return r.json(); }).then(function (data) {
+    setImportBusy(false);
+    var found = data.newImages || [];
+    if (!found.length) {
+      importNote('No new images — everything in images/ is already in the library.');
+      importLog('Nothing to do.');
+      return;
+    }
+    importNote(found.length + ' image(s) not yet in the library.');
+    importLog(found.map(function (f) {
+      return '  ' + f.name + '   ' + Math.round(f.bytes / 1024) + ' KB' +
+        (f.hasThumb && f.hasDisplay ? '   derivatives ready' : '   needs derivatives');
+    }).join('\n'));
+  }).catch(function () {
+    setImportBusy(false);
+    importNote('Could not reach the import API.', 'failed');
+  });
+}
+
+function setupImportBar() {
+  // Probe for the API. A static server 404s here and the bar stays hidden.
+  fetch('/api/token').then(function (r) {
+    if (!r.ok) throw new Error('no api');
+    return r.json();
+  }).then(function (data) {
+    importToken = data.token;
+    document.getElementById('import-bar').hidden = false;
+    document.getElementById('scan-btn').addEventListener('click', runScan);
+    document.getElementById('prepare-btn').addEventListener('click', function () {
+      startJob('/api/prepare', {}, 'Measuring — derivatives and palette candidates. Nothing is written to data.js.');
+    });
+    document.getElementById('import-btn').addEventListener('click', function () {
+      startJob('/api/import', { mode: 'model' },
+        'Analysing each image and writing entries. A minute per image; anything that fails verification is rolled back.');
+    });
+  }).catch(function () {
+    /* served statically or opened from disk — leave the bar hidden */
+  });
+}

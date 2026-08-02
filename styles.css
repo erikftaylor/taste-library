@@ -209,3 +209,18 @@ body {
   .modal { grid-template-columns: 1fr; }
   .modal-image, .modal-panel { max-height: 45vh; }
 }
+
+.import-bar { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--border); }
+.import-bar[hidden] { display: none; }
+.import-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.import-primary { border-width: 2px; }
+.btn-small:disabled { opacity: 0.45; cursor: default; }
+.import-note { font-size: 11px; color: #555; margin-top: 10px; line-height: 1.5; }
+.import-note.failed { color: #a8442a; }
+.import-log {
+  margin: 8px 0 0; padding: 10px; max-height: 260px; overflow: auto;
+  background: #fff; border: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace; font-size: 10px; line-height: 1.6;
+  white-space: pre-wrap; color: var(--ink);
+}
+.import-log[hidden] { display: none; }
