@@ -260,6 +260,574 @@
         layoutNotes: 'Alternating white and pale-steel-blue full-bleed sections; a two-column "what this is / what you get" checkmark comparison panel; a centered pull-quote testimonial with a circular headshot; a numbered "who this is for" list; a long qualification form (name, company, industry, budget range) as the closing section; dark navy footer.',
         imagerySubject: 'a diverse group of enterprise employees in a modern workshop space, one person presenting at a whiteboard, natural window light, documentary editorial photography',
         mood: ['credible', 'serious', 'senior', 'calm']
+      },
+      {
+        id: 'adam-fard-studio-1',
+        file: 'images/adam-fard-studio 1.png',
+        thumb: 'images/thumbs/adam-fard-studio 1.webp',
+        display: 'images/display/adam-fard-studio 1.webp',
+        categoryId: 'illustrated-editorial-blocking',
+        title: 'Adam Fard Studio — Portfolio',
+        descriptor: 'Design studio portfolio with sophisticated dark palette and typography-focused layout.',
+        keywords: [
+          'portfolio showcase',
+          'dark sophisticated palette',
+          'serif typography',
+          'minimal product grid',
+          'case study focus',
+          'professional design work',
+          'high-end aesthetic',
+          'typography-forward'
+        ],
+        colors: [
+          { name: 'dark charcoal', hex: '#1D232B' },
+          { name: 'warm brown', hex: '#614742' },
+          { name: 'muted blue-gray', hex: '#758494' }
+        ],
+        typography: 'Bold serif display type for project titles; clean sans-serif body copy; generous whitespace emphasizes hierarchy.',
+        layoutNotes: 'Dark navy/black background with centered content; portfolio grid layout with minimal visual interruption; project thumbnails with serif typography labels; high contrast for readability.',
+        imagerySubject: 'design portfolio work, product design mockups, interface examples, typography specimens',
+        mood: ['sophisticated', 'minimal', 'professional', 'confident']
+      },
+      {
+        id: 'baymard-institute-1',
+        file: 'images/baymard-institute 1.png',
+        thumb: 'images/thumbs/baymard-institute 1.webp',
+        display: 'images/display/baymard-institute 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Baymard Institute — UX Research Services',
+        descriptor: 'Research and consulting site with professional dark navy palette emphasizing expertise and methodology.',
+        keywords: [
+          'dark navy background',
+          'professional research',
+          'UX expertise',
+          'consulting services',
+          'structured methodology',
+          'findings-focused',
+          'credible positioning',
+          'enterprise focus'
+        ],
+        colors: [
+          { name: 'deep navy', hex: '#0B233C' },
+          { name: 'muted slate', hex: '#30435A' },
+          { name: 'navy accent', hex: '#0D243D' },
+          { name: 'slate blue', hex: '#132A42' },
+          { name: 'dark slate', hex: '#092038' },
+          { name: 'navy dark', hex: '#0B233B' }
+        ],
+        typography: 'Serif display headlines for section titles; clean sans-serif body copy; all-caps labels for research methodologies; high contrast text.',
+        layoutNotes: 'Dark navy full-bleed background with white text for maximum contrast; structured sections with clear methodology frameworks; comparison panels for research findings.',
+        imagerySubject: 'UX research methodologies, consulting expertise, professional team settings, analytical frameworks',
+        mood: ['credible', 'authoritative', 'professional', 'technical']
+      },
+      {
+        id: 'bird-ux-1',
+        file: 'images/bird-ux 1.png',
+        thumb: 'images/thumbs/bird-ux 1.webp',
+        display: 'images/display/bird-ux 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Bird UX — User Experience Design',
+        descriptor: 'Design consultancy site with teal and dark contrast emphasizing user-centered research approach.',
+        keywords: [
+          'teal accent color',
+          'dark background',
+          'user research focus',
+          'design thinking',
+          'workshop setting',
+          'methodology visualization',
+          'team collaboration',
+          'professional services'
+        ],
+        colors: [
+          { name: 'dark teal', hex: '#05282E' },
+          { name: 'sage gray', hex: '#576D72' },
+          { name: 'teal accent', hex: '#107D5F' },
+          { name: 'very dark teal', hex: '#091D20' },
+          { name: 'dark cyan', hex: '#022F36' },
+          { name: 'teal green', hex: '#357367' }
+        ],
+        typography: 'Bold sans-serif display headlines; clean sans-serif body text; teal accent color for emphasis and CTAs.',
+        layoutNotes: 'Alternating teal and dark sections create visual rhythm; workshop photography integrated throughout; process steps shown with circular numbered indicators.',
+        imagerySubject: 'team workshops, collaborative design sessions, user research in progress, professional settings',
+        mood: ['approachable', 'professional', 'confident', 'research-driven']
+      },
+      {
+        id: 'constructive-1',
+        file: 'images/constructive 1.png',
+        thumb: 'images/thumbs/constructive 1.webp',
+        display: 'images/display/constructive 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Constructive — Design & Strategy Firm',
+        descriptor: 'Digital agency site with teal gradient backgrounds showcasing design system and strategic approach.',
+        keywords: [
+          'teal gradient wash',
+          'design system focus',
+          'contemporary agency',
+          'color-blocked sections',
+          'portfolio showcase',
+          'methodical approach',
+          'brand strategy',
+          'modern design'
+        ],
+        colors: [
+          { name: 'deep teal', hex: '#006055' },
+          { name: 'dark cyan', hex: '#0A2B2A' },
+          { name: 'slate gray', hex: '#3F5049' },
+          { name: 'teal dark', hex: '#1C3D36' },
+          { name: 'teal blue', hex: '#2A7373' },
+          { name: 'warm mauve', hex: '#B28278' }
+        ],
+        typography: 'Bold sans-serif display type for headlines; clean sans-serif body; color-coded section labels add visual interest.',
+        layoutNotes: 'Teal gradient sections alternate with white space and dark content areas; structured grid for portfolio items; generous vertical rhythm.',
+        imagerySubject: 'design system components, agency work samples, brand identity examples, design patterns',
+        mood: ['modern', 'systematic', 'creative', 'contemporary']
+      },
+      {
+        id: 'craft-innovations-1',
+        file: 'images/craft-innovations 1.png',
+        thumb: 'images/thumbs/craft-innovations 1.webp',
+        display: 'images/display/craft-innovations 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Craft Innovations — Business Strategy',
+        descriptor: 'Enterprise consulting firm emphasizing strategic innovation with sophisticated dark aesthetic.',
+        keywords: [
+          'dark sophisticated palette',
+          'enterprise consulting',
+          'strategic approach',
+          'business transformation',
+          'professional credibility',
+          'structured methodology',
+          'B2B focus',
+          'thought leadership'
+        ],
+        colors: [
+          { name: 'charcoal slate', hex: '#373F4E' }
+        ],
+        typography: 'Serif display headlines for authority; clean sans-serif body copy; strategic whitespace usage.',
+        layoutNotes: 'Dark background with structured content sections; service offerings in organized panels; expertise demonstrated through case study methodology.',
+        imagerySubject: 'enterprise consulting, strategic meetings, business transformation, professional environments',
+        mood: ['serious', 'strategic', 'professional', 'trustworthy']
+      },
+      {
+        id: 'createape-1',
+        file: 'images/createape 1.png',
+        thumb: 'images/thumbs/createape 1.webp',
+        display: 'images/display/createape 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'CreateApe — Digital Creative Agency',
+        descriptor: 'Creative agency homepage with blue gradient hero and modern interactive portfolio elements.',
+        keywords: [
+          'blue gradient background',
+          'creative portfolio',
+          'agency storytelling',
+          'interactive design',
+          'modern aesthetics',
+          'digital creativity',
+          'service showcase',
+          'contemporary agency'
+        ],
+        colors: [
+          { name: 'very dark navy', hex: '#111928' },
+          { name: 'dark navy blue', hex: '#2A2F39' },
+          { name: 'sky blue', hex: '#67B8D1' },
+          { name: 'light sky blue', hex: '#94D4EE' },
+          { name: 'medium blue', hex: '#4DB5D0' },
+          { name: 'teal blue', hex: '#2C9EBC' }
+        ],
+        typography: 'Bold sans-serif display headlines; lightweight sans-serif body; gradient accents used for emphasis.',
+        layoutNotes: 'Blue gradient hero section; portfolio items showcased in card grid; interactive hover states; color-coded service sections.',
+        imagerySubject: 'creative agency work, digital design samples, brand identity projects, visual design concepts',
+        mood: ['creative', 'modern', 'energetic', 'contemporary']
+      },
+      {
+        id: 'depalma-studios-1',
+        file: 'images/depalma-studios 1.png',
+        thumb: 'images/thumbs/depalma-studios 1.webp',
+        display: 'images/display/depalma-studios 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'DePalma Studios — Creative Design',
+        descriptor: 'Creative studio site with vibrant blue-to-teal gradients and dynamic portfolio presentation.',
+        keywords: [
+          'vibrant blue gradient',
+          'teal accent',
+          'dynamic portfolio',
+          'creative studio',
+          'gradient mesh effects',
+          'interactive showcase',
+          'modern web design',
+          'colorful aesthetic'
+        ],
+        colors: [
+          { name: 'vibrant blue', hex: '#1B6DD6' },
+          { name: 'bright blue', hex: '#1B6FDD' },
+          { name: 'teal green', hex: '#37A990' },
+          { name: 'blue accent', hex: '#1A67CC' },
+          { name: 'warm beige', hex: '#C1BBA3' },
+          { name: 'teal blue', hex: '#278ACC' }
+        ],
+        typography: 'Bold sans-serif display type; clean body text; accent colors used strategically for visual hierarchy.',
+        layoutNotes: 'Vibrant blue-to-teal gradient backgrounds; portfolio items in dynamic grid layout; generous color treatment creates premium feel.',
+        imagerySubject: 'creative design work, color studies, brand identity projects, visual design samples',
+        mood: ['vibrant', 'creative', 'energetic', 'dynamic']
+      },
+      {
+        id: 'eleken-1',
+        file: 'images/eleken 1.png',
+        thumb: 'images/thumbs/eleken 1.webp',
+        display: 'images/display/eleken 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Eleken — Product Design Agency',
+        descriptor: 'Product design agency with soft gradient sections and detailed case study documentation.',
+        keywords: [
+          'soft gradient backgrounds',
+          'product design focus',
+          'case study methodology',
+          'design process',
+          'sophisticated palette',
+          'long-form content',
+          'creative excellence',
+          'expertise showcase'
+        ],
+        colors: [
+          { name: 'warm taupe', hex: '#D4CFC4' },
+          { name: 'soft cream', hex: '#F5F3F0' }
+        ],
+        typography: 'Mix of serif display and sans-serif body for visual variety; emphasis on typography hierarchy; readable long-form content.',
+        layoutNotes: 'Soft gradient sections frame each case study; detailed process steps shown with visual documentation; long-form narrative structure.',
+        imagerySubject: 'product design work, design process steps, UI/UX examples, design case studies',
+        mood: ['professional', 'creative', 'sophisticated', 'methodical']
+      },
+      {
+        id: 'experience-dynamics-1',
+        file: 'images/experience-dynamics 1.png',
+        thumb: 'images/thumbs/experience-dynamics 1.webp',
+        display: 'images/display/experience-dynamics 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Experience Dynamics — Service Design',
+        descriptor: 'Service design consultancy with dark navy background and bright blue accent colors.',
+        keywords: [
+          'dark navy background',
+          'bright blue accents',
+          'service design focus',
+          'professional expertise',
+          'structured methodology',
+          'color-coded sections',
+          'enterprise consulting',
+          'strategic positioning'
+        ],
+        colors: [
+          { name: 'very dark gray', hex: '#161D21' },
+          { name: 'dark gray-blue', hex: '#252C30' },
+          { name: 'slate blue', hex: '#2D4C61' },
+          { name: 'bright cyan', hex: '#0093BC' },
+          { name: 'medium cyan', hex: '#0FA3CC' },
+          { name: 'slate teal', hex: '#143A52' }
+        ],
+        typography: 'Bold sans-serif headlines for impact; clean sans-serif body; blue accent text for CTAs and emphasis.',
+        layoutNotes: 'Dark navy background with bright blue accent sections; clear information hierarchy; structured methodology visualization.',
+        imagerySubject: 'service design process, methodology diagrams, enterprise solutions, professional consulting',
+        mood: ['professional', 'technical', 'strategic', 'confident']
+      },
+      {
+        id: 'focus-lab-1',
+        file: 'images/focus-lab 1.png',
+        thumb: 'images/thumbs/focus-lab 1.webp',
+        display: 'images/display/focus-lab 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Focus Lab — UX Research & Strategy',
+        descriptor: 'UX research firm emphasizing user-centered methodology with green and blue color scheme.',
+        keywords: [
+          'green accent color',
+          'blue secondary',
+          'UX research focus',
+          'user-centered approach',
+          'research methodology',
+          'professional expertise',
+          'structured framework',
+          'findings-driven'
+        ],
+        colors: [
+          { name: 'dark green', hex: '#054A2F' },
+          { name: 'warm brown-gray', hex: '#433B37' },
+          { name: 'electric blue', hex: '#074EBD' },
+          { name: 'muted blue-gray', hex: '#536C7B' },
+          { name: 'forest green', hex: '#034A2D' },
+          { name: 'dark teal', hex: '#0B392C' }
+        ],
+        typography: 'Bold sans-serif for impact; clean sans-serif body copy; green accents for visual interest.',
+        layoutNotes: 'Green color provides strong visual identity; structured research frameworks; clear process visualization; professional layout.',
+        imagerySubject: 'user research sessions, team collaboration, research insights, professional environments',
+        mood: ['approachable', 'professional', 'research-driven', 'credible']
+      },
+      {
+        id: 'fuselab-creative-1',
+        file: 'images/fuselab-creative 1.png',
+        thumb: 'images/thumbs/fuselab-creative 1.webp',
+        display: 'images/display/fuselab-creative 1.webp',
+        categoryId: 'illustrated-editorial-blocking',
+        title: 'FuseLab Creative — Design & Art Direction',
+        descriptor: 'Creative agency with long-form editorial portfolio and hand-drawn visual elements.',
+        keywords: [
+          'hand-drawn elements',
+          'editorial layout',
+          'artistic direction',
+          'narrative flow',
+          'creative expression',
+          'color blocking',
+          'unique visual voice',
+          'crafted aesthetic'
+        ],
+        colors: [
+          { name: 'warm cream', hex: '#F5E8E0' },
+          { name: 'soft taupe', hex: '#D9D0C5' }
+        ],
+        typography: 'Artistic serif or unique display font for headlines; emphasis on visual storytelling over type hierarchy.',
+        layoutNotes: 'Long-form editorial narrative; hand-drawn or illustrative elements throughout; color-blocked sections; gallery-like presentation.',
+        imagerySubject: 'creative design work, artistic direction, hand-crafted designs, illustrative elements',
+        mood: ['creative', 'artistic', 'unique', 'expressive']
+      },
+      {
+        id: 'goinvo-1',
+        file: 'images/goinvo 1.png',
+        thumb: 'images/thumbs/goinvo 1.webp',
+        display: 'images/display/goinvo 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'GoInvo — Healthcare Design & Innovation',
+        descriptor: 'Healthcare design consultancy with warm orange and teal palette emphasizing human-centered innovation.',
+        keywords: [
+          'warm orange accent',
+          'teal color block',
+          'healthcare focus',
+          'human-centered design',
+          'innovation emphasis',
+          'accessible design',
+          'patient-focused',
+          'medical expertise'
+        ],
+        colors: [
+          { name: 'burnt orange', hex: '#B84A0E' },
+          { name: 'teal-cyan', hex: '#157787' },
+          { name: 'dark charcoal', hex: '#21242B' },
+          { name: 'very dark navy', hex: '#191E25' },
+          { name: 'muted teal', hex: '#425F66' },
+          { name: 'rust orange', hex: '#BB714A' }
+        ],
+        typography: 'Bold sans-serif headlines; clean sans-serif body copy; warm orange used for CTAs and emphasis.',
+        layoutNotes: 'Warm orange and teal sections create visual rhythm; healthcare expertise demonstrated through detailed case studies.',
+        imagerySubject: 'healthcare interface design, medical innovation, patient-focused solutions, professional expertise',
+        mood: ['warm', 'approachable', 'professional', 'innovative']
+      },
+      {
+        id: 'guidea-1',
+        file: 'images/guidea 1.png',
+        thumb: 'images/thumbs/guidea 1.webp',
+        display: 'images/display/guidea 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Guidea — Product Design Platform',
+        descriptor: 'SaaS platform site with rich purple gradient backgrounds and feature-focused interactive design.',
+        keywords: [
+          'purple gradient background',
+          'SaaS product',
+          'interactive features',
+          'gradient mesh effects',
+          'feature showcase',
+          'color-coded sections',
+          'premium positioning',
+          'modern web design'
+        ],
+        colors: [
+          { name: 'deep purple-black', hex: '#050038' },
+          { name: 'vibrant indigo', hex: '#3F53D9' },
+          { name: 'periwinkle blue', hex: '#5368D9' },
+          { name: 'dark purple', hex: '#1F1B4D' },
+          { name: 'very dark purple', hex: '#030036' },
+          { name: 'midnight purple', hex: '#000031' }
+        ],
+        typography: 'Bold sans-serif display headlines; clean sans-serif body; accent colors enhance visual hierarchy.',
+        layoutNotes: 'Rich purple gradients create premium feel; feature sections highlighted with color; interactive element showcase.',
+        imagerySubject: 'software interface mockups, product features, platform screenshots, design systems',
+        mood: ['modern', 'premium', 'technical', 'innovative']
+      },
+      {
+        id: 'huemor-1',
+        file: 'images/huemor 1.png',
+        thumb: 'images/thumbs/huemor 1.webp',
+        display: 'images/display/huemor 1.webp',
+        categoryId: 'illustrated-editorial-blocking',
+        title: 'Huemor — Creative Design Studio',
+        descriptor: 'Design studio with dark aesthetic and artistic color treatment emphasizing creative excellence.',
+        keywords: [
+          'dark sophisticated palette',
+          'artistic color treatment',
+          'design studio portfolio',
+          'creative excellence',
+          'unique visual identity',
+          'editorial approach',
+          'artistic direction',
+          'premium positioning'
+        ],
+        colors: [
+          { name: 'dark purple', hex: '#251C37' },
+          { name: 'very dark purple', hex: '#100422' },
+          { name: 'muted mauve', hex: '#694B64' },
+          { name: 'dark charcoal', hex: '#171222' },
+          { name: 'purple dark', hex: '#472147' },
+          { name: 'deep purple', hex: '#110823' }
+        ],
+        typography: 'Artistic serif or unique display type; emphasis on visual design over conventional typography hierarchy.',
+        layoutNotes: 'Dark background showcases portfolio work; color treatment used as artistic expression; gallery-like presentation.',
+        imagerySubject: 'design studio portfolio, artistic direction, creative work samples, color studies',
+        mood: ['artistic', 'sophisticated', 'creative', 'exclusive']
+      },
+      {
+        id: 'make-it-clear-1',
+        file: 'images/make-it-clear 1.png',
+        thumb: 'images/thumbs/make-it-clear 1.webp',
+        display: 'images/display/make-it-clear 1.webp',
+        categoryId: 'soft-gradient-ai-editorial',
+        title: 'Make It Clear — Communication Design',
+        descriptor: 'Communication design agency with bright cyan and dark contrast emphasizing clarity.',
+        keywords: [
+          'bright cyan accent',
+          'dark background',
+          'communication focus',
+          'clarity emphasis',
+          'simple visual language',
+          'color-driven design',
+          'modern aesthetic',
+          'direct messaging'
+        ],
+        colors: [
+          { name: 'warm taupe', hex: '#85786B' },
+          { name: 'bright cyan', hex: '#1AE9F2' },
+          { name: 'dark cyan-gray', hex: '#11292B' },
+          { name: 'dark gray', hex: '#293032' },
+          { name: 'light cyan', hex: '#7CE5E3' },
+          { name: 'very dark blue', hex: '#071D32' }
+        ],
+        typography: 'Bold sans-serif headlines; clean sans-serif body; cyan accent for emphasis and CTAs.',
+        layoutNotes: 'High-contrast cyan and dark sections; simple visual approach; focus on clear messaging.',
+        imagerySubject: 'communication design samples, clarity-focused designs, visual communication examples',
+        mood: ['clear', 'modern', 'energetic', 'direct']
+      },
+      {
+        id: 'slide-ux-1',
+        file: 'images/slide-ux 1.png',
+        thumb: 'images/thumbs/slide-ux 1.webp',
+        display: 'images/display/slide-ux 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Slide UX — Presentation Design Specialist',
+        descriptor: 'Presentation design specialist with professional dark palette and structured methodology.',
+        keywords: [
+          'professional dark palette',
+          'presentation expertise',
+          'slide design focus',
+          'structured methodology',
+          'business communication',
+          'design clarity',
+          'communication design',
+          'enterprise focus'
+        ],
+        colors: [
+          { name: 'slate gray', hex: '#313A4A' },
+          { name: 'medium gray-blue', hex: '#4D535F' },
+          { name: 'dark slate', hex: '#2D3646' },
+          { name: 'slate dark', hex: '#303949' },
+          { name: 'dark gray-blue', hex: '#313A49' },
+          { name: 'medium gray', hex: '#444A54' }
+        ],
+        typography: 'Clean sans-serif throughout; emphasis on hierarchy and readability; professional presentation.',
+        layoutNotes: 'Professional layout with clear sections; methodology clearly presented; focus on communication effectiveness.',
+        imagerySubject: 'slide design examples, presentation layouts, business communication visuals',
+        mood: ['professional', 'structured', 'clear', 'business-focused']
+      },
+      {
+        id: 'ux-cabin-1',
+        file: 'images/ux-cabin 1.png',
+        thumb: 'images/thumbs/ux-cabin 1.webp',
+        display: 'images/display/ux-cabin 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'UX Cabin — Product Design Agency',
+        descriptor: 'Product design agency with dark sophisticated palette and user experience methodology focus.',
+        keywords: [
+          'dark color palette',
+          'product design focus',
+          'UX methodology',
+          'user-centered approach',
+          'professional services',
+          'design process',
+          'enterprise focus',
+          'credibility positioning'
+        ],
+        colors: [
+          { name: 'very dark teal', hex: '#172C24' },
+          { name: 'dark gray', hex: '#30353D' },
+          { name: 'muted blue-gray', hex: '#4C515E' },
+          { name: 'very dark green', hex: '#122318' },
+          { name: 'slate teal', hex: '#173144' },
+          { name: 'warm gray-brown', hex: '#A7776D' }
+        ],
+        typography: 'Bold sans-serif for emphasis; clean sans-serif body; professional visual hierarchy.',
+        layoutNotes: 'Dark background with structured sections; UX methodology clearly explained; portfolio work showcased strategically.',
+        imagerySubject: 'UX design work, product interface examples, user research, design process documentation',
+        mood: ['professional', 'credible', 'user-focused', 'experienced']
+      },
+      {
+        id: 'ux-studio-1',
+        file: 'images/ux-studio 1.png',
+        thumb: 'images/thumbs/ux-studio 1.webp',
+        display: 'images/display/ux-studio 1.webp',
+        categoryId: 'illustrated-editorial-blocking',
+        title: 'UX Studio — Digital Design Services',
+        descriptor: 'UX design studio with sophisticated palette emphasizing user-centered design excellence.',
+        keywords: [
+          'sophisticated color palette',
+          'design studio aesthetic',
+          'user-centered approach',
+          'design excellence',
+          'professional positioning',
+          'design process focus',
+          'enterprise services',
+          'methodology-driven'
+        ],
+        colors: [
+          { name: 'cool gray', hex: '#3E4A4A' },
+          { name: 'sage green', hex: '#6DBA98' },
+          { name: 'very dark navy', hex: '#11132F' }
+        ],
+        typography: 'Bold sans-serif display type; clean body copy; emphasis on visual hierarchy.',
+        layoutNotes: 'Structured layout with clear sections; design process explained through visual hierarchy; portfolio work highlighted.',
+        imagerySubject: 'UX design work, design process documentation, interface examples, case studies',
+        mood: ['professional', 'sophisticated', 'methodical', 'credible']
+      },
+      {
+        id: 'wandr-1',
+        file: 'images/wandr 1.png',
+        thumb: 'images/thumbs/wandr 1.webp',
+        display: 'images/display/wandr 1.webp',
+        categoryId: 'editorial-consulting-photography',
+        title: 'Wandr — Travel & Lifestyle Brand',
+        descriptor: 'Modern travel brand with dark palette and editorial photography emphasizing adventure.',
+        keywords: [
+          'dark sophisticated palette',
+          'travel brand aesthetic',
+          'adventure photography',
+          'editorial storytelling',
+          'lifestyle positioning',
+          'exploration focus',
+          'narrative-driven',
+          'aspirational content'
+        ],
+        colors: [
+          { name: 'dark blue-gray', hex: '#32444D' },
+          { name: 'dark charcoal', hex: '#282836' },
+          { name: 'dark navy blue', hex: '#152037' },
+          { name: 'very dark navy', hex: '#0B1022' }
+        ],
+        typography: 'Serif headlines for editorial feel; clean sans-serif body; emphasis on storytelling.',
+        layoutNotes: 'Editorial layout with photography-first approach; narrative storytelling throughout; sophisticated dark aesthetic.',
+        imagerySubject: 'travel photography, adventure scenes, lifestyle moments, exploration and discovery',
+        mood: ['adventurous', 'sophisticated', 'aspirational', 'editorial']
       }
     ]
   };
