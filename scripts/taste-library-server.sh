@@ -44,24 +44,14 @@ read_launch_identity() {
   print -r -- "$identity"
 }
 
-process_identity() {
-  local pid=$1
-  local start_time
-  kill -0 "$pid" 2>/dev/null || return 1
-  start_time=$(/bin/ps -p "$pid" -o lstart= 2>/dev/null) || return 1
-  [[ -n "${start_time//[[:space:]]/}" ]] || return 1
-  print -r -- "$start_time"
-}
-
 pid_is_owned() {
   local pid=$1
   local command_line
-  local expected_identity
-  local actual_identity
-  expected_identity=$(read_launch_identity) || return 1
-  actual_identity=$(process_identity "$pid") || return 1
-  [[ "$actual_identity" == "$expected_identity" ]] || return 1
-  command_line=$(/bin/ps -p "$pid" -o command= 2>/dev/null) || return 1
+  local launch_token
+  launch_token=$(read_launch_identity) || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  command_line=$(/bin/ps eww -p "$pid" -o command= 2>/dev/null) || return 1
+  [[ "$command_line" == *"TASTE_LIBRARY_SERVER_TOKEN=${launch_token}"* ]] || return 1
   [[ "$command_line" == *"-m http.server ${PORT}"* ]] || return 1
   [[ "$command_line" == *"--bind ${HOST}"* ]] || return 1
   [[ "$command_line" == *"--directory ${PROJECT_ROOT}"* ]] || return 1
@@ -142,17 +132,20 @@ start_server() {
   fi
 
   : > "$LOG_FILE"
-  /usr/bin/nohup "$PYTHON_BIN" -m http.server "$PORT" --bind "$HOST" --directory "$PROJECT_ROOT" \
-    </dev/null >>"$LOG_FILE" 2>&1 &
-  pid=$!
-  local identity
-  identity=$(process_identity "$pid") || {
-    kill "$pid" 2>/dev/null || true
-    error "could not record server process identity; log: $LOG_FILE"
+  local launch_token
+  launch_token=$("$PYTHON_BIN" -c 'import uuid; print(uuid.uuid4())') || {
+    error 'could not create a unique server launch identity.'
     return 1
   }
+  [[ -n "$launch_token" ]] || {
+    error 'could not create a unique server launch identity.'
+    return 1
+  }
+  /usr/bin/nohup /usr/bin/env TASTE_LIBRARY_SERVER_TOKEN="$launch_token" "$PYTHON_BIN" -m http.server "$PORT" --bind "$HOST" --directory "$PROJECT_ROOT" \
+    </dev/null >>"$LOG_FILE" 2>&1 &
+  pid=$!
   print -r -- "$pid" > "$PID_FILE"
-  print -r -- "$identity" > "$IDENTITY_FILE"
+  print -r -- "$launch_token" > "$IDENTITY_FILE"
 
   local attempt=0
   while (( attempt < READY_ATTEMPTS )); do

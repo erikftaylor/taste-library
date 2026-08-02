@@ -118,6 +118,8 @@ done
 LIVE_FOREIGN_STATE="$TEST_ROOT/live-foreign-state"
 mkdir -p "$LIVE_FOREIGN_STATE"
 print -r -- "$foreign_pid" > "$LIVE_FOREIGN_STATE/server.pid"
+foreign_lstart=$(/bin/ps -p "$foreign_pid" -o lstart=)
+print -r -- "$foreign_lstart" > "$LIVE_FOREIGN_STATE/server.identity"
 live_foreign_stop_output=$(env \
   TASTE_LIBRARY_ROOT="$SITE_ROOT" \
   TASTE_LIBRARY_HOST='127.0.0.1' \
