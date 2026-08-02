@@ -104,7 +104,7 @@ test('buildBrief emits the layered sections in fidelity order', function () {
   assert.ok(brief.includes('Bold geometric grotesk display type.'));
   assert.ok(brief.includes('Mood: approachable, confident.'));
   assert.ok(brief.includes('Vocabulary: flat color-blocking, underline emphasis.'));
-  assert.ok(brief.includes('Never include: no text, no logos.'));
+  assert.ok(brief.includes('Exclusions: no text, no logos.'));
 });
 
 test('buildBrief keeps §2 in base units and resolves the same values to px in §3', function () {
