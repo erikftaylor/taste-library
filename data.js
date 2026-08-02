@@ -486,6 +486,76 @@
           '└───────────────────────────────────────────────┘',
           'Exactly one hand-made mark per viewport. Two annotations in view cancel each other out.'
         ]
+      },
+      {
+        id: 'enterprise-portal-utility',
+        name: 'Enterprise Portal Utility',
+        description: 'An internal-tools portal built from a scrimmed photographic hero, a grid of outlined line-art icons, and curved wave dividers that hand the page between light and dark bands. Unusually for this library it runs two accents rather than one — a warm amber carrying headlines, CTAs and statistics, and a corporate blue carrying navigation and iconography. Reads as institutional and service-like rather than persuasive: the job is wayfinding for colleagues, not conversion.',
+        vocabulary: [
+          'scrimmed photographic hero',
+          'outlined circle line icon',
+          'curved wave divider',
+          'amber and blue dual accent',
+          'capability tile grid',
+          'oversized statistic on navy',
+          'trailing arrow link',
+          'in-page anchor sub-nav'
+        ],
+        imageryTechnique: 'corporate stock photography of people working, laid full-bleed under a heavy dark scrim so type sits directly on the image; supporting graphics are thin line-art glyphs, never filled illustration',
+        imageryExclusions: 'no text overlay baked into the photograph, no logos, no gradient mesh, no hand-drawn marks, no filled or shaded illustration',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 80px side margin',
+          rhythm: 'section 10u · block 5u · inline 2u',
+          typeScale: [
+            ['Display', 'sans, 600, tracking -1%', '5u', 1.2],
+            ['Section head', 'sans, 600, amber accent', '3u', 1.25],
+            ['Tile title', 'sans, 600', '2.25u', 1.35],
+            ['Body', 'sans, 400', '2u', 1.6],
+            ['Statistic', 'sans, 300, amber accent', '8u', 1],
+            ['Link', 'sans, 400, trailing arrow glyph', '1.75u', 1.4]
+          ],
+          components: [
+            ['Scrimmed hero', 'full-bleed photograph under a 55–70% dark scrim, 14u vertical padding, type sits directly on it'],
+            ['Outlined icon', '7u circle, 1.5px stroke in the blue accent, line-art glyph centred inside'],
+            ['Capability tile', '3-column span, icon above title above 2–3 lines of body, 5u row gap, no border or fill'],
+            ['Curved divider', 'full-width wave of 3–5u amplitude handing a light band into a dark one'],
+            ['Statistic block', 'numeral at 8u in amber, caption beneath at body size with the figure bolded'],
+            ['Solid CTA', '5u tall, 0.5u radius, amber fill, white label — square-ish, never a pill'],
+            ['Anchor sub-nav', '6u band in the blue accent holding in-page anchor links inline']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — white, wordmark left, [blue CTA] right  │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — full-bleed photo under a dark scrim    │',
+          '│  ┌ 1–7 ──────────────────┐  photo subject      │',
+          '│  │ amber word + display  │  bleeds right       │',
+          '│  │ [search] or [amber CTA]│                    │',
+          '│  └───────────────────────┘                     │',
+          '│  ┌ 1–6 ───────────┐ ┌ 7–12 ──────────────┐     │',
+          '│  │ News & updates │ │ Spotlight          │     │',
+          '│  │ link →         │ │ ★ link →           │     │',
+          '│  └────────────────┘ └────────────────────┘     │',
+          '├───────────────────────────────────────────────┤',
+          '│  ANCHOR SUB-NAV — blue band, in-page links     │',
+          '├───────────────────────────────────────────────┤',
+          '│  CAPABILITY GRID — light band, 4 across        │',
+          '│  ( ◯ )      ( ◯ )      ( ◯ )      ( ◯ )        │',
+          '│  title      title      title      title        │',
+          '│  body       body       body       body         │',
+          '│  ( ◯ )      ( ◯ )      ( ◯ )      ( ◯ )        │',
+          '├──╲────────────────────────────────╱───────────┤',
+          '│    ╲──────  CURVED WAVE DIVIDER ─╱             │',
+          '├───────────────────────────────────────────────┤',
+          '│  DARK BAND — stats or resource links           │',
+          '│    2,551        1,770         235              │',
+          '│    caption      caption       caption          │',
+          '└───────────────────────────────────────────────┘',
+          'Light and dark bands alternate, and every transition between them is a curve rather than a straight edge. Amber never carries navigation; blue never carries a statistic.'
+        ]
       }
     ],
     images: [
@@ -1484,6 +1554,84 @@
           'The canvas is cream, not white, and alternates with pure black full-bleed bands',
           'Section labels appear as small red tabs attached to the top edge of the band they introduce',
           'Client press is an editorial serif list with hairline rules and no thumbnails'
+        ]
+      },
+      {
+        id: 'ibm-guidebook-home',
+        file: 'images/ibm-digital-sellers-guidebook-home.png',
+        thumb: 'images/thumbs/ibm-digital-sellers-guidebook-home.webp',
+        display: 'images/display/ibm-digital-sellers-guidebook-home.webp',
+        categoryId: 'enterprise-portal-utility',
+        title: 'IBM Digital Sellers Guidebook — Home',
+        descriptor: 'Internal seller portal with a scrimmed photo hero over a grid of outlined blue icons.',
+        keywords: [
+          'scrimmed photographic hero',
+          'outlined circle line icon',
+          'capability tile grid',
+          'curved wave divider',
+          'amber section heading',
+          'trailing arrow link',
+          'inline search field',
+          'dark resources footer'
+        ],
+        colors: [
+          { name: 'Off-white', hex: '#F5F5F5', usage: 'page ground for the capability grid' },
+          { name: 'Near-black', hex: '#232323', usage: 'news and spotlight band, dark resources footer' },
+          { name: 'Charcoal scrim', hex: '#313131', usage: 'dark overlay laid across the hero photograph' },
+          { name: 'Warm taupe', hex: '#AFA193', usage: 'photographic hero tones showing through the scrim' },
+          { name: 'Amber', hex: '#F59323', usage: 'headline emphasis word, section headings, register link' },
+          { name: 'Corporate blue', hex: '#0785BD', usage: 'outlined icon circles and the Launch CSA nav button' },
+          { name: 'White', hex: '#FFFFFF', usage: 'nav bar and the rounded search field' }
+        ],
+        typography: 'Sans throughout: hero display at roughly 40px/600 with the first word in amber; section headings at 24px/600 in amber; tile titles at 18px/600; body at 16px/400; link rows at 15px/400 each closing with a trailing arrow.',
+        layoutNotes: 'Full-bleed photograph under a heavy dark scrim carries the headline and a rounded search field, with the photo subject bleeding off the right edge. News and Spotlight sit as two plain link columns inside the darkened band below. A light band holds twelve capability tiles four across, each an outlined blue circle icon above a title and two lines of body. A full-width curved wave hands the light band into the dark resources footer.',
+        imagerySubject: 'a person at a laptop holding a mug, shot in warm natural light in a plain interior',
+        mood: ['institutional', 'service-like', 'orderly', 'plain'],
+        signature: [
+          'The headline sits directly on the scrimmed photograph with no card, panel or plate behind it',
+          'News and Spotlight are two plain link columns inside the darkened hero band, not a separate section',
+          'Capability tiles are outlined blue circle icons above a title and two lines of body, four across and three rows deep',
+          'A full-width curved wave hands the light icon grid into the dark resources footer',
+          'Every link inside the dark bands closes with a trailing arrow glyph instead of being underlined'
+        ]
+      },
+      {
+        id: 'ibm-cognitive-sales-advisor',
+        file: 'images/ibm-cognitive-sales-advisor.png',
+        thumb: 'images/thumbs/ibm-cognitive-sales-advisor.webp',
+        display: 'images/display/ibm-cognitive-sales-advisor.webp',
+        categoryId: 'enterprise-portal-utility',
+        title: 'IBM Digital Sellers Guidebook — Cognitive Sales Advisor',
+        descriptor: 'Product page on deep navy with amber statistics and an orange CTA card straddling a curved divider.',
+        keywords: [
+          'deep navy hero',
+          'amber display headline',
+          'anchor sub-nav band',
+          'amber line-art icon',
+          'floating CTA card',
+          'oversized statistic',
+          'avatar testimonial carousel',
+          'curved wave divider'
+        ],
+        colors: [
+          { name: 'Deep navy', hex: '#23314D', usage: 'hero ground and the business-value statistics band' },
+          { name: 'White', hex: '#FFFFFF', usage: 'feature grid ground' },
+          { name: 'Amber', hex: '#F59323', usage: 'display headline, CTA fills, line icons, statistic numerals' },
+          { name: 'Corporate blue', hex: '#0785BD', usage: 'anchor sub-nav band, inline links, nav button' },
+          { name: 'Charcoal', hex: '#313131', usage: 'demo-video button and testimonial card fills' },
+          { name: 'Near-black', hex: '#232323', usage: 'footer band' },
+          { name: 'Off-white', hex: '#F5F5F5', usage: 'thin transitional band above the curved divider' }
+        ],
+        typography: 'Sans throughout: hero display at roughly 34px/600 in amber; feature titles at 17px/600; body and bullet lists at 15px/400; statistics at 64px/300 in amber above a 15px caption with the money figure bolded; the blue sub-nav links at 15px/400.',
+        layoutNotes: 'Deep navy hero splits an amber headline and amber CTA left against an embedded video thumbnail right. A blue anchor sub-nav band runs full width directly beneath it. The white feature section places a rotated statement at far left against a six-cell grid of amber line-art icons with bulleted body copy. An orange CTA card floats over the curved divider, half on white and half on navy. Below, three oversized amber statistics sit on navy, then a testimonial carousel of bordered cards with circular avatars.',
+        imagerySubject: 'a video still of a meeting room seen through overlapping translucent panels on a dark network backdrop',
+        mood: ['institutional', 'explanatory', 'evidence-led', 'corporate'],
+        signature: [
+          'The hero splits an amber headline left against an embedded video thumbnail right, both on deep navy',
+          'A blue anchor sub-nav band of in-page links sits directly beneath the hero as its own full-width band',
+          'Feature icons are amber line-art glyphs with no enclosing circle, unlike the outlined blue circles used elsewhere on the site',
+          'An amber CTA card floats over the curved divider, half on the white band and half on the navy one',
+          'Statistics are set at display size in amber on navy, with the money figure bolded inside the caption beneath'
         ]
       }
     ]
