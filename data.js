@@ -556,6 +556,79 @@
           '└───────────────────────────────────────────────┘',
           'Light and dark bands alternate, and every transition between them is a curve rather than a straight edge. Amber never carries navigation; blue never carries a statistic.'
         ]
+      },
+      {
+        id: 'diagnostic-framework-serif',
+        name: 'Diagnostic Framework Serif',
+        description: 'A consultancy page that argues by structure rather than by persuasion: an editorial serif carries the claims, and every claim is anchored by a monospaced micro-label naming the methodology behind it. Content resolves into bordered parameter grids, numbered ordered steps, and colour-coded taxonomy tags. The canvas is warm bone with a single deep teal used so sparingly it reads as punctuation. Reads as diagnostic and accountable — the visual language of an audit rather than a pitch.',
+        vocabulary: [
+          'editorial serif claim',
+          'monospaced methodology label',
+          'bordered parameter grid',
+          'numbered ordered step',
+          'colour-coded taxonomy tag',
+          'warm bone band',
+          'sparse teal accent',
+          'hairline step divider'
+        ],
+        imageryTechnique: 'minimal analytical line graphics — a single-stroke trend line or small chart on a flat tinted plate; no photography, no illustrated figures, no icons',
+        imageryExclusions: 'no photography, no illustrated figures, no decorative iconography, no gradients, no drop shadows',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 96px side margin',
+          rhythm: 'section 12u · block 5u · inline 1.5u',
+          typeScale: [
+            ['Display', 'serif, 600, tracking -1%', '5u', 1.15],
+            ['Section head', 'serif, 600', '3u', 1.25],
+            ['Statement', 'serif, 400 — a full-width paragraph set at heading size', '2.75u', 1.45],
+            ['Body', 'sans, 400', '1.75u', 1.6],
+            ['Methodology label', 'mono, 400, uppercase, tracking +10%, muted', '1.25u', 1.4],
+            ['Step numeral', 'sans, 400, teal accent', '2.5u', 1.2]
+          ],
+          components: [
+            ['Bone band', 'full-bleed warm off-white, 12u vertical padding, no border, alternating with the lighter ground'],
+            ['Parameter grid', '4 columns × 2 rows of bordered cells, 1px rules shared between cells, 2.5u padding'],
+            ['Methodology label', 'mono caps directly beneath the cell title, naming the standard the finding is scored against'],
+            ['Ordered step', 'teal numeral above a hairline rule, title beneath, closing mono line stating the deliverable'],
+            ['Taxonomy tag', '2.5u pill, 1px border and pale tint of its own hue, mono uppercase label with a leading glyph'],
+            ['Teal CTA', '4.5u tall, 0.25u radius, solid teal fill; the secondary is the same box with a 1px border and no fill'],
+            ['Analytical plate', 'flat tinted rectangle carrying a single-stroke line chart, no axes or labels']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — wordmark left · links · [teal CTA]      │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — light ground                           │',
+          '│  ┌ 1–6 ──────────────┐  ┌ 8–12 ────────────┐   │',
+          '│  │ MONO EYEBROW      │  │ tinted plate     │   │',
+          '│  │ serif display     │  │  ╱╲  ╱╲╱╲        │   │',
+          '│  │ body              │  │ ╱  ╲╱     ╲      │   │',
+          '│  │ [teal] [outlined] │  └──────────────────┘   │',
+          '│  ├ 1–5 tinted note ──┤                         │',
+          '│  └───────────────────┘                         │',
+          '├───────────────────────────────────────────────┤',
+          '│  STATEMENT — bone band, MONO EYEBROW above     │',
+          '│  ┌ 1–9 serif paragraph at heading size ────┐   │',
+          '│  └──────────────────────────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  PROCESS — 4 ordered steps, hairline above each │',
+          '│  01 ──────  02 ──────  03 ──────  04 ──────    │',
+          '│  title      title      title      title        │',
+          '│  body       body       body       body         │',
+          '│  MONO       MONO       MONO       MONO         │',
+          '├───────────────────────────────────────────────┤',
+          '│  FRAMEWORK — bone band, bordered 4 × 2 grid    │',
+          '│  ┌──────┬──────┬──────┬──────┐                 │',
+          '│  │ title│ title│ title│ title│                 │',
+          '│  │ MONO │ MONO │ MONO │ MONO │                 │',
+          '│  ├──────┼──────┼──────┼──────┤                 │',
+          '│  └──────┴──────┴──────┴──────┘                 │',
+          '│  SEVERITY ◆med ◆high ▲crit   EFFORT ▪▫▫ ▪▪▫ ▪▪▪ │',
+          '└───────────────────────────────────────────────┘',
+          'Every claim carries a mono label naming what it is scored against. A claim with no citation beneath it does not belong in this style.'
+        ]
       }
     ],
     images: [
@@ -1632,6 +1705,45 @@
           'Feature icons are amber line-art glyphs with no enclosing circle, unlike the outlined blue circles used elsewhere on the site',
           'An amber CTA card floats over the curved divider, half on the white band and half on the navy one',
           'Statistics are set at display size in amber on navy, with the money figure bolded inside the caption beneath'
+        ]
+      },
+      {
+        id: 'ridgeframe-strategies-group',
+        file: 'images/ridgeframe-strategies-group.png',
+        thumb: 'images/thumbs/ridgeframe-strategies-group.webp',
+        display: 'images/display/ridgeframe-strategies-group.webp',
+        categoryId: 'diagnostic-framework-serif',
+        title: 'Ridgeframe Strategies Group — Digital Presence Diagnostics',
+        descriptor: 'Editorial serif on warm bone, where every claim is anchored by a monospaced label naming its methodology.',
+        keywords: [
+          'editorial serif claim',
+          'monospaced methodology label',
+          'bordered parameter grid',
+          'numbered ordered step',
+          'colour-coded taxonomy tag',
+          'sparse teal accent',
+          'warm bone band',
+          'analytical line plate'
+        ],
+        colors: [
+          { name: 'Off-white', hex: '#F5F5F5', usage: 'page ground for the hero and process sections' },
+          { name: 'Warm bone', hex: '#F5F5E7', usage: 'alternating full-bleed bands behind the statement and framework' },
+          { name: 'White', hex: '#FFFFFF', usage: 'parameter grid cell fills' },
+          { name: 'Pale mint tint', hex: '#E7F5F5', usage: 'the single highlighted "How we score" cell' },
+          { name: 'Deep teal', hex: '#316969', usage: 'CTA fill, step numerals, the line chart stroke' },
+          { name: 'Ink', hex: '#151515', usage: 'serif display and body copy' },
+          { name: 'Warm grey', hex: '#E7E7D9', usage: 'hairline rules and cell borders' }
+        ],
+        typography: 'Editorial serif display at roughly 40px/600; section heads at 24px/600 serif; a full-width serif statement at 22px/400; sans body at 14px/400; monospaced uppercase labels at 10px tracked wide, sitting beneath each claim to name its methodology; teal step numerals at 20px.',
+        layoutNotes: 'Warm bone bands alternate with a lighter ground, transitions unmarked by any rule. The hero splits serif copy left against a flat tinted plate carrying a single-stroke line chart right, with a tinted note box beneath the buttons. A full-width serif statement fills its own bone band. Four ordered steps run across, each a teal numeral above a hairline rule with a closing monospaced deliverable line. The diagnostic framework is a bordered four-by-two grid of cells, each naming its anchoring standard in mono caps, with one cell tinted mint. Severity and effort legends close the section as colour-coded pill tags.',
+        imagerySubject: 'a single-stroke analytical trend line on a flat tinted plate, no axes or labels',
+        mood: ['diagnostic', 'accountable', 'restrained', 'senior'],
+        signature: [
+          'Every claim carries a monospaced uppercase label beneath it naming the standard it is scored against (CORE WEB VITALS, WCAG 2.1 AA, BAYMARD INSTITUTE)',
+          'The diagnostic framework is a bordered four-by-two grid sharing 1px rules between cells, with exactly one cell tinted mint to explain the scoring',
+          'Findings are classified by two independent legends — severity and effort — each a row of pill tags in its own hue with a leading glyph',
+          'The only image on the page is a single-stroke line chart on a flat tinted plate, with no axes, labels or gridlines',
+          'Ordered steps place the teal numeral above a hairline rule and close with a monospaced line stating the deliverable'
         ]
       }
     ]
