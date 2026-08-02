@@ -203,7 +203,8 @@ def run_import(root, job_id, files, mode):
             backup = os.path.join(root, 'data.js.import-backup')
             shutil.copyfile(os.path.join(root, 'data.js'), backup)
 
-            log(job_id, '   analysing (this takes a minute — it has to look at the page)…')
+            log(job_id, '   analysing — several minutes: it reads AGENTS.md, examines the screenshot,')
+            log(job_id, '   writes the entry, then runs the tests…')
             prompt = ANALYST_PROMPT.format(image=path, sampler=sampler.stdout)
             analysis = repo_run(root, [claude, '-p', prompt], timeout=900)
             if analysis.returncode != 0:

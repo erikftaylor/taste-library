@@ -680,7 +680,7 @@ function setupImportBar() {
     });
     document.getElementById('import-btn').addEventListener('click', function () {
       startJob('/api/import', { mode: 'model' },
-        'Analysing each image and writing entries. A minute per image; anything that fails verification is rolled back.');
+        'Analysing each image and writing entries. Several minutes per image — it reads the authoring rules, examines the screenshot and runs the test suite. Anything that fails verification is rolled back.');
     });
   }).catch(function () {
     /* served statically or opened from disk — leave the bar hidden */
