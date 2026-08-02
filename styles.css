@@ -126,6 +126,15 @@ body {
 .modal-title { font-family: Georgia, 'Times New Roman', serif; font-size: 26px; margin: 0; }
 .modal-badge { font-size: 11px; color: var(--badge); white-space: nowrap; }
 .modal-descriptor { font-size: 13.5px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+.modal-colors { margin-bottom: 22px; }
+.modal-colors-label { font-size: 11px; color: var(--recipe-label); letter-spacing: 0.3px; margin-bottom: 10px; text-transform: uppercase; }
+.modal-colors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
+.modal-color-item { border: 1px solid #ddd; }
+.modal-color-swatch { height: 40px; width: 100%; display: block; border-bottom: 1px solid #ddd; }
+.modal-color-info { padding: 6px 8px; font-size: 10px; background: #fff; }
+.modal-color-name { color: #555; margin-bottom: 2px; font-weight: 600; }
+.modal-color-hex { color: #999; font-family: 'IBM Plex Mono', monospace; margin-bottom: 2px; }
+.modal-color-usage { color: #777; font-size: 9px; font-style: italic; }
 .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
 .modal-tags .tag { font-size: 12px; padding: 8px 12px; }
 .recipe-box { border-top: 1px dashed #bbb; padding-top: 18px; }

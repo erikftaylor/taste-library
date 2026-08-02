@@ -78,11 +78,14 @@
           'numbered process steps'
         ],
         colors: [
-          { name: 'pale cyan wash', hex: '#8DF1F4' },
-          { name: 'warm terracotta', hex: '#967359' },
-          { name: 'muted mustard-gold wash', hex: '#E9B97D' },
-          { name: 'deep rust accent', hex: '#844441' },
-          { name: 'pale cream', hex: '#F2E3BA' }
+          { name: 'Pale cyan wash', hex: '#8DF1F4', usage: 'full-bleed background section' },
+          { name: 'Coral red block', hex: '#ED4544', usage: 'primary color block, section background' },
+          { name: 'Warm mustard-gold wash', hex: '#E9B97D', usage: 'secondary color block background' },
+          { name: 'Pale cream', hex: '#F2E3BA', usage: 'tertiary section wash' },
+          { name: 'Deep rust accent', hex: '#844441', usage: 'accent, emphasis, links' },
+          { name: 'Dark charcoal button', hex: '#2C2C2C', usage: 'dark pill CTA button' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Text black', hex: '#000000', usage: 'headlines and body text' }
         ],
         typography: 'Bold geometric grotesk display headline (~800 weight) for hero copy, regular-weight body text, small tracked all-caps eyebrow labels ("HI THERE", "THREAD ON").',
         layoutNotes: 'Alternating full-bleed watercolor-wash sections behind illustrations, connected by a hand-drawn dotted line that threads down the page; illustrations placed asymmetrically left/right in a zigzag; dark pill-shaped CTA buttons ("PROVE IT"); wide vertical rhythm with generous whitespace on white sections.',
@@ -106,11 +109,14 @@
           'tab-style content filter'
         ],
         colors: [
-          { name: 'muted sage green', hex: '#5E816B' },
-          { name: 'warm khaki gold', hex: '#C1AB74' },
-          { name: 'pale sage green', hex: '#C8D6AD' },
-          { name: 'deep maroon-brown', hex: '#622725' },
-          { name: 'bright mint green', hex: '#72F799' }
+          { name: 'Muted sage green', hex: '#5E816B', usage: 'primary color block, underlines' },
+          { name: 'Warm khaki gold', hex: '#C1AB74', usage: 'secondary color block background' },
+          { name: 'Pale sage green', hex: '#C8D6AD', usage: 'tertiary background wash' },
+          { name: 'Bright mint green', hex: '#72F799', usage: 'accent, highlights' },
+          { name: 'Deep maroon-brown', hex: '#622725', usage: 'text, headlines' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Light cream', hex: '#F5F5F0', usage: 'subtle background' },
+          { name: 'Arrow link color', hex: '#5E816B', usage: 'link glyphs, navigation' }
         ],
         typography: 'Same bold grotesk display type as the homepage for headlines; small tracked all-caps category labels ("ARTICLES") with a short underline rule beneath.',
         layoutNotes: 'Featured article in a two-column hero (text + illustration), followed by a strict 2x2 grid of solid-color article cards where color is the only visual differentiator (no imagery inside cards), each with a simple arrow-glyph link; horizontal tab filter bar above the grid ("ALL / ARTICLES / CASE STUDIES / ESSAYS").',
@@ -134,9 +140,14 @@
           'flat mint watercolor wash'
         ],
         colors: [
-          { name: 'bright mint green', hex: '#6BF193' },
-          { name: 'medium mint green', hex: '#61DC86' },
-          { name: 'pale sand', hex: '#D9CFB1' }
+          { name: 'Bright mint green', hex: '#6BF193', usage: 'primary accent, form underlines' },
+          { name: 'Medium mint green', hex: '#61DC86', usage: 'secondary mint accent' },
+          { name: 'Pale sand', hex: '#D9CFB1', usage: 'background wash' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content area' },
+          { name: 'Dark text', hex: '#000000', usage: 'headlines, form labels' },
+          { name: 'Green CTA button', hex: '#6BF193', usage: 'submit button background' },
+          { name: 'Light gray label', hex: '#999999', usage: 'secondary labels and hints' },
+          { name: 'Watercolor mint', hex: '#A8F0C8', usage: 'illustration background wash' }
         ],
         typography: 'Bold grotesk display type used for both the headline and the form’s sentence-style copy, so the form itself reads like enlarged headline text; small tracked all-caps micro-labels above each blank ("FIRST NAME", "PROJECT OR GOAL").',
         layoutNotes: 'Form is written as a single flowing sentence ("My name is ___ with ___...") with underlined blanks standing in for input fields, breaking the conventional label-above-input form pattern; hero illustration paired with a flat mint watercolor-wash background.',
@@ -160,11 +171,14 @@
           'bold grotesk headline'
         ],
         colors: [
-          { name: 'bright mint green', hex: '#73F7AE' },
-          { name: 'coral red', hex: '#ED4544' },
-          { name: 'pale cyan', hex: '#ADEFE9' },
-          { name: 'warm sand', hex: '#DBCBAD' },
-          { name: 'dusty rose-brown', hex: '#B38E8B' }
+          { name: 'Bright mint green', hex: '#73F7AE', usage: 'primary color block, accent' },
+          { name: 'Coral red', hex: '#ED4544', usage: 'full-bleed section, strong emphasis' },
+          { name: 'Pale cyan', hex: '#ADEFE9', usage: 'secondary color block' },
+          { name: 'Warm sand', hex: '#DBCBAD', usage: 'tertiary background wash' },
+          { name: 'Dusty rose-brown', hex: '#B38E8B', usage: 'secondary accent, supporting element' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Dark text', hex: '#000000', usage: 'headlines, body copy' },
+          { name: 'Numbered badge', hex: '#ED4544', usage: 'process step badges' }
         ],
         typography: 'Consistent bold grotesk display type for section headers; small tracked all-caps labels for team roles and section eyebrows.',
         layoutNotes: 'Three-column flat-color value-prop blocks (cyan/coral/mint) under a two-column intro; horizontal accordion-style capability bar (Strategy/Communications/Technology); dense 3x3 headshot grid for the team section, all inside a full-bleed coral background block; numbered circular badges (01/02/03) mark process steps.',
@@ -190,11 +204,14 @@
           'client proof screenshot grid'
         ],
         colors: [
-          { name: 'pale periwinkle wash', hex: '#E2EAF9' },
-          { name: 'soft blush cream', hex: '#F3EBE7' },
-          { name: 'pale peach wash', hex: '#F8F0EC' },
-          { name: 'warm taupe accent', hex: '#A29894' },
-          { name: 'terracotta CTA orange', hex: '#C06038' }
+          { name: 'Pale periwinkle wash', hex: '#E2EAF9', usage: 'gradient hero background' },
+          { name: 'Soft blush cream', hex: '#F3EBE7', usage: 'gradient transition, section wash' },
+          { name: 'Pale peach wash', hex: '#F8F0EC', usage: 'subtle gradient accent' },
+          { name: 'Terracotta CTA orange', hex: '#C06038', usage: 'pill buttons, CTAs, highlights' },
+          { name: 'Warm taupe accent', hex: '#A29894', usage: 'secondary accent, metadata text' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'content cards, main sections' },
+          { name: 'Dark gray text', hex: '#333333', usage: 'body copy, headlines' },
+          { name: 'Light gray', hex: '#EEEEEE', usage: 'subtle backgrounds, borders' }
         ],
         typography: 'Heavy sans-serif display headline paired with a lighter serif-italic word for emphasis (e.g. "90 Days" set in italic serif); small tracked all-caps eyebrow labels above section headers; clean sans body copy.',
         layoutNotes: 'Long vertical sales-page structure: hero, three-card "how it works" row, a vertical dotted-line roadmap with alternating left/right phase cards and numbered circular nodes, a benefits checklist, a dark testimonial/message-bubble block with a "$12k Client Closed" proof card, a pricing card, an FAQ accordion, and a multi-step application form footer.',
@@ -219,11 +236,14 @@
           'connected-line process diagram'
         ],
         colors: [
-          { name: 'pale periwinkle wash', hex: '#E8EDF7' },
-          { name: 'soft blush cream', hex: '#F8EEE9' },
-          { name: 'pale sky-blue wash', hex: '#DBE6F8' },
-          { name: 'terracotta CTA orange', hex: '#A5755F' },
-          { name: 'warm taupe accent', hex: '#BFA498' }
+          { name: 'Pale periwinkle wash', hex: '#E8EDF7', usage: 'gradient mesh hero background' },
+          { name: 'Soft blush cream', hex: '#F8EEE9', usage: 'gradient transition color' },
+          { name: 'Pale sky-blue wash', hex: '#DBE6F8', usage: 'gradient accent wash' },
+          { name: 'Terracotta CTA orange', hex: '#A5755F', usage: 'pill CTA buttons' },
+          { name: 'Warm taupe accent', hex: '#BFA498', usage: 'secondary accent, text highlight' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'content sections, cards' },
+          { name: 'Dark code text', hex: '#1A1A1A', usage: 'code mockup text' },
+          { name: 'Light gray', hex: '#F0F0F0', usage: 'subtle section backgrounds' }
         ],
         typography: 'Same heavy sans display plus serif-italic accent-word pairing as the mentorship page ("Turn AI Into Your Unfair Advantage", with the last word rendered in soft italic serif); small tracked all-caps section eyebrows ("WHAT WE BUILD", "OUR APPROACH").',
         layoutNotes: 'Hero with a floating dark code-editor window (file tree plus syntax-highlighted TypeScript) layered over the gradient wash; a "what we build" card row with small UI-mockup thumbnails; a four-step numbered process section connected by thin vertical lines; a long multi-field contact form as the closing section.',
@@ -249,12 +269,14 @@
           'long-form qualification form'
         ],
         colors: [
-          { name: 'pale steel-blue wash', hex: '#CBD2D6' },
-          { name: 'muted slate blue', hex: '#BDC7CD' },
-          { name: 'deep navy ink', hex: '#072235' },
-          { name: 'pale ice-blue section', hex: '#DAE3E8' },
-          { name: 'slate blue-gray', hex: '#54616E' },
-          { name: 'charcoal navy', hex: '#263440' }
+          { name: 'Pale steel-blue wash', hex: '#CBD2D6', usage: 'section background, subtle tone' },
+          { name: 'Muted slate blue', hex: '#BDC7CD', usage: 'secondary wash color' },
+          { name: 'Deep navy ink', hex: '#072235', usage: 'text, headlines, highest contrast' },
+          { name: 'Pale ice-blue section', hex: '#DAE3E8', usage: 'light background section' },
+          { name: 'Slate blue-gray', hex: '#54616E', usage: 'secondary text, links' },
+          { name: 'Charcoal navy', hex: '#263440', usage: 'footer background, dark sections' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content areas' },
+          { name: 'Light gray', hex: '#E8ECEF', usage: 'subtle background wash' }
         ],
         typography: 'Serif editorial display headline for section titles ("Before Modernization Stalls, Get Strategic Clarity."); clean sans body copy; small blue sans links for inline emphasis.',
         layoutNotes: 'Alternating white and pale-steel-blue full-bleed sections; a two-column "what this is / what you get" checkmark comparison panel; a centered pull-quote testimonial with a circular headshot; a numbered "who this is for" list; a long qualification form (name, company, industry, budget range) as the closing section; dark navy footer.',
@@ -280,9 +302,14 @@
           'typography-forward'
         ],
         colors: [
-          { name: 'dark charcoal', hex: '#1D232B' },
-          { name: 'warm brown', hex: '#614742' },
-          { name: 'muted blue-gray', hex: '#758494' }
+          { name: 'Dark charcoal', hex: '#1D232B', usage: 'primary background, hero section' },
+          { name: 'Warm brown', hex: '#614742', usage: 'secondary accent, text highlight' },
+          { name: 'Muted blue-gray', hex: '#758494', usage: 'tertiary accent, borders' },
+          { name: 'Off-white text', hex: '#F5F5F0', usage: 'headlines, body copy on dark' },
+          { name: 'Light cream', hex: '#E8E3D8', usage: 'subtle backgrounds, cards' },
+          { name: 'Very dark charcoal', hex: '#0F1216', usage: 'darkest text, maximum contrast' },
+          { name: 'Gray border', hex: '#4A4A4A', usage: 'dividers, subtle separation' },
+          { name: 'Brown-gray', hex: '#6B5F54', usage: 'secondary text color' }
         ],
         typography: 'Bold serif display type for project titles; clean sans-serif body copy; generous whitespace emphasizes hierarchy.',
         layoutNotes: 'Dark navy/black background with centered content; portfolio grid layout with minimal visual interruption; project thumbnails with serif typography labels; high contrast for readability.',
@@ -308,12 +335,14 @@
           'enterprise focus'
         ],
         colors: [
-          { name: 'deep navy', hex: '#0B233C' },
-          { name: 'muted slate', hex: '#30435A' },
-          { name: 'navy accent', hex: '#0D243D' },
-          { name: 'slate blue', hex: '#132A42' },
-          { name: 'dark slate', hex: '#092038' },
-          { name: 'navy dark', hex: '#0B233B' }
+          { name: 'Deep navy', hex: '#0B233C', usage: 'primary background, hero section' },
+          { name: 'Muted slate', hex: '#30435A', usage: 'secondary dark tone' },
+          { name: 'Navy accent', hex: '#0D243D', usage: 'deepest navy tone' },
+          { name: 'Slate blue', hex: '#132A42', usage: 'secondary navy accent' },
+          { name: 'Dark slate', hex: '#092038', usage: 'darkest section background' },
+          { name: 'Navy dark', hex: '#0B233B', usage: 'footer background' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark backgrounds' },
+          { name: 'Yellow/orange data', hex: '#FDB913', usage: 'data visualization, charts' }
         ],
         typography: 'Serif display headlines for section titles; clean sans-serif body copy; all-caps labels for research methodologies; high contrast text.',
         layoutNotes: 'Dark navy full-bleed background with white text for maximum contrast; structured sections with clear methodology frameworks; comparison panels for research findings.',
@@ -339,12 +368,14 @@
           'professional services'
         ],
         colors: [
-          { name: 'dark teal', hex: '#05282E' },
-          { name: 'sage gray', hex: '#576D72' },
-          { name: 'teal accent', hex: '#107D5F' },
-          { name: 'very dark teal', hex: '#091D20' },
-          { name: 'dark cyan', hex: '#022F36' },
-          { name: 'teal green', hex: '#357367' }
+          { name: 'Dark teal', hex: '#05282E', usage: 'primary background section' },
+          { name: 'Teal accent', hex: '#107D5F', usage: 'primary accent color, CTAs' },
+          { name: 'Sage gray', hex: '#576D72', usage: 'neutral gray-green tone' },
+          { name: 'Very dark teal', hex: '#091D20', usage: 'darkest background' },
+          { name: 'Dark cyan', hex: '#022F36', usage: 'secondary dark tone' },
+          { name: 'Teal green', hex: '#357367', usage: 'secondary teal accent' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Dark text', hex: '#1A1A1A', usage: 'headlines, body copy' }
         ],
         typography: 'Bold sans-serif display headlines; clean sans-serif body text; teal accent color for emphasis and CTAs.',
         layoutNotes: 'Alternating teal and dark sections create visual rhythm; workshop photography integrated throughout; process steps shown with circular numbered indicators.',
@@ -370,12 +401,14 @@
           'modern design'
         ],
         colors: [
-          { name: 'deep teal', hex: '#006055' },
-          { name: 'dark cyan', hex: '#0A2B2A' },
-          { name: 'slate gray', hex: '#3F5049' },
-          { name: 'teal dark', hex: '#1C3D36' },
-          { name: 'teal blue', hex: '#2A7373' },
-          { name: 'warm mauve', hex: '#B28278' }
+          { name: 'Deep teal', hex: '#006055', usage: 'primary brand color, full-bleed section' },
+          { name: 'Teal blue', hex: '#2A7373', usage: 'secondary teal accent' },
+          { name: 'Dark cyan', hex: '#0A2B2A', usage: 'darkest teal tone' },
+          { name: 'Slate gray', hex: '#3F5049', usage: 'neutral gray accent' },
+          { name: 'Warm mauve', hex: '#B28278', usage: 'warm accent color' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Dark text', hex: '#1A1A1A', usage: 'headlines, body copy' },
+          { name: 'Light gray', hex: '#E8E8E8', usage: 'subtle backgrounds, borders' }
         ],
         typography: 'Bold sans-serif display type for headlines; clean sans-serif body; color-coded section labels add visual interest.',
         layoutNotes: 'Teal gradient sections alternate with white space and dark content areas; structured grid for portfolio items; generous vertical rhythm.',
@@ -401,7 +434,14 @@
           'thought leadership'
         ],
         colors: [
-          { name: 'charcoal slate', hex: '#373F4E' }
+          { name: 'Charcoal slate', hex: '#373F4E', usage: 'primary background, hero section' },
+          { name: 'Burnt orange', hex: '#D97E5E', usage: 'accent color, highlights' },
+          { name: 'Dark charcoal', hex: '#2A2E38', usage: 'secondary dark tone' },
+          { name: 'Off-white text', hex: '#EFEFEF', usage: 'text on dark backgrounds' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'content sections' },
+          { name: 'Light gray', hex: '#F0F0F0', usage: 'subtle backgrounds' },
+          { name: 'Dark text', hex: '#333333', usage: 'body copy on light' },
+          { name: 'Gray border', hex: '#CCCCCC', usage: 'dividers, separators' }
         ],
         typography: 'Serif display headlines for authority; clean sans-serif body copy; strategic whitespace usage.',
         layoutNotes: 'Dark background with structured content sections; service offerings in organized panels; expertise demonstrated through case study methodology.',
@@ -427,12 +467,14 @@
           'contemporary agency'
         ],
         colors: [
-          { name: 'very dark navy', hex: '#111928' },
-          { name: 'dark navy blue', hex: '#2A2F39' },
-          { name: 'sky blue', hex: '#67B8D1' },
-          { name: 'light sky blue', hex: '#94D4EE' },
-          { name: 'medium blue', hex: '#4DB5D0' },
-          { name: 'teal blue', hex: '#2C9EBC' }
+          { name: 'Very dark navy', hex: '#111928', usage: 'primary background, hero section' },
+          { name: 'Dark navy blue', hex: '#2A2F39', usage: 'secondary dark background' },
+          { name: 'Bright sky blue', hex: '#67B8D1', usage: 'primary accent color' },
+          { name: 'Light sky blue', hex: '#94D4EE', usage: 'secondary accent, hover states' },
+          { name: 'Medium blue', hex: '#4DB5D0', usage: 'tertiary blue accent' },
+          { name: 'Teal blue', hex: '#2C9EBC', usage: 'blue-teal gradient accent' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark backgrounds' },
+          { name: 'Light gray', hex: '#F0F0F0', usage: 'content card backgrounds' }
         ],
         typography: 'Bold sans-serif display headlines; lightweight sans-serif body; gradient accents used for emphasis.',
         layoutNotes: 'Blue gradient hero section; portfolio items showcased in card grid; interactive hover states; color-coded service sections.',
@@ -458,12 +500,14 @@
           'colorful aesthetic'
         ],
         colors: [
-          { name: 'vibrant blue', hex: '#1B6DD6' },
-          { name: 'bright blue', hex: '#1B6FDD' },
-          { name: 'teal green', hex: '#37A990' },
-          { name: 'blue accent', hex: '#1A67CC' },
-          { name: 'warm beige', hex: '#C1BBA3' },
-          { name: 'teal blue', hex: '#278ACC' }
+          { name: 'Vibrant blue', hex: '#1B6DD6', usage: 'primary gradient color' },
+          { name: 'Bright blue', hex: '#1B6FDD', usage: 'primary blue accent' },
+          { name: 'Teal green', hex: '#37A990', usage: 'gradient complement color' },
+          { name: 'Blue accent', hex: '#1A67CC', usage: 'secondary blue tone' },
+          { name: 'Teal blue', hex: '#278ACC', usage: 'blue-teal blend' },
+          { name: 'Warm beige', hex: '#C1BBA3', usage: 'neutral warm accent' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'content sections' },
+          { name: 'Dark gray text', hex: '#333333', usage: 'body copy, headlines' }
         ],
         typography: 'Bold sans-serif display type; clean body text; accent colors used strategically for visual hierarchy.',
         layoutNotes: 'Vibrant blue-to-teal gradient backgrounds; portfolio items in dynamic grid layout; generous color treatment creates premium feel.',
@@ -489,8 +533,14 @@
           'expertise showcase'
         ],
         colors: [
-          { name: 'warm taupe', hex: '#D4CFC4' },
-          { name: 'soft cream', hex: '#F5F3F0' }
+          { name: 'Warm taupe', hex: '#D4CFC4', usage: 'primary background wash, section divider' },
+          { name: 'Soft cream', hex: '#F5F3F0', usage: 'main background, content areas' },
+          { name: 'Off-white', hex: '#FAFAF8', usage: 'subtle background sections' },
+          { name: 'Dark charcoal text', hex: '#333333', usage: 'headlines, body copy' },
+          { name: 'Orange accent', hex: '#D97E5E', usage: 'highlight, emphasis, accents' },
+          { name: 'Light gray', hex: '#DDDDDD', usage: 'borders, subtle dividers' },
+          { name: 'Medium brown', hex: '#8B7765', usage: 'secondary text color' },
+          { name: 'Very light gray', hex: '#F0F0F0', usage: 'card backgrounds' }
         ],
         typography: 'Mix of serif display and sans-serif body for visual variety; emphasis on typography hierarchy; readable long-form content.',
         layoutNotes: 'Soft gradient sections frame each case study; detailed process steps shown with visual documentation; long-form narrative structure.',
@@ -516,12 +566,14 @@
           'strategic positioning'
         ],
         colors: [
-          { name: 'very dark gray', hex: '#161D21' },
-          { name: 'dark gray-blue', hex: '#252C30' },
-          { name: 'slate blue', hex: '#2D4C61' },
-          { name: 'bright cyan', hex: '#0093BC' },
-          { name: 'medium cyan', hex: '#0FA3CC' },
-          { name: 'slate teal', hex: '#143A52' }
+          { name: 'Very dark gray', hex: '#161D21', usage: 'primary background, hero section' },
+          { name: 'Dark gray-blue', hex: '#252C30', usage: 'secondary dark background' },
+          { name: 'Bright cyan', hex: '#0093BC', usage: 'primary accent color, CTAs' },
+          { name: 'Medium cyan', hex: '#0FA3CC', usage: 'secondary cyan accent' },
+          { name: 'Slate blue', hex: '#2D4C61', usage: 'muted blue tone' },
+          { name: 'Slate teal', hex: '#143A52', usage: 'dark blue-green accent' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark backgrounds' },
+          { name: 'Light gray', hex: '#CCCCCC', usage: 'secondary text, borders' }
         ],
         typography: 'Bold sans-serif headlines for impact; clean sans-serif body; blue accent text for CTAs and emphasis.',
         layoutNotes: 'Dark navy background with bright blue accent sections; clear information hierarchy; structured methodology visualization.',
@@ -547,12 +599,14 @@
           'findings-driven'
         ],
         colors: [
-          { name: 'dark green', hex: '#054A2F' },
-          { name: 'warm brown-gray', hex: '#433B37' },
-          { name: 'electric blue', hex: '#074EBD' },
-          { name: 'muted blue-gray', hex: '#536C7B' },
-          { name: 'forest green', hex: '#034A2D' },
-          { name: 'dark teal', hex: '#0B392C' }
+          { name: 'Dark green', hex: '#054A2F', usage: 'primary background section' },
+          { name: 'Electric blue', hex: '#074EBD', usage: 'primary accent color, CTAs' },
+          { name: 'Forest green', hex: '#034A2D', usage: 'secondary green tone' },
+          { name: 'Dark teal', hex: '#0B392C', usage: 'tertiary dark green' },
+          { name: 'Warm brown-gray', hex: '#433B37', usage: 'neutral warm accent' },
+          { name: 'Muted blue-gray', hex: '#536C7B', usage: 'secondary gray-blue tone' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'content sections' },
+          { name: 'Dark text', hex: '#1A1A1A', usage: 'headlines, body copy' }
         ],
         typography: 'Bold sans-serif for impact; clean sans-serif body copy; green accents for visual interest.',
         layoutNotes: 'Green color provides strong visual identity; structured research frameworks; clear process visualization; professional layout.',
@@ -578,8 +632,14 @@
           'crafted aesthetic'
         ],
         colors: [
-          { name: 'warm cream', hex: '#F5E8E0' },
-          { name: 'soft taupe', hex: '#D9D0C5' }
+          { name: 'Warm cream', hex: '#F5E8E0', usage: 'primary background sections' },
+          { name: 'Soft taupe', hex: '#D9D0C5', usage: 'secondary background wash' },
+          { name: 'Bright mint green', hex: '#6BF193', usage: 'primary accent color' },
+          { name: 'Hot pink/magenta', hex: '#E91E63', usage: 'secondary accent, highlights' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'negative space, content areas' },
+          { name: 'Deep charcoal', hex: '#1A1A1A', usage: 'text, headlines' },
+          { name: 'Light gray', hex: '#D0D0D0', usage: 'subtle dividers, borders' },
+          { name: 'Teal accent', hex: '#4DCCC6', usage: 'alternative accent color' }
         ],
         typography: 'Artistic serif or unique display font for headlines; emphasis on visual storytelling over type hierarchy.',
         layoutNotes: 'Long-form editorial narrative; hand-drawn or illustrative elements throughout; color-blocked sections; gallery-like presentation.',
@@ -605,12 +665,14 @@
           'medical expertise'
         ],
         colors: [
-          { name: 'burnt orange', hex: '#B84A0E' },
-          { name: 'teal-cyan', hex: '#157787' },
-          { name: 'dark charcoal', hex: '#21242B' },
-          { name: 'very dark navy', hex: '#191E25' },
-          { name: 'muted teal', hex: '#425F66' },
-          { name: 'rust orange', hex: '#BB714A' }
+          { name: 'Burnt orange', hex: '#B84A0E', usage: 'primary accent color, section background' },
+          { name: 'Teal-cyan', hex: '#157787', usage: 'secondary accent, CTAs' },
+          { name: 'Dark charcoal', hex: '#21242B', usage: 'primary dark background' },
+          { name: 'Very dark navy', hex: '#191E25', usage: 'secondary dark tone' },
+          { name: 'Muted teal', hex: '#425F66', usage: 'secondary teal accent' },
+          { name: 'Rust orange', hex: '#BB714A', usage: 'secondary orange tone' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Dark text', hex: '#333333', usage: 'body copy, headlines' }
         ],
         typography: 'Bold sans-serif headlines; clean sans-serif body copy; warm orange used for CTAs and emphasis.',
         layoutNotes: 'Warm orange and teal sections create visual rhythm; healthcare expertise demonstrated through detailed case studies.',
@@ -636,12 +698,14 @@
           'modern web design'
         ],
         colors: [
-          { name: 'deep purple-black', hex: '#050038' },
-          { name: 'vibrant indigo', hex: '#3F53D9' },
-          { name: 'periwinkle blue', hex: '#5368D9' },
-          { name: 'dark purple', hex: '#1F1B4D' },
-          { name: 'very dark purple', hex: '#030036' },
-          { name: 'midnight purple', hex: '#000031' }
+          { name: 'Deep purple-black', hex: '#050038', usage: 'primary background, hero section' },
+          { name: 'Vibrant indigo', hex: '#3F53D9', usage: 'primary accent color' },
+          { name: 'Periwinkle blue', hex: '#5368D9', usage: 'secondary accent, highlight' },
+          { name: 'Dark purple', hex: '#1F1B4D', usage: 'secondary background tone' },
+          { name: 'Very dark purple', hex: '#030036', usage: 'darkest background section' },
+          { name: 'Midnight purple', hex: '#000031', usage: 'near-black purple tone' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark, headers' },
+          { name: 'Light purple', hex: '#E8E4FF', usage: 'subtle light accents' }
         ],
         typography: 'Bold sans-serif display headlines; clean sans-serif body; accent colors enhance visual hierarchy.',
         layoutNotes: 'Rich purple gradients create premium feel; feature sections highlighted with color; interactive element showcase.',
@@ -667,12 +731,14 @@
           'premium positioning'
         ],
         colors: [
-          { name: 'dark purple', hex: '#251C37' },
-          { name: 'very dark purple', hex: '#100422' },
-          { name: 'muted mauve', hex: '#694B64' },
-          { name: 'dark charcoal', hex: '#171222' },
-          { name: 'purple dark', hex: '#472147' },
-          { name: 'deep purple', hex: '#110823' }
+          { name: 'Dark purple', hex: '#251C37', usage: 'primary background section' },
+          { name: 'Very dark purple', hex: '#100422', usage: 'hero background, deepest tone' },
+          { name: 'Muted mauve', hex: '#694B64', usage: 'secondary accent color' },
+          { name: 'Dark charcoal', hex: '#171222', usage: 'text on purple, high contrast' },
+          { name: 'Deep purple', hex: '#110823', usage: 'darkest background sections' },
+          { name: 'Pink/magenta accent', hex: '#D946A6', usage: 'highlights, emphasis' },
+          { name: 'Off-white text', hex: '#E8E3D8', usage: 'body copy, readable text' },
+          { name: 'Purple-gray', hex: '#472147', usage: 'secondary purple tone' }
         ],
         typography: 'Artistic serif or unique display type; emphasis on visual design over conventional typography hierarchy.',
         layoutNotes: 'Dark background showcases portfolio work; color treatment used as artistic expression; gallery-like presentation.',
@@ -698,12 +764,14 @@
           'direct messaging'
         ],
         colors: [
-          { name: 'warm taupe', hex: '#85786B' },
-          { name: 'bright cyan', hex: '#1AE9F2' },
-          { name: 'dark cyan-gray', hex: '#11292B' },
-          { name: 'dark gray', hex: '#293032' },
-          { name: 'light cyan', hex: '#7CE5E3' },
-          { name: 'very dark blue', hex: '#071D32' }
+          { name: 'Bright cyan', hex: '#1AE9F2', usage: 'primary accent color, CTAs, highlights' },
+          { name: 'Warm taupe', hex: '#85786B', usage: 'neutral warm accent' },
+          { name: 'Dark cyan-gray', hex: '#11292B', usage: 'primary dark background' },
+          { name: 'Dark gray', hex: '#293032', usage: 'secondary dark background' },
+          { name: 'Very dark blue', hex: '#071D32', usage: 'darkest background tone' },
+          { name: 'Light cyan', hex: '#7CE5E3', usage: 'secondary cyan accent' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark backgrounds' },
+          { name: 'Light gray', hex: '#E0E0E0', usage: 'borders, subtle elements' }
         ],
         typography: 'Bold sans-serif headlines; clean sans-serif body; cyan accent for emphasis and CTAs.',
         layoutNotes: 'High-contrast cyan and dark sections; simple visual approach; focus on clear messaging.',
@@ -729,12 +797,14 @@
           'enterprise focus'
         ],
         colors: [
-          { name: 'slate gray', hex: '#313A4A' },
-          { name: 'medium gray-blue', hex: '#4D535F' },
-          { name: 'dark slate', hex: '#2D3646' },
-          { name: 'slate dark', hex: '#303949' },
-          { name: 'dark gray-blue', hex: '#313A49' },
-          { name: 'medium gray', hex: '#444A54' }
+          { name: 'Slate gray', hex: '#313A4A', usage: 'primary background, hero section' },
+          { name: 'Dark slate', hex: '#2D3646', usage: 'secondary dark tone' },
+          { name: 'Medium gray-blue', hex: '#4D535F', usage: 'tertiary gray-blue tone' },
+          { name: 'Dark gray-blue', hex: '#313A49', usage: 'secondary background section' },
+          { name: 'Medium gray', hex: '#444A54', usage: 'accent gray tone' },
+          { name: 'Slate dark', hex: '#303949', usage: 'footer background' },
+          { name: 'Off-white text', hex: '#FFFFFF', usage: 'text on dark backgrounds' },
+          { name: 'Light gray', hex: '#E8ECEF', usage: 'subtle backgrounds, borders' }
         ],
         typography: 'Clean sans-serif throughout; emphasis on hierarchy and readability; professional presentation.',
         layoutNotes: 'Professional layout with clear sections; methodology clearly presented; focus on communication effectiveness.',
@@ -760,12 +830,14 @@
           'credibility positioning'
         ],
         colors: [
-          { name: 'very dark teal', hex: '#172C24' },
-          { name: 'dark gray', hex: '#30353D' },
-          { name: 'muted blue-gray', hex: '#4C515E' },
-          { name: 'very dark green', hex: '#122318' },
-          { name: 'slate teal', hex: '#173144' },
-          { name: 'warm gray-brown', hex: '#A7776D' }
+          { name: 'Very dark teal', hex: '#172C24', usage: 'primary background, hero section' },
+          { name: 'Dark gray', hex: '#30353D', usage: 'secondary dark tone' },
+          { name: 'Slate teal', hex: '#173144', usage: 'secondary teal background' },
+          { name: 'Very dark green', hex: '#122318', usage: 'tertiary dark tone' },
+          { name: 'Muted blue-gray', hex: '#4C515E', usage: 'neutral accent color' },
+          { name: 'Warm gray-brown', hex: '#A7776D', usage: 'warm neutral accent' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Dark text', hex: '#1A1A1A', usage: 'headlines, body copy' }
         ],
         typography: 'Bold sans-serif for emphasis; clean sans-serif body; professional visual hierarchy.',
         layoutNotes: 'Dark background with structured sections; UX methodology clearly explained; portfolio work showcased strategically.',
@@ -791,9 +863,14 @@
           'methodology-driven'
         ],
         colors: [
-          { name: 'cool gray', hex: '#3E4A4A' },
-          { name: 'sage green', hex: '#6DBA98' },
-          { name: 'very dark navy', hex: '#11132F' }
+          { name: 'Cool gray', hex: '#3E4A4A', usage: 'primary background, sidebar' },
+          { name: 'Sage green', hex: '#6DBA98', usage: 'primary accent color' },
+          { name: 'Very dark navy', hex: '#11132F', usage: 'text, headlines' },
+          { name: 'White background', hex: '#FFFFFF', usage: 'main content sections' },
+          { name: 'Light cream', hex: '#F5F3F0', usage: 'subtle section backgrounds' },
+          { name: 'Gray-green', hex: '#5A9B7F', usage: 'secondary green accent' },
+          { name: 'Dark gray text', hex: '#333333', usage: 'body text, secondary content' },
+          { name: 'Light gray', hex: '#CCCCCC', usage: 'borders, dividers' }
         ],
         typography: 'Bold sans-serif display type; clean body copy; emphasis on visual hierarchy.',
         layoutNotes: 'Structured layout with clear sections; design process explained through visual hierarchy; portfolio work highlighted.',
@@ -819,10 +896,14 @@
           'aspirational content'
         ],
         colors: [
-          { name: 'dark blue-gray', hex: '#32444D' },
-          { name: 'dark charcoal', hex: '#282836' },
-          { name: 'dark navy blue', hex: '#152037' },
-          { name: 'very dark navy', hex: '#0B1022' }
+          { name: 'Dark blue-gray', hex: '#32444D', usage: 'primary background section' },
+          { name: 'Dark charcoal', hex: '#282836', usage: 'secondary dark tone' },
+          { name: 'Dark navy blue', hex: '#152037', usage: 'tertiary dark background' },
+          { name: 'Very dark navy', hex: '#0B1022', usage: 'darkest background, footer' },
+          { name: 'Coral/orange accent', hex: '#E86C3A', usage: 'accent color, CTAs, highlights' },
+          { name: 'Off-white text', hex: '#F0F0F0', usage: 'text on dark backgrounds' },
+          { name: 'Light warm accent', hex: '#D4A574', usage: 'secondary warm tone' },
+          { name: 'Light gray', hex: '#CCCCCC', usage: 'secondary text, borders' }
         ],
         typography: 'Serif headlines for editorial feel; clean sans-serif body; emphasis on storytelling.',
         layoutNotes: 'Editorial layout with photography-first approach; narrative storytelling throughout; sophisticated dark aesthetic.',

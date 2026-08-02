@@ -170,6 +170,8 @@ function openModal(image, category) {
   document.getElementById('modal-badge').textContent = '◆ ' + category.name;
   document.getElementById('modal-descriptor').textContent = image.descriptor;
 
+  renderColors(document.getElementById('modal-colors'), image);
+
   var tagsContainer = document.getElementById('modal-tags');
   tagsContainer.textContent = '';
   image.keywords.forEach(function (keyword) {
@@ -194,6 +196,54 @@ function closeModal() {
     lastFocusedElement.focus();
     lastFocusedElement = null;
   }
+}
+
+function renderColors(container, image) {
+  container.textContent = '';
+  if (!image.colors || image.colors.length === 0) return;
+
+  var label = document.createElement('div');
+  label.className = 'modal-colors-label';
+  label.textContent = 'Color Palette';
+  container.appendChild(label);
+
+  var grid = document.createElement('div');
+  grid.className = 'modal-colors-grid';
+
+  image.colors.forEach(function (color) {
+    var item = document.createElement('div');
+    item.className = 'modal-color-item';
+
+    var swatch = document.createElement('div');
+    swatch.className = 'modal-color-swatch';
+    swatch.style.backgroundColor = color.hex;
+    item.appendChild(swatch);
+
+    var info = document.createElement('div');
+    info.className = 'modal-color-info';
+
+    var name = document.createElement('div');
+    name.className = 'modal-color-name';
+    name.textContent = color.name;
+    info.appendChild(name);
+
+    var hex = document.createElement('div');
+    hex.className = 'modal-color-hex';
+    hex.textContent = color.hex;
+    info.appendChild(hex);
+
+    if (color.usage) {
+      var usage = document.createElement('div');
+      usage.className = 'modal-color-usage';
+      usage.textContent = color.usage;
+      info.appendChild(usage);
+    }
+
+    item.appendChild(info);
+    grid.appendChild(item);
+  });
+
+  container.appendChild(grid);
 }
 
 function renderRecipe(container, image, category) {
