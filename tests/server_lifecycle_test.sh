@@ -58,6 +58,8 @@ PY
 PORT=$(free_port)
 RACE_PORT=$(free_port)
 RACE_STATE_DIR="$TEST_ROOT/race-state"
+DETACH_PORT=$(free_port)
+DETACH_STATE_DIR="$TEST_ROOT/detach-state"
 
 run_server() {
   env \
@@ -96,6 +98,18 @@ run_race_server() {
     "$SERVER_SCRIPT" "$@"
 }
 
+run_detach_server() {
+  env \
+    TASTE_LIBRARY_ROOT="$SITE_ROOT" \
+    TASTE_LIBRARY_HOST='127.0.0.1' \
+    TASTE_LIBRARY_PORT="$DETACH_PORT" \
+    TASTE_LIBRARY_STATE_DIR="$DETACH_STATE_DIR" \
+    TASTE_LIBRARY_PYTHON="$PYTHON_BIN" \
+    TASTE_LIBRARY_NO_OPEN='1' \
+    TASTE_LIBRARY_READY_ATTEMPTS='50' \
+    "$SERVER_SCRIPT" "$@"
+}
+
 fail() {
   print -u2 -- "FAIL: $*"
   exit 1
@@ -105,6 +119,7 @@ cleanup() {
   run_server stop >/dev/null 2>&1 || true
   run_default_server stop >/dev/null 2>&1 || true
   run_race_server stop >/dev/null 2>&1 || true
+  run_detach_server stop >/dev/null 2>&1 || true
   if [[ -r "$RACE_FIRST_PID_FILE" ]]; then
     local race_first_pid
     race_first_pid=$(<"$RACE_FIRST_PID_FILE")
@@ -152,6 +167,62 @@ fi
 
 second_stop_output=$(run_server stop)
 [[ "$second_stop_output" == *'already stopped'* ]] || fail "repeated stop was not idempotent: $second_stop_output"
+
+detach_start_output=$(env \
+  TASTE_LIBRARY_ROOT="$SITE_ROOT" \
+  TASTE_LIBRARY_HOST='127.0.0.1' \
+  TASTE_LIBRARY_PORT="$DETACH_PORT" \
+  TASTE_LIBRARY_STATE_DIR="$DETACH_STATE_DIR" \
+  TASTE_LIBRARY_PYTHON="$PYTHON_BIN" \
+  TASTE_LIBRARY_NO_OPEN='1' \
+  TASTE_LIBRARY_READY_ATTEMPTS='50' \
+  "$PYTHON_BIN" - "$SERVER_SCRIPT" <<'PY'
+import os
+import signal
+import subprocess
+import sys
+
+server_script = sys.argv[1]
+helper_source = '''
+import os
+import subprocess
+import sys
+
+completed = subprocess.run(
+    [sys.argv[1], 'start'],
+    env=os.environ.copy(),
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True,
+)
+sys.stdout.write(completed.stdout)
+raise SystemExit(completed.returncode)
+'''
+helper = subprocess.Popen(
+    [sys.executable, '-c', helper_source, server_script],
+    env=os.environ.copy(),
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True,
+    start_new_session=True,
+)
+original_process_group = helper.pid
+output, _ = helper.communicate(timeout=15)
+try:
+    os.killpg(original_process_group, signal.SIGTERM)
+except ProcessLookupError:
+    pass
+sys.stdout.write(output)
+raise SystemExit(helper.returncode)
+PY
+)
+[[ "$detach_start_output" == *'started'* ]] || fail "unexpected detached start output: $detach_start_output"
+sleep 0.2
+/usr/bin/curl --fail --silent --show-error --max-time 1 "http://127.0.0.1:$DETACH_PORT/" >/dev/null || fail 'server did not survive cleanup of the launcher process group'
+detach_status_output=$(run_detach_server status) || fail 'detached server lost its owned state'
+[[ "$detach_status_output" == *'running'* ]] || fail "unexpected detached status output: $detach_status_output"
+detach_stop_output=$(run_detach_server stop)
+[[ "$detach_stop_output" == *'stopped'* ]] || fail "unexpected detached stop output: $detach_stop_output"
 
 run_race_server start > "$TEST_ROOT/race-start-one" 2>&1 &
 race_start_one_pid=$!

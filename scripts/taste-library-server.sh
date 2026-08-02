@@ -218,9 +218,34 @@ start_server() {
     error 'could not create a unique server launch identity.'
     return 1
   }
-  /usr/bin/nohup /usr/bin/env TASTE_LIBRARY_SERVER_TOKEN="$launch_token" "$PYTHON_BIN" -m http.server "$PORT" --bind "$HOST" --directory "$PROJECT_ROOT" \
-    </dev/null >>"$LOG_FILE" 2>&1 &
-  pid=$!
+  pid=$("$PYTHON_BIN" - "$PYTHON_BIN" "$PORT" "$HOST" "$PROJECT_ROOT" "$LOG_FILE" "$launch_token" \
+    2>>"$LOG_FILE" <<'PY'
+import os
+import subprocess
+import sys
+
+python_bin, port, host, project_root, log_file, launch_token = sys.argv[1:]
+environment = os.environ.copy()
+environment['TASTE_LIBRARY_SERVER_TOKEN'] = launch_token
+with open(log_file, 'ab', buffering=0) as log:
+    process = subprocess.Popen(
+        [python_bin, '-m', 'http.server', port, '--bind', host, '--directory', project_root],
+        stdin=subprocess.DEVNULL,
+        stdout=log,
+        stderr=subprocess.STDOUT,
+        env=environment,
+        start_new_session=True,
+    )
+print(process.pid)
+PY
+  ) || {
+    error "server exited during startup; log: $LOG_FILE"
+    return 1
+  }
+  [[ "$pid" == <-> ]] || {
+    error "server exited during startup; log: $LOG_FILE"
+    return 1
+  }
   print -r -- "$pid" > "$PID_FILE"
   print -r -- "$launch_token" > "$IDENTITY_FILE"
 
