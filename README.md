@@ -35,20 +35,25 @@ and reports the conflict.
 
 ## Adding new screenshots
 
-1. Drop image files into `images/`, or use the in-app Upload area (stages
-   them in a temporary Inbox — click Download on each to save the real file
-   to disk, then move it into `images/` yourself).
-2. Ask Claude to add them.
-3. Claude samples the dominant colors with
-   `python3 scripts/extract-colors.py <path-to-image>`, generates resized
-   WebP derivatives with `python3 scripts/resize-images.py <path-to-image>`
-   (writes `images/thumbs/<name>.webp` for the card grid and
-   `images/display/<name>.webp` for the modal — originals in `images/`
-   stay untouched as the source of truth), assigns the screenshot to an
-   existing category or proposes a new one, and writes the entry into
-   `data.js` (title, descriptor, keywords, colors, typography, layoutNotes,
-   imagerySubject, mood, plus `file`/`thumb`/`display` paths).
-4. Remove the now-processed file(s) from the in-app Inbox.
+**Automated workflow:**
+
+1. Drop image files into `images/`, or use the in-app Upload area.
+2. Extract colors automatically:
+   ```bash
+   python3 scripts/extract-comprehensive-colors.py images/design.png
+   ```
+   This extracts 8 dominant colors and updates `data.js` with color entries.
+   Review the auto-generated color names and **manually update the usage 
+   descriptions** in `data.js` (e.g., "CTA button", "primary background").
+3. Generate WebP derivatives:
+   ```bash
+   python3 scripts/resize-images.py images/design.png
+   ```
+   Creates `images/thumbs/` and `images/display/` versions.
+4. Complete the entry in `data.js`: title, descriptor, keywords, typography,
+   layoutNotes, imagerySubject, mood, and paths (`file`, `thumb`, `display`).
+5. Assign to an existing category or propose a new one.
+6. Remove processed file(s) from the in-app Inbox (if you used the upload area).
 
 Categories are emergent — there's no fixed taxonomy. Claude either matches
 a new screenshot to an existing category or proposes a new one.
