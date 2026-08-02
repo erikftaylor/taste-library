@@ -1340,11 +1340,11 @@
         display: 'images/display/experience-dynamics 1.webp',
         categoryId: 'dark-saturated-product-showcase',
         title: 'Experience Dynamics — Service Design Consultancy',
-        descriptor: 'Cyan hero and dark duotone photo tiles, punctuated by coral pill CTAs.',
+        descriptor: 'Cyan hero and dark duotone photo tiles, punctuated by salmon-pink pill CTAs.',
         keywords: [
           'cyan hero band',
           'duotone photo tile',
-          'coral pill CTA',
+          'salmon-pink pill CTA',
           'cutout portrait',
           'dark contact form',
           'full-colour logo wall',
@@ -1356,7 +1356,7 @@
           { name: 'Near-black', hex: '#121E1E', usage: 'primary dark ground' },
           { name: 'Slate navy', hex: '#2A4E66', usage: 'duotone photo tile overlay' },
           { name: 'Deep teal', hex: '#075B85', usage: 'secondary tile ground' },
-          { name: 'Coral', hex: '#E86C3A', usage: 'pill CTAs and inline highlights' },
+          { name: 'Salmon pink', hex: '#FF7587', usage: 'pill CTAs and inline highlights' },
           { name: 'White', hex: '#FFFFFF', usage: 'headings and logo wall ground' }
         ],
         typography: 'Sans throughout: hero display at roughly 34px/600 reversed out of cyan; tile headings at 22px/600 over photography; body at 14px/400; 11px all-caps micro labels on the pill CTAs.',
@@ -1367,7 +1367,7 @@
           'Photography is duotone-graded into the palette so every image reads as blue rather than full colour',
           'Tiles are arranged as quadrants that meet flush, alternating photography with flat dark copy panels',
           'The hero portrait is a cutout with no background, standing directly on the cyan band',
-          'Coral pill CTAs are the only warm colour on the page and appear in every section',
+          'Salmon-pink pill CTAs are the only warm colour on the page and appear in every section',
           'The client logo wall is full-colour on white — deliberately breaking the duotone treatment used elsewhere'
         ]
       },
@@ -1395,7 +1395,7 @@
           { name: 'Light periwinkle', hex: '#4D69D9', usage: 'secondary panel fill and hover state' },
           { name: 'White', hex: '#FFFFFF', usage: 'testimonial cards and form panel' },
           { name: 'Dark violet', hex: '#1E1E4E', usage: 'expertise card fills' },
-          { name: 'Pale lilac', hex: '#E8E4FF', usage: 'body copy on dark grounds' }
+          { name: 'Pale lilac', hex: '#CFCFF3', usage: 'body copy on dark grounds' }
         ],
         typography: 'Sans throughout: display at roughly 36px/600; section heads at 26px/600; body at 14px/400 in pale lilac; stat numerals at 32px/600 above a 10px all-caps caption.',
         layoutNotes: 'Deep indigo ground with generously rounded corners on every surface — photo tiles, cards, panels and buttons all share a large radius. A stat row pairs line icons with numerals and captions. A periwinkle process panel stacks four labelled steps down its right edge. Client testimonials form a masonry grid of white rounded cards at uneven heights. A white rounded panel carries the closing form.',
@@ -1661,7 +1661,7 @@
           { name: 'Slate navy', hex: '#36364E', usage: 'page frame, overlapping cards, footer' },
           { name: 'Teal', hex: '#078593', usage: 'outlined and solid pill CTAs, links' },
           { name: 'Pale peach', hex: '#F6EAC6', usage: 'icon-pattern tile behind the first card' },
-          { name: 'Pale blush', hex: '#FFDEDE', usage: 'icon-pattern tile behind the second card' },
+          { name: 'Blush', hex: '#FFAB99', usage: 'icon-pattern tile behind the second card' },
           { name: 'Pale mint', hex: '#C6EAEA', usage: 'icon-pattern tile behind the third card' }
         ],
         typography: 'Centred serif display at roughly 30px/400 across three lines; sans body at 14px/400; card headings at 18px/600 reversed out of navy; teal pill CTAs carry 12px all-caps tracked labels.',
@@ -1772,8 +1772,8 @@
         colors: [
           { name: 'White', hex: '#FFFFFF', usage: 'page ground' },
           { name: 'Deep teal', hex: '#062A36', usage: 'section headings and full-bleed footer' },
-          { name: 'Forest teal', hex: '#317769', usage: 'secondary headings and body accents' },
-          { name: 'Mint green', hex: '#07855B', usage: 'highlighter swipe and footer accent type' },
+          { name: 'Forest teal', hex: '#1B7563', usage: 'secondary headings and body accents' },
+          { name: 'Mint green', hex: '#1BFFBD', usage: 'highlighter swipe and footer accent type' },
           { name: 'Ink black', hex: '#1A1A1A', usage: 'body copy and solid buttons' },
           { name: 'Sage grey', hex: '#7E7E7E', usage: 'captions and metadata' }
         ],
@@ -1850,7 +1850,7 @@
           { name: 'Near-black', hex: '#232323', usage: 'news and spotlight band, dark resources footer' },
           { name: 'Charcoal scrim', hex: '#313131', usage: 'dark overlay laid across the hero photograph' },
           { name: 'Warm taupe', hex: '#AFA193', usage: 'photographic hero tones showing through the scrim' },
-          { name: 'Amber', hex: '#F59323', usage: 'headline emphasis word, section headings, register link' },
+          { name: 'Amber', hex: '#F3993F', usage: 'headline emphasis word, section headings, register link' },
           { name: 'Corporate blue', hex: '#0785BD', usage: 'outlined icon circles and the Launch CSA nav button' },
           { name: 'White', hex: '#FFFFFF', usage: 'nav bar and the rounded search field' }
         ],
@@ -2006,7 +2006,7 @@
           { name: 'Deep blue', hex: '#233F85', usage: 'display headlines and body copy; there is no black on the page' },
           { name: 'Mid blue', hex: '#235BE7', usage: 'chip fills and the hero panel base' },
           { name: 'Pale blue', hex: '#AFCBF5', usage: 'dashed borders and placeholder text' },
-          { name: 'Ice blue', hex: '#E7F5FF', usage: 'faint card tints behind the security cards' }
+          { name: 'Ice blue', hex: '#E1E1F3', usage: 'faint card tints behind the security cards' }
         ],
         typography: 'Sans display at roughly 34px/600 in deep blue with serif-italic phrases set inline at the same size ("The AI support agent", "Nothing you don\'t."); monospaced body copy at 15px/400 for the primary explanation block; 10px monospaced all-caps labels prefixed with an arrow glyph; a striped horizontal-line display treatment for the "ASK TORI" band.',
         layoutNotes: 'White ground gridded by 1px dashed blue borders that outline nearly every region, giving a blueprint feel. The hero is a solid blue panel split between headline and white-outlined wireframe chat boxes. Step and feature cards sit inside dashed cells with an arrow-prefixed label, a solid blue icon chip, and a blue title. A full-width band renders "ASK TORI" in outline lettering filled with horizontal stripes. The closing contact section pairs copy with a dashed-bordered form.',

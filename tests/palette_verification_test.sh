@@ -1,17 +1,23 @@
 #!/bin/zsh
-# Asserts every palette in data.js is grounded in its own screenshot.
+# Asserts every palette hex in data.js was drawn from its own screenshot.
 #
-# Two failure modes, both seen in this repo before commit fbbc1a6:
-#   ABSENT      — a hex that does not occur in the image at all (invented,
-#                 copied from a neighbouring entry, or stale after a re-shoot)
-#   OVERCLAIMED — a hex that does occur but is given a page-ground role while
-#                 another palette entry covers far more of the image
+#   NOT-IN-SAMPLE — the hex is not one the sampler proposes for that image, so
+#                   it was eyedropped by memory, carried over from another
+#                   entry, or left stale after a re-shoot
+#   OVERCLAIMED   — the hex is real but is given a page-ground role while
+#                   another palette entry covers far more of the image
 #
-# The second is the one that mattered: all eight of adam-fard's wrong hexes
-# were genuinely present, so presence-checking alone would have passed them.
+# Both have happened here. adam-fard once carried a dark-charcoal "primary
+# background" on a page that is 63% white, and experience-dynamics carried
+# "#E86C3A coral" on a page whose CTAs are pink — that hex came from another
+# entry and survived an area-based check by matching an orange third-party
+# logo in a client logo wall.
 #
-# Not part of `node --test` — needs Python and Pillow. Run it after touching
-# any palette, and after replacing any screenshot.
+# Presence alone cannot catch either, which is why verification is a
+# provenance check: the palette must be drawn from what the tool proposed.
+#
+# Not part of `node --test` — needs Python and Pillow, and takes ~30s. Run it
+# after touching any palette, and after replacing any screenshot.
 set -eu
 
 REPO_ROOT=${0:A:h:h}
