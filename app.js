@@ -334,9 +334,13 @@ function removeFromInbox(id) {
   var index = -1;
   inboxImages.forEach(function (item, i) { if (item.id === id) index = i; });
   if (index === -1) return;
-  URL.revokeObjectURL(inboxImages[index].previewUrl);
+  var previewUrl = inboxImages[index].previewUrl;
   inboxImages.splice(index, 1);
   renderInbox();
+  // Revoke only once the <img> referencing this URL is out of the DOM. Revoking
+  // first leaves a live element pointing at a dead URL, which the browser logs
+  // as a failed blob: fetch.
+  URL.revokeObjectURL(previewUrl);
 }
 
 function downloadInboxItem(id) {
