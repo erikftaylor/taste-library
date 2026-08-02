@@ -438,6 +438,7 @@ git commit -m "Add tested Taste Library server lifecycle controller"
 **Interfaces:**
 - Consumes: `workflow_for(command: str)`, where `command` is exactly `start` or `stop`.
 - Produces: a plist-compatible `dict` containing one `is.workflow.actions.runshellscript` action.
+- Embeds: `/Users/cerebra/Documents/GitHub/taste-library/scripts/taste-library-server.sh`, the stable post-integration script path.
 - Consumes CLI: `python3 scripts/build_shortcuts.py`.
 - Produces: two locally signed `.shortcut` files under `shortcuts/`.
 
@@ -453,6 +454,7 @@ import unittest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = REPO_ROOT / 'scripts' / 'build_shortcuts.py'
+INSTALLED_SERVER_SCRIPT = Path('/Users/cerebra/Documents/GitHub/taste-library/scripts/taste-library-server.sh')
 
 
 def load_builder():
@@ -476,7 +478,7 @@ class ShortcutWorkflowTests(unittest.TestCase):
         self.assertEqual(action['WFWorkflowActionIdentifier'], 'is.workflow.actions.runshellscript')
         params = action['WFWorkflowActionParameters']
         self.assertEqual(params['WFShell'], '/bin/zsh')
-        self.assertIn(str(REPO_ROOT / 'scripts' / 'taste-library-server.sh'), params['WFScript'])
+        self.assertIn(str(INSTALLED_SERVER_SCRIPT), params['WFScript'])
         self.assertIn(' start ', params['WFScript'])
         self.assertIn('display notification', params['WFScript'])
 
@@ -529,7 +531,8 @@ import uuid
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SERVER_SCRIPT = REPO_ROOT / 'scripts' / 'taste-library-server.sh'
+SOURCE_SERVER_SCRIPT = REPO_ROOT / 'scripts' / 'taste-library-server.sh'
+INSTALLED_SERVER_SCRIPT = Path('/Users/cerebra/Documents/GitHub/taste-library/scripts/taste-library-server.sh')
 OUTPUT_DIR = REPO_ROOT / 'shortcuts'
 SHORTCUTS_BIN = Path('/usr/bin/shortcuts')
 ACTION_NAMESPACE = uuid.UUID('cd989a12-480a-45e1-8b0f-2d37a390c7ed')
@@ -541,7 +544,7 @@ SHORTCUT_NAMES = {
 
 
 def embedded_shell(command):
-    script = shlex.quote(str(SERVER_SCRIPT))
+    script = shlex.quote(str(INSTALLED_SERVER_SCRIPT))
     return '\n'.join([
         f'RESULT=$({script} {command} 2>&1)',
         'STATUS=$?',
@@ -613,8 +616,8 @@ def build_shortcut(command):
 def main():
     if not SHORTCUTS_BIN.exists():
         raise SystemExit('Apple Shortcuts CLI was not found at /usr/bin/shortcuts')
-    if not SERVER_SCRIPT.exists():
-        raise SystemExit(f'Server lifecycle script was not found: {SERVER_SCRIPT}')
+    if not SOURCE_SERVER_SCRIPT.exists():
+        raise SystemExit(f'Server lifecycle script was not found: {SOURCE_SERVER_SCRIPT}')
 
     for command in ('start', 'stop'):
         output = build_shortcut(command)
@@ -748,22 +751,23 @@ git commit -m "Document Taste Library macOS Shortcuts"
 
 Expected: no whitespace errors; only the intended README change is committed.
 
-- [ ] **Step 5: Open both signed files for one-time native import**
+- [ ] **Step 5: Confirm the artifacts target the permanent repository path**
 
 Run:
+
+```bash
+python3 -m unittest tests/shortcuts_test.py -v
+```
+
+Expected: the tests pass and confirm that both workflows invoke `/Users/cerebra/Documents/GitHub/taste-library/scripts/taste-library-server.sh`, not the temporary worktree.
+
+- [ ] **Step 6: Record the required post-integration native verification**
+
+After the feature branch is integrated into `/Users/cerebra/Documents/GitHub/taste-library`, the controller will run:
 
 ```bash
 open "shortcuts/Open Taste Library.shortcut"
 open "shortcuts/Stop Taste Library.shortcut"
-```
-
-Expected: macOS displays an import confirmation for each file. Choose **Add Shortcut** for both.
-
-- [ ] **Step 6: Verify the imported shortcuts end to end**
-
-Run:
-
-```bash
 shortcuts run "Open Taste Library"
 curl --fail --silent --show-error http://127.0.0.1:8765/ >/dev/null
 shortcuts run "Open Taste Library"
@@ -771,7 +775,7 @@ shortcuts run "Stop Taste Library"
 if curl --silent --max-time 1 http://127.0.0.1:8765/ >/dev/null 2>&1; then exit 1; fi
 ```
 
-Expected: the first run opens the gallery, the second run reuses the server, the stop shortcut reports success, and the final HTTP probe fails because the server is stopped.
+Expected after the user accepts both native import prompts: the first run opens the gallery, the second run reuses the server, the stop shortcut reports success, and the final HTTP probe fails because the server is stopped.
 
 - [ ] **Step 7: Record final repository evidence**
 
@@ -782,4 +786,6 @@ git status --short --branch
 git log -4 --oneline --decorate
 ```
 
-Expected: a clean working tree on `main` with separate design, lifecycle, Shortcut, and documentation commits.
+Expected: a clean working tree on `feature/taste-library-shortcuts` with separate lifecycle, Shortcut, and documentation commits on top of the approved design and plan.
+
+The native import and end-to-end commands in Step 6 are intentionally deferred until after integration because the signed workflows target the stable main-repository path. They must not target the temporary implementation worktree, which is deleted after final review.
