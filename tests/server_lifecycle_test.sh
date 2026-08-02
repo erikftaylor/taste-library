@@ -9,8 +9,10 @@ STATE_DIR="$TEST_ROOT/state"
 PROBE_FILE="$TEST_ROOT/opened-url"
 OPEN_PROBE="$TEST_ROOT/open-probe.sh"
 PYTHON_BIN=$(command -v python3)
-DEFAULT_TMPDIR="$TEST_ROOT/default-tmp"
-DEFAULT_STATE_DIR="$DEFAULT_TMPDIR/taste-library-server-${UID}"
+DEFAULT_TMPDIR_ONE="$TEST_ROOT/default-tmp-one"
+DEFAULT_TMPDIR_TWO="$TEST_ROOT/default-tmp-two"
+DEFAULT_STATE_ROOT="$TEST_ROOT/default-state-root"
+DEFAULT_STATE_DIR="$DEFAULT_STATE_ROOT/taste-library-server-${UID}"
 RACE_PYTHON="$TEST_ROOT/race-python.sh"
 RACE_SENTINEL="$TEST_ROOT/race-first-launch"
 RACE_FIRST_PID_FILE="$TEST_ROOT/race-first.pid"
@@ -78,7 +80,10 @@ run_default_server() {
   (
     unset TASTE_LIBRARY_ROOT TASTE_LIBRARY_HOST TASTE_LIBRARY_PORT TASTE_LIBRARY_STATE_DIR
     unset TASTE_LIBRARY_PYTHON TASTE_LIBRARY_CURL TASTE_LIBRARY_OPEN TASTE_LIBRARY_READY_ATTEMPTS
-    TASTE_LIBRARY_NO_OPEN='1' TMPDIR="$DEFAULT_TMPDIR" "$SERVER_SCRIPT" "$@"
+    TASTE_LIBRARY_NO_OPEN='1' \
+      TASTE_LIBRARY_STATE_BASE="$DEFAULT_STATE_ROOT" \
+      TMPDIR="${DEFAULT_TMPDIR_OVERRIDE:-$DEFAULT_TMPDIR_ONE}" \
+      "$SERVER_SCRIPT" "$@"
   )
 }
 
@@ -134,12 +139,14 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-default_start_output=$(run_default_server start)
+default_start_output=$(DEFAULT_TMPDIR_OVERRIDE="$DEFAULT_TMPDIR_ONE" run_default_server start)
 [[ "$default_start_output" == *'http://127.0.0.1:8765/'* ]] || fail "defaults did not use loopback port 8765: $default_start_output"
-[[ -s "$DEFAULT_STATE_DIR/server.pid" ]] || fail 'defaults did not use a TMP-backed state directory'
+[[ -s "$DEFAULT_STATE_DIR/server.pid" ]] || fail 'defaults did not use the stable state base'
 /usr/bin/curl --fail --silent --show-error --max-time 1 'http://127.0.0.1:8765/' > "$TEST_ROOT/default-index.html" || fail 'default server is not reachable'
 cmp -s "$REPO_ROOT/index.html" "$TEST_ROOT/default-index.html" || fail 'default server did not serve the repository document root'
-default_stop_output=$(run_default_server stop)
+default_status_output=$(DEFAULT_TMPDIR_OVERRIDE="$DEFAULT_TMPDIR_TWO" run_default_server status)
+[[ "$default_status_output" == *'running'* ]] || fail "state was not shared across launcher TMPDIR values: $default_status_output"
+default_stop_output=$(DEFAULT_TMPDIR_OVERRIDE="$DEFAULT_TMPDIR_TWO" run_default_server stop)
 [[ "$default_stop_output" == *'stopped'* ]] || fail "unexpected default stop output: $default_stop_output"
 
 start_output=$(run_server start)

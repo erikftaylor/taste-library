@@ -25,7 +25,9 @@ The same lifecycle commands are available in Terminal:
     scripts/taste-library-server.sh status
     scripts/taste-library-server.sh stop
 
-PID and log files live in a user-specific folder below `${TMPDIR:-/tmp}`.
+PID and log files live in `/tmp/taste-library-server-${UID}` so the Open and
+Stop shortcuts share the same server state even when macOS gives their actions
+different temporary directories.
 If the server exits during startup or times out before readiness, the
 notification reports the log location. Port `8765` is localhost-only; if
 another process already uses it, Taste Library leaves that process untouched
