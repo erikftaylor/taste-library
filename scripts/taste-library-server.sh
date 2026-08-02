@@ -11,9 +11,12 @@ PYTHON_BIN=${TASTE_LIBRARY_PYTHON:-$(command -v python3 2>/dev/null || true)}
 CURL_BIN=${TASTE_LIBRARY_CURL:-/usr/bin/curl}
 OPEN_BIN=${TASTE_LIBRARY_OPEN:-/usr/bin/open}
 READY_ATTEMPTS=${TASTE_LIBRARY_READY_ATTEMPTS:-50}
+LOCK_ATTEMPTS=${TASTE_LIBRARY_LOCK_ATTEMPTS:-50}
 PID_FILE="$STATE_DIR/server.pid"
 IDENTITY_FILE="$STATE_DIR/server.identity"
 LOG_FILE="$STATE_DIR/server.log"
+LOCK_DIR="$STATE_DIR/controller.lock"
+LOCK_MARKER=''
 URL="http://${HOST}:${PORT}/"
 
 error() {
@@ -26,6 +29,82 @@ ensure_state_dir() {
     return 1
   }
   chmod 700 "$STATE_DIR" 2>/dev/null || true
+}
+
+cleanup_stale_controller_lock() {
+  [[ -d "$LOCK_DIR" ]] || return 0
+  local -a markers
+  markers=("$LOCK_DIR"/owner.*(N))
+  if (( ${#markers[@]} == 0 )); then
+    rmdir "$LOCK_DIR" 2>/dev/null || true
+    return 0
+  fi
+
+  local marker owner_pid
+  for marker in "${markers[@]}"; do
+    owner_pid=''
+    IFS= read -r owner_pid < "$marker" 2>/dev/null || true
+    if [[ "$owner_pid" == <-> ]] && kill -0 "$owner_pid" 2>/dev/null; then
+      return 1
+    fi
+  done
+
+  for marker in "${markers[@]}"; do
+    rm -f -- "$marker"
+  done
+  rmdir "$LOCK_DIR" 2>/dev/null || true
+}
+
+lock_marker_is_exclusive() {
+  local marker=$1
+  local expected_inode=$2
+  local current_inode
+  current_inode=$(/usr/bin/stat -f '%i' "$LOCK_DIR" 2>/dev/null) || return 1
+  [[ "$current_inode" == "$expected_inode" ]] || return 1
+  local -a markers
+  markers=("$LOCK_DIR"/owner.*(N))
+  (( ${#markers[@]} == 1 )) || return 1
+  [[ "${markers[1]}" == "$marker" ]]
+}
+
+acquire_controller_lock() {
+  local attempt=0
+  local candidate marker lock_inode
+  while (( attempt < LOCK_ATTEMPTS )); do
+    candidate=$(/usr/bin/mktemp "$STATE_DIR/owner.XXXXXX") || {
+      error "could not prepare the controller lock under: $STATE_DIR"
+      return 1
+    }
+    print -r -- "$$" > "$candidate"
+    chmod 600 "$candidate" 2>/dev/null || true
+
+    if mkdir "$LOCK_DIR" 2>/dev/null; then
+      lock_inode=$(/usr/bin/stat -f '%i' "$LOCK_DIR" 2>/dev/null || true)
+      marker="$LOCK_DIR/${candidate:t}"
+      if [[ -n "$lock_inode" ]] && mv "$candidate" "$marker" 2>/dev/null && \
+          lock_marker_is_exclusive "$marker" "$lock_inode"; then
+        LOCK_MARKER="$marker"
+        return 0
+      fi
+      rm -f -- "$candidate" "$marker"
+      rmdir "$LOCK_DIR" 2>/dev/null || true
+    else
+      rm -f -- "$candidate"
+      cleanup_stale_controller_lock || true
+    fi
+    sleep 0.1
+    (( attempt += 1 ))
+  done
+
+  error "server controller is busy; try again"
+  return 1
+}
+
+release_controller_lock() {
+  [[ -n "$LOCK_MARKER" ]] || return 0
+  rm -f -- "$LOCK_MARKER"
+  rmdir "$LOCK_DIR" 2>/dev/null || true
+  LOCK_MARKER=''
 }
 
 read_pid() {
@@ -106,8 +185,6 @@ start_server() {
     error "Taste Library index.html was not found under: $PROJECT_ROOT"
     return 1
   }
-  ensure_state_dir || return 1
-
   local pid
   if pid=$(read_pid); then
     if pid_is_owned "$pid"; then
@@ -211,11 +288,20 @@ status_server() {
 }
 
 case ${1:-} in
-  start) start_server ;;
-  stop) stop_server ;;
-  status) status_server ;;
+  start|stop|status) ;;
   *)
     error 'usage: taste-library-server.sh start|stop|status'
     exit 64
     ;;
+esac
+
+ensure_state_dir || exit 1
+acquire_controller_lock || exit 1
+trap release_controller_lock EXIT
+trap 'exit 130' INT TERM HUP
+
+case $1 in
+  start) start_server ;;
+  stop) stop_server ;;
+  status) status_server ;;
 esac

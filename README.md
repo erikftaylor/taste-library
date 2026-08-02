@@ -26,9 +26,10 @@ The same lifecycle commands are available in Terminal:
     scripts/taste-library-server.sh stop
 
 PID and log files live in a user-specific folder below `${TMPDIR:-/tmp}`.
-If launch fails, the notification reports the log location. Port `8765` is
-localhost-only; if another process already uses it, Taste Library leaves that
-process untouched and reports the conflict.
+If the server exits during startup or times out before readiness, the
+notification reports the log location. Port `8765` is localhost-only; if
+another process already uses it, Taste Library leaves that process untouched
+and reports the conflict.
 
 ## Adding new screenshots
 
