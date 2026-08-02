@@ -192,6 +192,7 @@ function closeModal() {
   document.getElementById('modal-overlay').hidden = true;
   currentModalImage = null;
   currentModalCategory = null;
+  hideCopyFallback();
 
   if (lastFocusedElement) {
     lastFocusedElement.focus();
@@ -324,10 +325,7 @@ function setupModalHandlers() {
   });
 }
 
-function copyToClipboard(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    return navigator.clipboard.writeText(text);
-  }
+function legacyCopy(text) {
   var textarea = document.createElement('textarea');
   textarea.value = text;
   textarea.style.position = 'fixed';
@@ -335,17 +333,83 @@ function copyToClipboard(text) {
   document.body.appendChild(textarea);
   textarea.focus();
   textarea.select();
-  document.execCommand('copy');
+  var ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch (e) {
+    ok = false;
+  }
   document.body.removeChild(textarea);
-  return Promise.resolve();
+  return ok;
 }
 
-function wireCopyButton(button, getText) {
+function copyToClipboard(text) {
+  // The async API rejects for reasons that have nothing to do with support —
+  // NotAllowedError when the document is not focused, for one. The original code
+  // only fell back when the API was *absent*, so a rejection meant the click did
+  // nothing at all: no copy, no fallback, no message.
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(function () {
+      if (legacyCopy(text)) return;
+      throw new Error('clipboard unavailable');
+    });
+  }
+  return legacyCopy(text) ? Promise.resolve() : Promise.reject(new Error('clipboard unavailable'));
+}
+
+var copyStatusTimer = null;
+
+function revealCopyFallback(text) {
+  var box = document.getElementById('modal-copy-fallback');
+  if (!box) return;
+  box.value = text;
+  box.hidden = false;
+  box.focus();
+  box.select();
+}
+
+function hideCopyFallback() {
+  var box = document.getElementById('modal-copy-fallback');
+  if (box) {
+    box.hidden = true;
+    box.value = '';
+  }
+  var status = document.getElementById('modal-copy-status');
+  if (status && status.classList.contains('failed')) {
+    status.hidden = true;
+    status.textContent = '';
+    status.classList.remove('failed');
+  }
+}
+
+function showCopyStatus(message, failed) {
+  var status = document.getElementById('modal-copy-status');
+  if (!status) return;
+  if (copyStatusTimer) clearTimeout(copyStatusTimer);
+  copyStatusTimer = null;
+  status.textContent = message;
+  status.classList.toggle('failed', !!failed);
+  status.hidden = false;
+  // A success message is transient. A failure is not: it explains the textarea
+  // sitting right below it, so it stays until the next copy or until the modal
+  // closes — otherwise the instruction vanishes while the thing it describes
+  // is still on screen.
+  if (!failed) {
+    copyStatusTimer = setTimeout(function () {
+      status.hidden = true;
+      status.textContent = '';
+      copyStatusTimer = null;
+    }, 3000);
+  }
+}
+
+function wireCopyButton(button, what, getText) {
   var label = button.textContent;
   var revertTimer = null;
   button.addEventListener('click', function () {
     if (!currentModalImage || !currentModalCategory) return;
-    copyToClipboard(getText()).then(function () {
+    var text = getText();
+    copyToClipboard(text).then(function () {
       if (revertTimer) clearTimeout(revertTimer);
       button.textContent = 'Copied!';
       button.classList.add('copied');
@@ -354,24 +418,35 @@ function wireCopyButton(button, getText) {
         button.classList.remove('copied');
         revertTimer = null;
       }, 1200);
+      hideCopyFallback();
+      showCopyStatus('✓ ' + what + ' copied to clipboard — ' +
+        text.length.toLocaleString() + ' characters', false);
+    }).catch(function () {
+      // Never fail silently, and never leave the text unreachable. Some contexts
+      // block both the async API and execCommand outright — an embedded browser
+      // pane, for one — so surface the text pre-selected and let the user press
+      // the shortcut themselves. A message alone would not actually deliver it.
+      revealCopyFallback(text);
+      showCopyStatus('Clipboard is blocked here. ' + what + ' is selected below — press ' +
+        (navigator.platform.indexOf('Mac') === 0 ? '⌘C' : 'Ctrl+C') + ' to copy.', true);
     });
   });
 }
 
 function setupCopyButtons() {
-  wireCopyButton(document.getElementById('copy-prompt-btn'), function () {
+  wireCopyButton(document.getElementById('copy-prompt-btn'), 'Image prompt', function () {
     return TasteContent.buildImagePrompt(currentModalImage, currentModalCategory);
   });
-  wireCopyButton(document.getElementById('copy-brief-btn'), function () {
+  wireCopyButton(document.getElementById('copy-brief-btn'), 'Design brief', function () {
     return TasteContent.buildBrief(currentModalImage, currentModalCategory);
   });
-  wireCopyButton(document.getElementById('copy-css-btn'), function () {
+  wireCopyButton(document.getElementById('copy-css-btn'), 'CSS variables', function () {
     return TasteContent.buildCssTokens(currentModalImage, currentModalCategory);
   });
-  wireCopyButton(document.getElementById('copy-tailwind-btn'), function () {
+  wireCopyButton(document.getElementById('copy-tailwind-btn'), 'Tailwind theme', function () {
     return TasteContent.buildTailwindTokens(currentModalImage, currentModalCategory);
   });
-  wireCopyButton(document.getElementById('copy-json-btn'), function () {
+  wireCopyButton(document.getElementById('copy-json-btn'), 'JSON tokens', function () {
     return TasteContent.buildJsonTokens(currentModalImage, currentModalCategory);
   });
 }

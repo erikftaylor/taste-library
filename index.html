@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Taste Library</title>
-  <link rel="stylesheet" href="styles.css?v=20260802c">
+  <link rel="stylesheet" href="styles.css?v=20260802h">
 </head>
 <body>
 
@@ -47,6 +47,9 @@
             <button type="button" class="btn-small" id="copy-json-btn">JSON</button>
           </div>
         </div>
+        <div class="modal-copy-status" id="modal-copy-status" role="status" aria-live="polite" hidden></div>
+        <textarea class="modal-copy-fallback" id="modal-copy-fallback" readonly hidden
+                  aria-label="Copy this text manually"></textarea>
         <div class="modal-buttons">
           <button type="button" class="btn" id="copy-brief-btn">Copy Brief</button>
           <button type="button" class="btn" id="copy-prompt-btn">Copy Image Prompt</button>
@@ -56,8 +59,8 @@
     </div>
   </div>
 
-  <script src="data.js?v=20260802c"></script>
-  <script src="lib/content.js?v=20260802c"></script>
-  <script src="app.js?v=20260802c"></script>
+  <script src="data.js?v=20260802h"></script>
+  <script src="lib/content.js?v=20260802h"></script>
+  <script src="app.js?v=20260802h"></script>
 </body>
 </html>
