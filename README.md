@@ -35,31 +35,46 @@ and reports the conflict.
 
 ## Adding new screenshots
 
-**Automated workflow:**
-
 1. Drop image files into `images/`, or use the in-app Upload area.
-2. Extract colors automatically:
+2. Generate WebP derivatives:
    ```bash
-   python3 scripts/extract-comprehensive-colors.py images/design.png
+   python3 scripts/resize-images.py "images/design.png"
    ```
-   This extracts 8 dominant colors and updates `data.js` with color entries.
-   Review the auto-generated color names and **manually update the usage 
-   descriptions** in `data.js` (e.g., "CTA button", "primary background").
-3. Generate WebP derivatives:
+   Creates the `images/thumbs/` and `images/display/` versions.
+3. Sample the real palette:
    ```bash
-   python3 scripts/resize-images.py images/design.png
+   python3 scripts/sample-palette.py "images/design.png"
    ```
-   Creates `images/thumbs/` and `images/display/` versions.
-4. Complete the entry in `data.js`: title, descriptor, keywords, typography,
-   layoutNotes, imagerySubject, mood, and paths (`file`, `thumb`, `display`).
-5. Assign to an existing category or propose a new one.
-6. Remove processed file(s) from the in-app Inbox (if you used the upload area).
+   Reports the page's ground colours and its accents as two separate passes.
+4. **Open the screenshot and look at it.** Give each hex a `usage` role, then
+   write the entry's `descriptor`, `typography`, `layoutNotes`, `mood`, and its
+   `signature` — three to five bullets naming what this page does structurally
+   that others in its style family don't.
+5. Match it to an existing category or add a new one. A new category also needs
+   a `system` (its proportional scale) and a `wireframe`.
+6. `node --test`, then reload the page and open the modal to check it.
+7. Remove the processed file from the in-app Inbox, if you used the upload area.
 
-Categories are emergent — there's no fixed taxonomy. Claude either matches
-a new screenshot to an existing category or proposes a new one.
+Categories are emergent — there's no fixed taxonomy. There are currently seven,
+derived from the screenshots themselves rather than chosen up front.
 
 Run `python3 scripts/resize-images.py --all` to (re)generate every derivative
 at once, e.g. after changing the target sizes/quality in the script.
+
+`scripts/extract-comprehensive-colors.py` is superseded by `sample-palette.py`
+and should not be used — it filters out neutral colours, which is backwards for
+pages that are mostly white or black. See [AGENTS.md](AGENTS.md).
+
+## What a brief contains
+
+**Copy Brief** in the modal produces layered Markdown, ordered so each reader can
+stop where it makes sense: a one-paragraph style summary, then what makes this
+particular reference distinct, then the proportional system in base units, the
+same values resolved to pixels, an ASCII wireframe with column spans, the locked
+palette, and the imagery rules. A header at the top tells the receiving tool which
+layers to obey depending on whether you want a faithful recreation or a variation.
+
+[AGENTS.md](AGENTS.md) documents the data model and the invariants behind this.
 
 ## Tests
 
