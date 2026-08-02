@@ -629,6 +629,204 @@
           '└───────────────────────────────────────────────┘',
           'Every claim carries a mono label naming what it is scored against. A claim with no citation beneath it does not belong in this style.'
         ]
+      },
+      {
+        id: 'monochrome-single-hue-system',
+        name: 'Monochrome Single-Hue System',
+        description: 'One hue does everything. A single saturated colour carries type, fills, borders, illustration and even photography — there is no second accent and no neutral beyond the paper the page sits on. A workhorse display face is interrupted by a serif-italic counterpoint that supplies the warmth the palette refuses to. Reads as disciplined and brand-forward: the constraint itself is the identity.',
+        vocabulary: [
+          'single-hue constraint',
+          'duotone-tinted photography',
+          'serif-italic counterpoint',
+          'hue-filled full-bleed band',
+          'reversed knockout type',
+          'tracked micro caps chip',
+          'hue-only line illustration',
+          'dashed outline panel'
+        ],
+        imageryTechnique: 'photography duotone-mapped entirely into the single brand hue, or line illustration drawn in that hue at uniform stroke — no second colour appears anywhere in the image',
+        imageryExclusions: 'no second hue, no full-colour photography, no gradients, no drop shadows, no greyscale midtones beyond the paper stock',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 80px side margin',
+          rhythm: 'section 12u · block 5u · inline 2u',
+          typeScale: [
+            ['Display', 'sans or serif, 400–700, tracking -1%', '5.5u', 1.1],
+            ['Italic counterpoint', 'serif italic, 400 — set inline inside the display line', '5.5u', 1.1],
+            ['Section head', 'heavy sans, 700, often uppercase', '4u', 1.15],
+            ['Body', 'sans or mono, 400', '1.75u', 1.6],
+            ['Micro label', 'mono or sans, 500, uppercase, tracking +12%', '1.25u', 1.3]
+          ],
+          components: [
+            ['Hue-filled band', 'full-bleed flat fill of the single hue, all type reversed to the paper colour'],
+            ['Duotone image', 'photograph mapped entirely into the hue, no residual colour anywhere'],
+            ['Counterpoint phrase', '1–3 words in serif italic, set inline at display size'],
+            ['Micro chip', '3u tall, solid hue fill, paper-coloured mono caps'],
+            ['Outline panel', '1px solid or dashed border in the hue, no fill'],
+            ['Hue line illustration', 'uniform stroke in the hue, no fill and no shading']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — hue on paper, [hue-filled CTA] right    │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — paper ground                           │',
+          '│  ┌ 1–7 ─────────────────────┐                  │',
+          '│  │ [micro chip]             │                  │',
+          '│  │ display with *italic*    │                  │',
+          '│  │ counterpoint inline      │                  │',
+          '│  │ [hue CTA]                │                  │',
+          '│  └──────────────────────────┘                  │',
+          '│  ┌ 1–12 duotone image or hue-filled panel ──┐   │',
+          '│  └──────────────────────────────────────────┘   │',
+          '├───────────────────────────────────────────────┤',
+          '│  STATEMENT — full-bleed HUE, type knocked out  │',
+          '│      (italic aside)                            │',
+          '│      HEAVY CAPS DISPLAY LINE                   │',
+          '│      supporting columns · logo row             │',
+          '├───────────────────────────────────────────────┤',
+          '│  DETAIL — paper ground, outline panels          │',
+          '│  ┌ 1–4 ──┐ ┌ 5–8 ──┐ ┌ 9–12 ─┐                 │',
+          '│  │ hue   │ │ hue   │ │ hue   │  1px borders    │',
+          '│  │ glyph │ │ glyph │ │ glyph │  in the hue     │',
+          '│  └───────┘ └───────┘ └───────┘                 │',
+          '├───────────────────────────────────────────────┤',
+          '│  CLOSE — full-bleed HUE, reversed type + form  │',
+          '└───────────────────────────────────────────────┘',
+          'If a second colour is needed, the design has failed. Contrast comes from filling with the hue and knocking type out of it, not from adding another.'
+        ]
+      },
+      {
+        id: 'warm-serif-colour-system',
+        name: 'Warm Serif Colour System',
+        description: 'A warm bone ground and an elegant light serif worked against a fixed set of four or five saturated accents that repeat as a system — one per quote card, one per process step, one per stripe. Posed portrait photography and named first-person quotes keep it personal rather than institutional. Reads as approachable expertise: serious method delivered warmly, by people who want you to know their names.',
+        vocabulary: [
+          'warm bone ground',
+          'light serif display',
+          'fixed multi-accent set',
+          'colour-coded quote card',
+          'chevron process band',
+          'multi-colour stripe divider',
+          'circular portrait',
+          'tinted form panel'
+        ],
+        imageryTechnique: 'bright posed portrait photography of real named people in real interiors, warm natural light, cut to circles or soft-cornered rectangles',
+        imageryExclusions: 'no stock imagery, no illustration, no duotone treatment, no dark colour grading, no anonymous crowds',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 80px side margin',
+          rhythm: 'section 10u · block 5u · inline 2u',
+          typeScale: [
+            ['Display', 'serif, 300–400, tracking -1%', '5u', 1.2],
+            ['Section head', 'serif, 400', '3.5u', 1.25],
+            ['Step title', 'serif, 400', '2.5u', 1.3],
+            ['Body', 'sans, 400', '1.75u', 1.6],
+            ['Eyebrow', 'sans, 700, uppercase, tracking +12%, accent colour', '1.25u', 1.3]
+          ],
+          components: [
+            ['Accent set', 'four or five fixed saturated hues, reused in the same order across quotes, steps and stripes'],
+            ['Quote card', '4-column span, one accent fill per card, attribution in bold caps beneath'],
+            ['Chevron step band', 'dark full-bleed band holding arrow-shaped steps, one accent each, icon centred'],
+            ['Stripe divider', 'full-width bar split into the accent set, 1.5u tall'],
+            ['Circular portrait', '18u circle, warm natural light, name and role beside it'],
+            ['Tinted form panel', 'inset panel in the palest accent, 2u radius, 6u padding']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — centred serif wordmark on bone          │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — ┌ 1–5 portrait ┐ ┌ 6–12 ───────────┐   │',
+          '│         │ + badge ring │ │ EYEBROW         │   │',
+          '│         │              │ │ serif display   │   │',
+          '│         └──────────────┘ │ [accent CTA]    │   │',
+          '│                          └─────────────────┘   │',
+          '├───────────────────────────────────────────────┤',
+          '│  QUOTES — row of colour-coded cards, scrolling │',
+          '│  ┌ blue ┐ ┌ white ┐ ┌ mint ┐ ┌ amber ┐         │',
+          '│  └──────┘ └───────┘ └──────┘ └───────┘         │',
+          '├───────────────────────────────────────────────┤',
+          '│  PROCESS — full-bleed DARK band                │',
+          '│   ▶blue ▶slate ▶amber ▶mint ▶coral ▶▶          │',
+          '│   STEP 1  STEP 2  STEP 3  STEP 4  STEP 5       │',
+          '├──── multi-colour stripe divider ──────────────┤',
+          '│  COMMITMENT — bone, serif head + photo right   │',
+          '├───────────────────────────────────────────────┤',
+          '│  TEAM — ( ◯ ) portrait alternating side to side │',
+          '│         name · role in accent caps             │',
+          '├───────────────────────────────────────────────┤',
+          '│  FORM — inset panel in the palest accent       │',
+          '└───────────────────────────────────────────────┘',
+          'The accent set is fixed and ordered. Reuse the same sequence in every component rather than picking a colour per element.'
+        ]
+      },
+      {
+        id: 'surreal-scale-minimal',
+        name: 'Surreal Scale Minimal',
+        description: 'Near-empty white space with one muted hue, where the imagery does the arguing — photoreal renders at impossible scale, tiny figures pushing, climbing and balancing giant geometric solids against pale cloud backdrops. Type is quiet sans set in the accent and never grows large. Reads as considered and unhurried, with the metaphor carrying what copy would otherwise have to spell out.',
+        vocabulary: [
+          'near-empty white ground',
+          'single muted accent',
+          'surreal miniature render',
+          'oversized geometric solid',
+          'pale cloud backdrop',
+          'quiet sans heading',
+          'plus-glyph accordion list',
+          'full-bleed accent footer'
+        ],
+        imageryTechnique: 'photoreal 3D render at miniature scale — tiny human figures interacting with oversized geometric solids (cube, sphere, seesaw, stepped columns) on a pale seamless backdrop with soft cloud, desaturated throughout',
+        imageryExclusions: 'no photography of real interiors, no line illustration, no saturated colour, no text overlay, no hard shadows',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 96px side margin',
+          rhythm: 'section 20u · block 8u · inline 2u',
+          typeScale: [
+            ['Display', 'sans, 300–400, accent colour', '4u', 1.3],
+            ['Section head', 'sans, 400, accent colour', '3u', 1.3],
+            ['Body', 'sans, 400, muted grey', '1.75u', 1.7],
+            ['List row', 'sans, 400, accent colour, with a trailing plus glyph', '2u', 1.5]
+          ],
+          components: [
+            ['Render block', 'full-bleed or 6-column, pale seamless backdrop, figures at miniature scale'],
+            ['Quiet heading', 'set in the accent at 4u — deliberately small for its position'],
+            ['Accordion row', '1px bottom rule in the accent, plus glyph right-aligned, 5u row height'],
+            ['Small solid CTA', '4u tall, no radius, accent fill, white label'],
+            ['Accent footer', 'full-bleed band in the accent, centred white type'],
+            ['Empty space', 'at least 20u between sections — the dominant component on the page']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — wordmark left · links · [accent CTA]    │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — pale cloud backdrop, full-bleed        │',
+          '│  ┌ 1–5 ────────┐        render: figure atop    │',
+          '│  │ two-line    │        stepped columns,       │',
+          '│  │ sans head   │        bleeding right         │',
+          '│  └─────────────┘                               │',
+          '├───────────────────────────────────────────────┤',
+          '│                (20u of empty ground)           │',
+          '│  ┌ 1–5 copy ────┐   ┌ 7–12 render ─────────┐   │',
+          '│  │ accent head  │   │ figure + cube        │   │',
+          '│  │ body · [CTA] │   └──────────────────────┘   │',
+          '│  └──────────────┘                              │',
+          '├───────────────────────────────────────────────┤',
+          '│  ┌ 1–12 full-bleed render ─────────────────┐   │',
+          '│  │  figure pushes cube    figure rolls ball │   │',
+          '│  └──────────────────────────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  SERVICES — ┌ 1–5 copy ┐ ┌ 7–12 accordion ┐    │',
+          '│             └──────────┘ │ row          + │    │',
+          '│                          │ row          + │    │',
+          '│                          └────────────────┘    │',
+          '├───────────────────────────────────────────────┤',
+          '│  FOOTER — full-bleed accent, centred white     │',
+          '└───────────────────────────────────────────────┘',
+          'The render is the argument. If a section can be carried by an image at impossible scale, do not write a paragraph for it.'
+        ]
       }
     ],
     images: [
@@ -1744,6 +1942,237 @@
           'Findings are classified by two independent legends — severity and effort — each a row of pill tags in its own hue with a leading glyph',
           'The only image on the page is a single-stroke line chart on a flat tinted plate, with no axes, labels or gridlines',
           'Ordered steps place the teal numeral above a hairline rule and close with a monospaced line stating the deliverable'
+        ]
+      },
+      {
+        id: 'cgr-consulting',
+        file: 'images/cgr-consulting.jpg',
+        thumb: 'images/thumbs/cgr-consulting.webp',
+        display: 'images/display/cgr-consulting.webp',
+        categoryId: 'monochrome-single-hue-system',
+        title: 'CGR Consulting — Direct Marketing Sales Firm',
+        descriptor: 'One electric blue carries the whole page, including the photography, which is duotoned into it.',
+        keywords: [
+          'single-hue constraint',
+          'duotone blue photography',
+          'light serif display',
+          'heavy caps statement band',
+          'serif-italic aside',
+          'starburst badge',
+          'blue line illustration',
+          'reversed knockout type'
+        ],
+        colors: [
+          { name: 'Paper off-white', hex: '#F5F5F5', usage: 'page ground for every light section' },
+          { name: 'Electric blue', hex: '#154DCB', usage: 'the single hue — type, full-bleed bands, photo duotone, illustration' },
+          { name: 'Deep blue', hex: '#073FCB', usage: 'shadowed zones inside the duotoned photograph' },
+          { name: 'Pale blue', hex: '#A1BDFF', usage: 'highlight zones inside the duotoned photograph' },
+          { name: 'Blue-grey', hex: '#BDCBE7', usage: 'midtones in the duotone and faint rules' },
+          { name: 'White', hex: '#FFFFFF', usage: 'type knocked out of the blue bands, starburst badge fill' }
+        ],
+        typography: 'Light serif display at roughly 46px/300 for the two long statement headings; a heavy condensed sans at 40px/700 in all caps for the band statement, with a serif-italic "(Almost)" set above it at 20px; sans body at 14px/400; 10px all-caps tracked micro labels.',
+        layoutNotes: 'Off-white ground alternating with full-bleed electric blue bands where all type is knocked out to white. The hero photograph is duotoned entirely into the blue and runs full-bleed beneath the serif headline. A starburst badge reading "Since 2012" sits inside the blue band beside the founder story and a row of client wordmarks. Below, a long light-serif heading is paired with three blue line-illustration capability blocks, then a second illustrated section, and a closing blue band carrying contact columns.',
+        imagerySubject: 'a salesperson leaning over a desk mid-conversation, duotoned entirely into a single blue',
+        mood: ['disciplined', 'confident', 'brand-forward', 'energetic'],
+        signature: [
+          'The hero photograph is duotoned entirely into the brand blue, so the page contains no full-colour image anywhere',
+          'A serif-italic "(Almost)" sits above the heavy caps statement, softening a line that would otherwise read as a boast',
+          'A starburst badge carries the founding year inside the blue band, the only non-rectangular shape on the page',
+          'Capability illustrations are drawn in blue line only, at uniform stroke, with no fill or shading',
+          'Light serif and heavy condensed caps alternate as the two display voices, never appearing in the same block'
+        ]
+      },
+      {
+        id: 'tori-talkjs',
+        file: 'images/tori-talkjs.png',
+        thumb: 'images/thumbs/tori-talkjs.webp',
+        display: 'images/display/tori-talkjs.webp',
+        categoryId: 'monochrome-single-hue-system',
+        title: 'Tori by TalkJS — AI Support Agent for Dev Tools',
+        descriptor: 'A blueprint idiom in one blue — dashed borders, monospaced copy, and arrow-prefixed labels throughout.',
+        keywords: [
+          'single-hue constraint',
+          'dashed border grid',
+          'monospaced body copy',
+          'arrow-prefixed micro label',
+          'serif-italic counterpoint',
+          'striped display lettering',
+          'wireframe chat panel',
+          'solid chip label'
+        ],
+        colors: [
+          { name: 'White', hex: '#FFFFFF', usage: 'page ground, roughly three quarters of the visible area' },
+          { name: 'Signal blue', hex: '#2369E7', usage: 'the single hue — type, chips, borders, icons, hero fill' },
+          { name: 'Deep blue', hex: '#233F85', usage: 'display headlines and body copy; there is no black on the page' },
+          { name: 'Mid blue', hex: '#235BE7', usage: 'chip fills and the hero panel base' },
+          { name: 'Pale blue', hex: '#AFCBF5', usage: 'dashed borders and placeholder text' },
+          { name: 'Ice blue', hex: '#E7F5FF', usage: 'faint card tints behind the security cards' }
+        ],
+        typography: 'Sans display at roughly 34px/600 in deep blue with serif-italic phrases set inline at the same size ("The AI support agent", "Nothing you don\'t."); monospaced body copy at 15px/400 for the primary explanation block; 10px monospaced all-caps labels prefixed with an arrow glyph; a striped horizontal-line display treatment for the "ASK TORI" band.',
+        layoutNotes: 'White ground gridded by 1px dashed blue borders that outline nearly every region, giving a blueprint feel. The hero is a solid blue panel split between headline and white-outlined wireframe chat boxes. Step and feature cards sit inside dashed cells with an arrow-prefixed label, a solid blue icon chip, and a blue title. A full-width band renders "ASK TORI" in outline lettering filled with horizontal stripes. The closing contact section pairs copy with a dashed-bordered form.',
+        imagerySubject: 'wireframe chat panels drawn as white outlines on flat blue, with no interface chrome or real text',
+        mood: ['technical', 'precise', 'engineered', 'restrained'],
+        signature: [
+          'Nearly every region is outlined by a 1px dashed blue border, giving the page a blueprint rather than a card feel',
+          'Body copy in the primary explanation block is monospaced, not sans, and set at reading size rather than as code',
+          'Every micro label is prefixed with an arrow glyph (→ STEP 01, → KNOWLEDGE, → DATA)',
+          'The "ASK TORI" band is outline lettering filled with horizontal stripes, the only decorative type on the page',
+          'There is no black anywhere — headlines, body and rules are all blue, and the darkest value on the page is a deep blue'
+        ]
+      },
+      {
+        id: 'high-five-strategies',
+        file: 'images/high-five-strategies.png',
+        thumb: 'images/thumbs/high-five-strategies.webp',
+        display: 'images/display/high-five-strategies.webp',
+        categoryId: 'warm-serif-colour-system',
+        title: 'High Five Strategies — Strategic Planning Consultancy',
+        descriptor: 'Warm bone and a light serif worked against five fixed accents that repeat across quotes, steps and stripes.',
+        keywords: [
+          'warm bone ground',
+          'light serif display',
+          'five-accent colour system',
+          'colour-coded quote card',
+          'chevron process band',
+          'multi-colour stripe divider',
+          'circular portrait',
+          'mint form panel'
+        ],
+        colors: [
+          { name: 'Warm bone', hex: '#F5F5E7', usage: 'page ground for the hero, commitment and team sections' },
+          { name: 'Near-black', hex: '#313131', usage: 'full-bleed process band behind the chevron steps' },
+          { name: 'Mint', hex: '#AFD9D9', usage: 'quote card fill, chevron step, closing form panel' },
+          { name: 'Amber', hex: '#FFBD5B', usage: 'quote card fill, chevron step, "Let\'s talk about it" CTA' },
+          { name: 'Coral', hex: '#F54D31', usage: 'quote card fill, chevron step, hero CTA, role labels' },
+          { name: 'Blue', hex: '#3177BD', usage: 'quote card fill, chevron step, secondary CTA' },
+          { name: 'White', hex: '#FFFFFF', usage: 'quote strip ground and form field fills' }
+        ],
+        typography: 'Light serif display at roughly 40px/300 across three lines; serif section heads at 30px/300; serif step titles at 22px/400; sans body at 13px/400; 10px sans all-caps tracked eyebrows in an accent colour ("HI, WE\'RE HIGH FIVE.", "WHAT OUR CLIENTS SAY", "HOW WE DO IT").',
+        layoutNotes: 'Warm bone ground with a circular badge ring overlapping the founder portrait in the hero. Client quotes run as a horizontally scrolling strip of cards, each filled with a different accent and closed by a bold-caps attribution. A full-bleed near-black band carries five arrow-shaped process steps, one per accent, each with a line icon and a serif title beneath. A five-colour stripe closes that band. Team members alternate left and right as large circular portraits beside serif bios, and a mint form panel closes the page.',
+        imagerySubject: 'two women high-fiving across a desk in a bright office, and warm posed portraits of named consultants',
+        mood: ['warm', 'personal', 'encouraging', 'methodical'],
+        signature: [
+          'Five fixed accents repeat in the same order across quote cards, chevron steps and the stripe divider',
+          'Process steps are arrow-shaped chevrons interlocking across a full-bleed near-black band, one accent each',
+          'A five-colour stripe divider closes the dark band, restating the palette as a legend',
+          'Client quotes scroll horizontally as colour-filled cards, each attributed in bold caps to a named executive',
+          'A circular badge ring overlaps the founder portrait in the hero, part logo and part frame'
+        ]
+      },
+      {
+        id: 'fourfold-consulting',
+        file: 'images/fourfold-consulting.png',
+        thumb: 'images/thumbs/fourfold-consulting.webp',
+        display: 'images/display/fourfold-consulting.webp',
+        categoryId: 'surreal-scale-minimal',
+        title: 'FourFold Consulting — Leadership and Culture Advisory',
+        descriptor: 'Near-empty white with one muted teal, arguing entirely through renders of tiny figures and giant solids.',
+        keywords: [
+          'near-empty white ground',
+          'muted teal accent',
+          'surreal miniature render',
+          'oversized geometric solid',
+          'pale cloud backdrop',
+          'quiet sans heading',
+          'plus-glyph accordion',
+          'teal footer band'
+        ],
+        colors: [
+          { name: 'Off-white', hex: '#F5F5F5', usage: 'page ground, close to three fifths of the visible area' },
+          { name: 'Pale grey', hex: '#E7E7E7', usage: 'render backdrops and the cloud gradient behind the hero' },
+          { name: 'Muted teal', hex: '#4D8593', usage: 'all headings, buttons, accordion rules and the footer band' },
+          { name: 'Soft grey', hex: '#D9D9D9', usage: 'render shadow and mid-tone in the seamless backdrop' },
+          { name: 'Dusty pink', hex: '#E7D9D9', usage: 'the pink solids inside the renders — cube, ladder, seesaw' },
+          { name: 'Warm bone', hex: '#F5F5E7', usage: 'faint warm cast in the render highlights' },
+          { name: 'White', hex: '#FFFFFF', usage: 'form field fills and footer type' }
+        ],
+        typography: 'Quiet sans throughout: display at roughly 32px/300 set in teal across two short lines; section heads at 24px/400 in teal; body at 14px/400 in mid grey; accordion rows at 16px/400 in teal with a trailing plus glyph. Nothing on the page is set large.',
+        layoutNotes: 'A pale cloud-gradient hero carries a two-line teal heading at left against a render of stepped columns bleeding off the right. Below, sections alternate a narrow copy column with a render, separated by unusually deep empty space. A full-bleed render places two figures against a cube and a sphere. Services are a plain accordion of four teal rows with plus glyphs, paired with a short copy column. A teal full-bleed footer closes the page with centred white type.',
+        imagerySubject: 'tiny human figures pushing a giant pink cube, rolling a teal sphere, and balancing on a seesaw against a pale cloud backdrop',
+        mood: ['considered', 'unhurried', 'spacious', 'thoughtful'],
+        signature: [
+          'Every image is a photoreal render at impossible scale — human figures the size of a hand beside cubes and spheres taller than they are',
+          'Renders sit on a pale seamless backdrop with soft cloud, so no image has a real setting or horizon',
+          'The only saturated element is a muted teal, and it carries every heading, rule and button on the page',
+          'Empty space between sections runs to roughly twenty base units, more than most sections occupy themselves',
+          'Headings are deliberately small for their position — the render, not the type, opens each section'
+        ]
+      },
+      {
+        id: 'canopy-ai-seo',
+        file: 'images/canopy-ai-seo.png',
+        thumb: 'images/thumbs/canopy-ai-seo.webp',
+        display: 'images/display/canopy-ai-seo.webp',
+        categoryId: 'bright-saas-utility',
+        title: 'Canopy — AI Content Strategy and SEO for Squarespace',
+        descriptor: 'White SaaS page with a serif voice, bookended top and bottom by a grainy green gradient.',
+        keywords: [
+          'grainy green gradient',
+          'serif display heading',
+          'floating app mockup',
+          'dot-grid texture strip',
+          'pale rounded card',
+          'highlighted comparison column',
+          'three-tier pricing row',
+          'green tracked eyebrow'
+        ],
+        colors: [
+          { name: 'White', hex: '#FFFFFF', usage: 'page ground, roughly two thirds of the visible area' },
+          { name: 'Pale green wash', hex: '#E7F5E7', usage: 'grainy gradient rising into the hero and the closing band' },
+          { name: 'Brand green', hex: '#4DBD85', usage: 'CTA fills, eyebrows, checkmarks, highlighted comparison column' },
+          { name: 'Sage', hex: '#D9E7CB', usage: 'the deepest zone of the gradient where it meets the fold' },
+          { name: 'Off-white', hex: '#F5F5F5', usage: 'card and mockup fills' },
+          { name: 'Bone', hex: '#F5F5E7', usage: 'secondary card tint in the feature grid' },
+          { name: 'Charcoal', hex: '#313131', usage: 'serif display headings and body copy' }
+        ],
+        typography: 'Transitional serif display at roughly 40px/500 for every section heading ("Blog on autopilot.", "Reads like you wrote it."); sans body at 15px/400; 10px green all-caps tracked eyebrows above each heading; monospaced labels inside the scorecard panel.',
+        layoutNotes: 'White ground with a grainy green gradient rising into the hero and mirrored in the closing band, each fading to a dot-grid texture strip at its edge. A pale rounded app mockup floats over the hero gradient. Feature sections use pale rounded cards in one- and two-column arrangements. A comparison table sets three alternatives against a green-highlighted Canopy column. Pricing runs three tiers across, followed by a plain FAQ accordion.',
+        imagerySubject: 'a Squarespace blog editor interface shown as a pale rounded product mockup, no chrome beyond window dots',
+        mood: ['clean', 'confident', 'commercial', 'calm'],
+        signature: [
+          'A grainy green gradient bookends the page, rising into the hero and mirrored in the closing band',
+          'Each gradient terminates in a dot-grid texture strip rather than a hard edge',
+          'Every section heading is a transitional serif, unusual for a product page otherwise built from conventional SaaS blocks',
+          'The comparison table highlights the Canopy column with a green fill and a leading dot, while alternatives stay grey',
+          'The product mockup carries only window dots — no browser chrome, no toolbar, no real interface text'
+        ]
+      },
+      {
+        id: 'onlook-ring-menu-bar',
+        file: 'images/onlook-ring-menu-bar.png',
+        thumb: 'images/thumbs/onlook-ring-menu-bar.webp',
+        display: 'images/display/onlook-ring-menu-bar.webp',
+        categoryId: 'dark-saturated-product-showcase',
+        title: 'Onlook — Ring Cameras in the Mac Menu Bar',
+        descriptor: 'Near-black Apple-idiom product page opened by an iridescent gradient ribbon.',
+        keywords: [
+          'near-black canvas',
+          'iridescent gradient ribbon',
+          'centred sans display',
+          'rounded product card',
+          'glass pill CTA',
+          'low-contrast body copy',
+          'chevron FAQ accordion',
+          'app-icon feature marker'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#151515', usage: 'page ground, close to three quarters of the visible area' },
+          { name: 'True black', hex: '#070707', usage: 'the darkest zone behind the hero ribbon' },
+          { name: 'Charcoal', hex: '#232323', usage: 'rounded product card fills' },
+          { name: 'Slate', hex: '#3F3F3F', usage: 'card borders and the accordion rules' },
+          { name: 'Deep blue', hex: '#151585', usage: 'the blue lobe of the iridescent hero ribbon' },
+          { name: 'White', hex: '#FFFFFF', usage: 'display type and the download CTA fill' }
+        ],
+        typography: 'Sans throughout: centred display at roughly 44px/500 in white; section head at 30px/500 with the Apple glyph set inline; body at 14px/400 in grey at reduced opacity; feature captions at 13px/500 above 12px grey body.',
+        layoutNotes: 'Near-black ground opened by a full-bleed iridescent gradient ribbon that carries the centred headline and a glass download pill. Below it a centred section head introduces a single large rounded product screenshot. Three feature markers run across, each a small app icon above a caption and two lines of body. Two rounded cards sit two-up with screenshots and captions. A left-aligned serif-free FAQ heading pairs with a chevron accordion column, and a minimal footer closes on the app glyph.',
+        imagerySubject: 'an iridescent ribbon of twisted colour bands, and Ring camera feeds shown inside a macOS menu-bar panel',
+        mood: ['polished', 'premium', 'restrained', 'contemporary'],
+        signature: [
+          'The hero is a full-bleed iridescent ribbon of twisted colour, the only saturated element on an otherwise monochrome page',
+          'The download CTA is a translucent glass pill carrying the Apple glyph, floating directly on the ribbon',
+          'Feature markers are small app icons rather than line icons or numerals, set above their captions',
+          'Body copy sits at markedly reduced opacity against the near-black, so headings carry almost all the contrast',
+          'The FAQ heading is left-aligned against a right-hand accordion column, breaking the page\'s otherwise centred axis'
         ]
       }
     ]
