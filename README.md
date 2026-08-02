@@ -67,9 +67,10 @@ derived from the screenshots themselves rather than chosen up front.
 Run `python3 scripts/resize-images.py --all` to (re)generate every derivative
 at once, e.g. after changing the target sizes/quality in the script.
 
-`scripts/extract-comprehensive-colors.py` is superseded by `sample-palette.py`
-and should not be used — it filters out neutral colours, which is backwards for
-pages that are mostly white or black. See [AGENTS.md](AGENTS.md).
+The two earlier colour scripts (`extract-colors.py`, `extract-comprehensive-colors.py`)
+were removed — both filtered out neutral colours, which is backwards for pages that
+are mostly white or black, and produced the wrong palettes this library shipped with
+for a while. `sample-palette.py` replaces both. See [AGENTS.md](AGENTS.md).
 
 ## What a brief contains
 

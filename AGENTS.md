@@ -145,13 +145,14 @@ and exits non-zero on failure, which is quicker while you are iterating on one e
 
 ## Traps
 
-**The palettes were wrong once, and the cause is still in the repo.**
-`scripts/extract-comprehensive-colors.py` filters out near-neutral colours before
-ranking. Most pages here are 40–70% white or near-black, so filtering neutrals
-reports incidental pixels and produces a palette describing no part of the page.
-It also writes `usage: 'primary color'` for every entry, which now fails the tests.
-**Prefer `scripts/sample-palette.py`.** The old script is kept only because the
-README documented it; deleting or rewriting it is a welcome change.
+**Do not reintroduce a neutral-filtering colour extractor.** Two earlier scripts
+(`extract-colors.py`, `extract-comprehensive-colors.py`) dropped near-white, near-black
+and near-grey pixels before ranking, on the theory that neutrals are not "the palette".
+Most pages here are 40–70% white or near-black, so that filter throws away the single
+most important entry and reports incidental pixels instead — which is how this library
+shipped a dark-charcoal palette for a page that is 63% white. Both were deleted in
+favour of `sample-palette.py`, which ranks with neutrals included and finds accents in
+a second chroma-weighted pass. They remain in git history if you want to see the bug.
 
 **19 of 26 entries once described their assigned category rather than their image.**
 A batch job assigned each screenshot to one of three pre-existing categories, then
