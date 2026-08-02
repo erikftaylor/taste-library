@@ -6,6 +6,30 @@ A personal design-inspiration gallery. Static site, no build step, no backend.
 
 Open `index.html` directly in a browser.
 
+## macOS Shortcuts
+
+The `shortcuts/` folder contains two signed Apple Shortcuts:
+
+- **Open Taste Library** starts or reuses a local server at
+  `http://127.0.0.1:8765/`, waits until it is ready, and opens it in your
+  default browser.
+- **Stop Taste Library** cleanly stops that background server.
+
+Double-click each `.shortcut` file once and choose **Add Shortcut**. You can
+then run them from the Shortcuts app or pin them from Shortcut Details to the
+menu bar or Dock.
+
+The same lifecycle commands are available in Terminal:
+
+    scripts/taste-library-server.sh start
+    scripts/taste-library-server.sh status
+    scripts/taste-library-server.sh stop
+
+PID and log files live in a user-specific folder below `${TMPDIR:-/tmp}`.
+If launch fails, the notification reports the log location. Port `8765` is
+localhost-only; if another process already uses it, Taste Library leaves that
+process untouched and reports the conflict.
+
 ## Adding new screenshots
 
 1. Drop image files into `images/`, or use the in-app Upload area (stages
