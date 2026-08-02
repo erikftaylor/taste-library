@@ -30,7 +30,9 @@ test('every image has the required non-empty fields and a valid categoryId', fun
     image.colors.forEach(function (color) {
       assert.ok(color.name, image.id + ' has a color with no name');
       assert.ok(HEX_RE.test(color.hex), image.id + ' has invalid hex: ' + color.hex);
+      assert.ok(color.usage, image.id + ' has a color with no usage role: ' + color.hex);
     });
+    assert.ok(Array.isArray(image.signature) && image.signature.length >= 3, image.id + ' needs at least 3 signature bullets');
     assert.ok(image.typography, image.id + ' missing typography');
     assert.ok(image.layoutNotes, image.id + ' missing layoutNotes');
     assert.ok(image.imagerySubject, image.id + ' missing imagerySubject');
@@ -41,4 +43,28 @@ test('every image has the required non-empty fields and a valid categoryId', fun
 test('image ids are unique', function () {
   var ids = data.images.map(function (i) { return i.id; });
   assert.strictEqual(new Set(ids).size, ids.length);
+});
+
+test('every category carries a proportional system and a wireframe', function () {
+  data.categories.forEach(function (category) {
+    var s = category.system;
+    assert.ok(s, category.id + ' missing system');
+    assert.ok(typeof s.baseUnit === 'number' && s.baseUnit > 0, category.id + ' has an invalid baseUnit');
+    assert.ok(s.canvas && s.grid && s.rhythm, category.id + ' missing canvas/grid/rhythm');
+    assert.ok(Array.isArray(s.typeScale) && s.typeScale.length >= 3, category.id + ' needs at least 3 type roles');
+    assert.ok(Array.isArray(s.components) && s.components.length >= 4, category.id + ' needs at least 4 components');
+    assert.ok(Array.isArray(category.wireframe) && category.wireframe.length > 5, category.id + ' missing wireframe');
+  });
+});
+
+test('no two images in a category share a signature bullet', function () {
+  var byCategory = {};
+  data.images.forEach(function (image) {
+    byCategory[image.categoryId] = byCategory[image.categoryId] || [];
+    image.signature.forEach(function (line) {
+      var hit = byCategory[image.categoryId].filter(function (e) { return e.line === line; })[0];
+      assert.ok(!hit, image.id + ' repeats a signature bullet from ' + (hit && hit.id) + ': ' + line);
+      byCategory[image.categoryId].push({ id: image.id, line: line });
+    });
+  });
 });

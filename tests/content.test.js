@@ -73,7 +73,8 @@ function briefFixture() {
       typography: 'Bold geometric grotesk display type.',
       layoutNotes: 'Alternating full-bleed color-block sections.',
       imagerySubject: 'two people at a whiteboard',
-      mood: ['approachable', 'confident']
+      mood: ['approachable', 'confident'],
+      signature: ['A hand-drawn thread connects every section down the full page height']
     }
   };
 }
@@ -85,6 +86,7 @@ test('buildBrief emits the layered sections in fidelity order', function () {
   var order = [
     '## How to read this brief',
     '## 1. The style in one paragraph',
+    '## 1b. What this reference does',
     '## 2. Proportional system',
     '## 3. Resolved values',
     '## 4. Layout wireframe',
@@ -131,6 +133,25 @@ test('buildBrief degrades to the descriptive layers when no system or wireframe 
   assert.ok(!brief.includes('## 4. Layout wireframe'));
   assert.ok(brief.includes('## 5. Palette — locked'));
   assert.ok(brief.includes('## 8. Vocabulary and mood'));
+});
+
+test('buildBrief places the signature above the fidelity split so every reader sees it', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
+
+  assert.ok(brief.includes('- A hand-drawn thread connects every section down the full page height'));
+  assert.ok(brief.indexOf('## 1b.') < brief.indexOf('## 2.'), 'signature must precede the proportional system');
+  assert.ok(brief.indexOf('## 1b.') < brief.indexOf('## 3.'), 'signature must precede the resolved values');
+});
+
+test('buildBrief omits the signature section when an image has none', function () {
+  var f = briefFixture();
+  delete f.image.signature;
+  var brief = TasteContent.buildBrief(f.image, f.category);
+
+  assert.ok(!brief.includes('## 1b.'));
+  assert.ok(brief.includes('## 1. The style in one paragraph'));
+  assert.ok(brief.includes('## 2. Proportional system'));
 });
 
 test('buildBrief prefers a per-image system override over the category default', function () {
