@@ -52,7 +52,13 @@ and reports the conflict.
    that others in its style family don't.
 5. Match it to an existing category or add a new one. A new category also needs
    a `system` (its proportional scale) and a `wireframe`.
-6. `node --test`, then reload the page and open the modal to check it.
+6. Check your work, then reload the page and open the modal:
+   ```bash
+   node --test
+   tests/palette_verification_test.sh
+   ```
+   The second one confirms every hex you wrote actually occurs in that screenshot,
+   and that nothing is labelled as the page's background unless it really is.
 7. Remove the processed file from the in-app Inbox, if you used the upload area.
 
 Categories are emergent — there's no fixed taxonomy. There are currently seven,
@@ -78,9 +84,14 @@ layers to obey depending on whether you want a faithful recreation or a variatio
 
 ## Tests
 
-Pure logic (prompt/brief generation, filtering, counts) has automated tests:
+Pure logic (prompt/brief generation, filtering, counts, data integrity):
 
     node --test
+
+Palettes checked against the actual screenshots, and the server lifecycle:
+
+    tests/palette_verification_test.sh
+    tests/server_lifecycle_test.sh
 
 Everything else (rendering, modal, upload) is verified manually in a
 browser — there's no DOM-testing dependency, to keep the app itself at zero
