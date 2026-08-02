@@ -170,3 +170,120 @@ test('buildBrief prefers a per-image system override over the category default',
   assert.ok(brief.includes('| Display | 28px | 1.05 |'));
   assert.ok(!brief.includes('1440 × 900 desktop'));
 });
+
+test('contrastRatio matches the WCAG reference values', function () {
+  assert.strictEqual(Math.round(TasteContent.contrastRatio('#FFFFFF', '#000000') * 10) / 10, 21);
+  assert.strictEqual(Math.round(TasteContent.contrastRatio('#000000', '#FFFFFF') * 10) / 10, 21);
+  assert.strictEqual(Math.round(TasteContent.contrastRatio('#777777', '#FFFFFF') * 10) / 10, 4.5);
+  assert.strictEqual(TasteContent.contrastRatio('#ABCDEF', '#ABCDEF'), 1);
+});
+
+test('wcagLevel bands on the standard thresholds', function () {
+  assert.strictEqual(TasteContent.wcagLevel(21), 'AAA');
+  assert.strictEqual(TasteContent.wcagLevel(7), 'AAA');
+  assert.strictEqual(TasteContent.wcagLevel(4.5), 'AA');
+  assert.strictEqual(TasteContent.wcagLevel(3), 'AA large');
+  assert.strictEqual(TasteContent.wcagLevel(2.9), 'fail');
+});
+
+test('buildContrastPairs pairs across the whole palette, not only keyword-classified colours', function () {
+  // Regression: a palette whose light colour is described as a "centred content
+  // column" matches neither the ground nor the mark vocabulary. Classifying first
+  // dropped the 11:1 pairing and made the palette look like it failed AA.
+  var image = {
+    colors: [
+      { name: 'White', hex: '#FFFFFF', usage: 'centred content column' },
+      { name: 'Slate navy', hex: '#36364E', usage: 'page frame, overlapping cards, footer' },
+      { name: 'Teal', hex: '#078593', usage: 'outlined and solid pill CTAs, links' }
+    ]
+  };
+  var pairs = TasteContent.buildContrastPairs(image);
+  var top = pairs[0];
+  assert.strictEqual(top.mark.name, 'White');
+  assert.strictEqual(top.ground.name, 'Slate navy');
+  assert.ok(top.ratio > 10, 'expected the white/navy pair, got ' + top.ratio);
+  assert.strictEqual(top.level, 'AAA');
+  assert.ok(pairs.every(function (p) { return p.level !== 'fail'; }));
+  for (var i = 1; i < pairs.length; i += 1) {
+    assert.ok(pairs[i - 1].ratio >= pairs[i].ratio, 'pairs must be ranked by ratio');
+  }
+});
+
+test('buildContrastPairs orients a pair only when the usage strings justify it', function () {
+  var oriented = TasteContent.buildContrastPairs({
+    colors: [
+      { name: 'Ink', hex: '#111111', usage: 'body copy and headlines' },
+      { name: 'Paper', hex: '#FFFFFF', usage: 'page ground' }
+    ]
+  })[0];
+  assert.strictEqual(oriented.oriented, true);
+  assert.strictEqual(oriented.mark.name, 'Ink');
+  assert.strictEqual(oriented.ground.name, 'Paper');
+
+  var ambiguous = TasteContent.buildContrastPairs({
+    colors: [
+      { name: 'One', hex: '#111111', usage: 'used somewhere' },
+      { name: 'Two', hex: '#FFFFFF', usage: 'used elsewhere' }
+    ]
+  })[0];
+  assert.strictEqual(ambiguous.oriented, false);
+});
+
+test('contrastWarning fires only when no pair reaches AA', function () {
+  var weak = TasteContent.buildContrastPairs({
+    colors: [
+      { name: 'Teal', hex: '#4D8593', usage: 'headings' },
+      { name: 'Off-white', hex: '#F5F5F5', usage: 'page ground' }
+    ]
+  });
+  assert.ok(TasteContent.contrastWarning(weak), 'a 4.1:1 palette should warn');
+  var strong = TasteContent.buildContrastPairs({
+    colors: [
+      { name: 'Ink', hex: '#111111', usage: 'headings' },
+      { name: 'Paper', hex: '#FFFFFF', usage: 'page ground' }
+    ]
+  });
+  assert.strictEqual(TasteContent.contrastWarning(strong), null);
+});
+
+test('the brief carries a contrast table inside section 5', function () {
+  var f = briefFixture();
+  f.image.colors = [
+    { name: 'Ink', hex: '#111111', usage: 'body copy' },
+    { name: 'Paper', hex: '#FFFFFF', usage: 'page ground' }
+  ];
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  var section5 = brief.slice(brief.indexOf('## 5.'), brief.indexOf('## 6.'));
+  assert.ok(section5.indexOf('Measured contrast') > -1);
+  assert.ok(/\| Ink \| Paper \| 18\.9:1 \| AAA \|/.test(section5), section5);
+});
+
+test('token exports are well formed and carry the palette', function () {
+  var f = briefFixture();
+  var css = TasteContent.buildCssTokens(f.image, f.category);
+  assert.ok(css.indexOf(':root {') > -1);
+  assert.ok(css.indexOf('--mustard-gold-wash: #E9B97D;') > -1, css);
+  assert.ok(css.indexOf('--base-unit: 8px;') > -1);
+
+  var tw = TasteContent.buildTailwindTokens(f.image, f.category);
+  assert.ok(tw.indexOf('module.exports') > -1);
+  assert.ok(tw.indexOf("'mustard-gold-wash': '#E9B97D',") > -1, tw);
+
+  var json = JSON.parse(TasteContent.buildJsonTokens(f.image, f.category));
+  assert.strictEqual(json.reference, f.image.title);
+  assert.strictEqual(json.palette[0].hex, '#E9B97D');
+  assert.strictEqual(json.palette[0].role, 'section background');
+  assert.ok(Array.isArray(json.contrast));
+  assert.ok(Array.isArray(json.signature));
+});
+
+test('css token names stay unique when two colours share a name', function () {
+  var f = briefFixture();
+  f.image.colors = [
+    { name: 'Blue', hex: '#0000FF', usage: 'page ground' },
+    { name: 'Blue', hex: '#000088', usage: 'body copy' }
+  ];
+  var css = TasteContent.buildCssTokens(f.image, f.category);
+  assert.ok(css.indexOf('--blue: #0000FF;') > -1, css);
+  assert.ok(css.indexOf('--blue-2: #000088;') > -1, css);
+});

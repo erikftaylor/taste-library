@@ -171,6 +171,7 @@ function openModal(image, category) {
   document.getElementById('modal-descriptor').textContent = image.descriptor;
 
   renderColors(document.getElementById('modal-colors'), image);
+  renderContrast(document.getElementById('modal-contrast'), image);
 
   var tagsContainer = document.getElementById('modal-tags');
   tagsContainer.textContent = '';
@@ -246,6 +247,59 @@ function renderColors(container, image) {
   container.appendChild(grid);
 }
 
+function renderContrast(container, image) {
+  container.textContent = '';
+  var pairs = TasteContent.buildContrastPairs(image);
+  if (pairs.length === 0) return;
+
+  var label = document.createElement('div');
+  label.className = 'modal-colors-label';
+  label.textContent = 'Contrast — computed from the palette';
+  container.appendChild(label);
+
+  var list = document.createElement('div');
+  list.className = 'modal-contrast-list';
+
+  pairs.slice(0, 4).forEach(function (pair) {
+    var row = document.createElement('div');
+    row.className = 'modal-contrast-row';
+
+    var sample = document.createElement('span');
+    sample.className = 'modal-contrast-sample';
+    sample.style.backgroundColor = pair.ground.hex;
+    sample.style.color = pair.mark.hex;
+    sample.textContent = 'Aa';
+    row.appendChild(sample);
+
+    var names = document.createElement('span');
+    names.className = 'modal-contrast-names';
+    names.textContent = pair.mark.name + (pair.oriented ? ' on ' : ' / ') + pair.ground.name;
+    row.appendChild(names);
+
+    var ratio = document.createElement('span');
+    ratio.className = 'modal-contrast-ratio';
+    ratio.textContent = pair.ratio.toFixed(1) + ':1';
+    row.appendChild(ratio);
+
+    var level = document.createElement('span');
+    level.className = 'modal-contrast-level level-' + pair.level.replace(/\s+/g, '-').toLowerCase();
+    level.textContent = pair.level;
+    row.appendChild(level);
+
+    list.appendChild(row);
+  });
+
+  container.appendChild(list);
+
+  var warning = TasteContent.contrastWarning(pairs);
+  if (warning) {
+    var note = document.createElement('div');
+    note.className = 'modal-contrast-warning';
+    note.textContent = warning;
+    container.appendChild(note);
+  }
+}
+
 function renderRecipe(container, image, category) {
   container.textContent = '';
   var parts = TasteContent.buildImagePromptParts(image, category);
@@ -310,6 +364,15 @@ function setupCopyButtons() {
   });
   wireCopyButton(document.getElementById('copy-brief-btn'), function () {
     return TasteContent.buildBrief(currentModalImage, currentModalCategory);
+  });
+  wireCopyButton(document.getElementById('copy-css-btn'), function () {
+    return TasteContent.buildCssTokens(currentModalImage, currentModalCategory);
+  });
+  wireCopyButton(document.getElementById('copy-tailwind-btn'), function () {
+    return TasteContent.buildTailwindTokens(currentModalImage, currentModalCategory);
+  });
+  wireCopyButton(document.getElementById('copy-json-btn'), function () {
+    return TasteContent.buildJsonTokens(currentModalImage, currentModalCategory);
   });
 }
 
