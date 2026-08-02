@@ -12,6 +12,7 @@ CURL_BIN=${TASTE_LIBRARY_CURL:-/usr/bin/curl}
 OPEN_BIN=${TASTE_LIBRARY_OPEN:-/usr/bin/open}
 READY_ATTEMPTS=${TASTE_LIBRARY_READY_ATTEMPTS:-50}
 PID_FILE="$STATE_DIR/server.pid"
+IDENTITY_FILE="$STATE_DIR/server.identity"
 LOG_FILE="$STATE_DIR/server.log"
 URL="http://${HOST}:${PORT}/"
 
@@ -35,10 +36,31 @@ read_pid() {
   print -r -- "$pid"
 }
 
+read_launch_identity() {
+  [[ -r "$IDENTITY_FILE" ]] || return 1
+  local identity
+  IFS= read -r identity < "$IDENTITY_FILE" || return 1
+  [[ -n "$identity" ]] || return 1
+  print -r -- "$identity"
+}
+
+process_identity() {
+  local pid=$1
+  local start_time
+  kill -0 "$pid" 2>/dev/null || return 1
+  start_time=$(/bin/ps -p "$pid" -o lstart= 2>/dev/null) || return 1
+  [[ -n "${start_time//[[:space:]]/}" ]] || return 1
+  print -r -- "$start_time"
+}
+
 pid_is_owned() {
   local pid=$1
   local command_line
-  kill -0 "$pid" 2>/dev/null || return 1
+  local expected_identity
+  local actual_identity
+  expected_identity=$(read_launch_identity) || return 1
+  actual_identity=$(process_identity "$pid") || return 1
+  [[ "$actual_identity" == "$expected_identity" ]] || return 1
   command_line=$(/bin/ps -p "$pid" -o command= 2>/dev/null) || return 1
   [[ "$command_line" == *"-m http.server ${PORT}"* ]] || return 1
   [[ "$command_line" == *"--bind ${HOST}"* ]] || return 1
@@ -54,7 +76,7 @@ port_is_occupied() {
 }
 
 remove_pid_file() {
-  rm -f -- "$PID_FILE"
+  rm -f -- "$PID_FILE" "$IDENTITY_FILE"
 }
 
 terminate_owned_pid() {
@@ -123,7 +145,14 @@ start_server() {
   /usr/bin/nohup "$PYTHON_BIN" -m http.server "$PORT" --bind "$HOST" --directory "$PROJECT_ROOT" \
     </dev/null >>"$LOG_FILE" 2>&1 &
   pid=$!
+  local identity
+  identity=$(process_identity "$pid") || {
+    kill "$pid" 2>/dev/null || true
+    error "could not record server process identity; log: $LOG_FILE"
+    return 1
+  }
   print -r -- "$pid" > "$PID_FILE"
+  print -r -- "$identity" > "$IDENTITY_FILE"
 
   local attempt=0
   while (( attempt < READY_ATTEMPTS )); do
