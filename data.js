@@ -22,7 +22,53 @@
           'numbered process badge'
         ],
         imageryTechnique: 'loose single-line vector illustration with minimal facial detail, flat watercolor-wash color field behind the figures, no gradients, generous white negative space around the scene',
-        imageryExclusions: 'no text, no interface elements, no logos'
+        imageryExclusions: 'no text, no interface elements, no logos',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 80px side margin',
+          rhythm: 'section 12u · block 6u · inline 2u',
+          typeScale: [
+            ['Display', 'geometric grotesk, 700, tracking -2%', '7u', 1.05],
+            ['Section head', 'geometric grotesk, 700, tracking -1%', '4u', 1.15],
+            ['Subhead', 'geometric grotesk, 500', '2.5u', 1.35],
+            ['Body', 'grotesk, 400', '2.125u', 1.6],
+            ['Label', 'grotesk, 500, uppercase, tracking +8%', '1.5u', 1.3]
+          ],
+          components: [
+            ['Color-block section', 'full-bleed width, 12u vertical padding, hard edges'],
+            ['Pill CTA', '6u tall, 2.5u × 6u padding, fully rounded, darkest swatch'],
+            ['Process badge', '5u circle, 1px stroke, numeral centered'],
+            ['Underline accent', '3px rule under 1–3 words, accent swatch, sits 2px below baseline'],
+            ['Illustration', '1.5px uniform stroke, spans 4–6 columns, wash field behind at 100%']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV        logo left · links right   ~7u tall │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — white                                  │',
+          '│  ┌ 1–6 ────────────┐  ┌ 7–12 ───────────────┐  │',
+          '│  │ display headline│  │ illustration + wash │  │',
+          '│  │ underline accent│  │                     │  │',
+          '│  │ [pill CTA]      │  │                     │  │',
+          '│  └─────────────────┘  └─────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  BLOCK A — full-bleed color, offset LEFT       │',
+          '│  ┌ 1–7 ──────────────────┐   (5 cols empty)    │',
+          '│  │ (01) head + body      │                     │',
+          '│  └───────────────────────┘                     │',
+          '├───────────────────────────────────────────────┤',
+          '│  BLOCK B — white, offset RIGHT   ← zigzag      │',
+          '│    (5 cols empty)   ┌ 6–12 ─────────────────┐  │',
+          '│                     │ (02) head + body      │  │',
+          '│                     └───────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  CLOSING BLOCK — full-bleed color, centered    │',
+          '│         head · body · [pill CTA]               │',
+          '└───────────────────────────────────────────────┘',
+          'Alternate LEFT/RIGHT offset for every added block. Never center two in a row.'
+        ]
       },
       {
         id: 'soft-gradient-ai-editorial',
@@ -39,7 +85,52 @@
           'dark testimonial card'
         ],
         imageryTechnique: 'soft atmospheric gradient-mesh color wash with a faint grid texture overlay, no illustrated figures, abstract and airy — like a blurred color field rather than a scene',
-        imageryExclusions: 'no text, no interface elements, no logos, no hard edges or sharp shapes'
+        imageryExclusions: 'no text, no interface elements, no logos, no hard edges or sharp shapes',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 120px side margin (narrow measure, more air)',
+          rhythm: 'section 16u · block 8u · inline 2u',
+          typeScale: [
+            ['Display', 'heavy sans, 700, tracking -3%', '8u', 1.05],
+            ['Accent word', 'serif italic, 400 — 1–2 words inside the display line', '8u', 1.05],
+            ['Section head', 'heavy sans, 700, tracking -2%', '4.5u', 1.15],
+            ['Body', 'sans, 400', '2.25u', 1.7],
+            ['Mono / code', 'mono, 400 — inside UI mockups only', '1.75u', 1.5]
+          ],
+          components: [
+            ['Gradient wash', 'full-bleed, 2–3 palette hues, mesh blur ≥ 200px, no visible banding'],
+            ['Grid texture', '1px lines at 5u pitch, 4–6% opacity, over the wash only'],
+            ['Code-editor mockup', '16:10, dark surface, 2u radius, floats 8u above the wash'],
+            ['Pill CTA', '6u tall, 3u × 7u padding, fully rounded, terracotta swatch'],
+            ['Timeline node', '5u circle + 2px dotted connector, numeral centered'],
+            ['Testimonial card', 'dark surface, 2u radius, 4u padding, spans 4 columns']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — floats over the wash        ~7u tall   │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — full-bleed gradient wash + grid       │',
+          '│        ┌ 3–10 · centered ──────────────┐      │',
+          '│        │ display w/ serif-italic accent│      │',
+          '│        │ body (max 60ch)               │      │',
+          '│        │ [terracotta pill CTA]         │      │',
+          '│        └───────────────────────────────┘      │',
+          '│        ┌ 2–11 ─ dark code mockup, 16:10 ┐     │',
+          '│        └────────────────────────────────┘     │',
+          '├───────────────────────────────────────────────┤',
+          '│  ROADMAP — light, vertical dotted spine        │',
+          '│        ( 01 )┈┈ 4–11 step copy                 │',
+          '│        ( 02 )┈┈ 4–11 step copy                 │',
+          '│        ( 03 )┈┈ 4–11 step copy                 │',
+          '├───────────────────────────────────────────────┤',
+          '│  PROOF — 3 dark cards, 4 cols each             │',
+          '│  ┌ 1–4 ──┐ ┌ 5–8 ──┐ ┌ 9–12 ─┐                 │',
+          '│  └───────┘ └───────┘ └───────┘                 │',
+          '└───────────────────────────────────────────────┘',
+          'Content stays centered and narrow; the wash does the width. Never full-bleed the text.'
+        ]
       },
       {
         id: 'editorial-consulting-photography',
@@ -55,7 +146,53 @@
           'numbered request-flow list'
         ],
         imageryTechnique: 'real documentary-style photography of people in a professional workshop or meeting setting, natural light, candid composition, muted cool color grading — not illustration, not abstract',
-        imageryExclusions: 'no text overlay, no interface elements, no logos, no illustration or vector art'
+        imageryExclusions: 'no text overlay, no interface elements, no logos, no illustration or vector art',
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 72px side margin (denser than the other styles)',
+          rhythm: 'section 10u · block 5u · inline 1.5u',
+          typeScale: [
+            ['Display', 'serif, 600, tracking -1%', '5.5u', 1.15],
+            ['Section head', 'serif, 600', '3.5u', 1.25],
+            ['Subhead', 'sans, 600', '2.25u', 1.4],
+            ['Body', 'sans, 400', '2u', 1.65],
+            ['Eyebrow', 'sans, 600, uppercase, tracking +10%', '1.5u', 1.3]
+          ],
+          components: [
+            ['Photo block', '3:2 landscape or 4:5 portrait, square corners, no filter beyond cool grade'],
+            ['Steel-blue section', 'full-bleed, 10u vertical padding, muted mid-blue swatch'],
+            ['Comparison panel', 'two equal 6-column halves, 1px divider, 4u padding each'],
+            ['Checkmark bullet', '2.5u glyph, 1.5u gap, list rows 2u apart'],
+            ['Avatar testimonial', '9u circle photo, quote at body size, name in eyebrow style'],
+            ['Numbered flow row', 'numeral in eyebrow style, 1px bottom rule per row']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  NAV — solid, 8u tall, serif wordmark          │',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO — split                                  │',
+          '│  ┌ 1–6 ────────────┐ ┌ 7–12 ────────────────┐  │',
+          '│  │ eyebrow         │ │ documentary photo    │  │',
+          '│  │ serif display   │ │ 3:2, square corners  │  │',
+          '│  │ body + [CTA]    │ │                      │  │',
+          '│  └─────────────────┘ └──────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  COMPARISON — steel-blue full-bleed            │',
+          '│  ┌ 1–6 ─────────────┬ 7–12 ─────────────────┐  │',
+          '│  │ ✓ current state  │ ✓ with us             │  │',
+          '│  │ ✓ …              │ ✓ …                   │  │',
+          '│  └──────────────────┴───────────────────────┘  │',
+          '├───────────────────────────────────────────────┤',
+          '│  PROCESS — white, numbered rows, 1px rules     │',
+          '│  01 ─── 1–12 ────────────────────────────────  │',
+          '│  02 ─── 1–12 ────────────────────────────────  │',
+          '├───────────────────────────────────────────────┤',
+          '│  TESTIMONIAL — ( ◯ ) avatar 1–2 · quote 3–10   │',
+          '└───────────────────────────────────────────────┘',
+          'Every claim sits next to photographic evidence. Symmetry reads as credibility here — keep halves equal.'
+        ]
       }
     ],
     images: [

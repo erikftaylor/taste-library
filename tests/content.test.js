@@ -48,37 +48,104 @@ test('buildImagePrompt wraps the subject in a [SUBJECT: ...] clause', function (
   assert.strictEqual(result, '[SUBJECT: a tree] flat illustration (STRICT palette: green), no text');
 });
 
-test('buildBrief includes palette, typography, layout, imagery, tone, and summary sections in order', function () {
-  var category = {
-    name: 'Illustrated Editorial Blocking',
-    imageryTechnique: 'flat illustration',
-    vocabulary: ['flat color-blocking', 'underline emphasis'],
-    description: 'A friendly, editorial style.'
+function briefFixture() {
+  return {
+    category: {
+      name: 'Illustrated Editorial Blocking',
+      imageryTechnique: 'flat illustration',
+      imageryExclusions: 'no text, no logos',
+      vocabulary: ['flat color-blocking', 'underline emphasis'],
+      description: 'A friendly, editorial style.',
+      system: {
+        baseUnit: 8,
+        canvas: '1440 × 900 desktop',
+        grid: '12 columns, 24px gutter',
+        rhythm: 'section 12u · block 6u',
+        typeScale: [['Display', 'grotesk, 700', '7u', 1.05]],
+        components: [['Pill CTA', '6u tall, 2.5u × 6u padding']]
+      },
+      wireframe: ['┌─ 1 ── 12 ─┐', '│  HERO     │']
+    },
+    image: {
+      title: 'Usman Group — Homepage',
+      descriptor: 'Hand-drawn figures on color blocks.',
+      colors: [{ name: 'mustard-gold wash', hex: '#E9B97D', usage: 'section background' }],
+      typography: 'Bold geometric grotesk display type.',
+      layoutNotes: 'Alternating full-bleed color-block sections.',
+      imagerySubject: 'two people at a whiteboard',
+      mood: ['approachable', 'confident']
+    }
   };
-  var image = {
-    title: 'Usman Group — Homepage',
-    descriptor: 'Hand-drawn figures on color blocks.',
-    colors: [{ name: 'mustard-gold wash', hex: '#E9B97D' }],
-    typography: 'Bold geometric grotesk display type.',
-    layoutNotes: 'Alternating full-bleed color-block sections.',
-    imagerySubject: 'two people at a whiteboard',
-    mood: ['approachable', 'confident']
-  };
-  var brief = TasteContent.buildBrief(image, category);
+}
 
-  ['## Color Palette', '## Typography', '## Layout & Components', '## Imagery Style', '## Tone & Vocabulary', '## Style Summary'].forEach(function (heading) {
-    assert.ok(brief.includes(heading), 'missing heading: ' + heading);
-  });
-  assert.ok(brief.includes('mustard-gold wash — #E9B97D'));
-  assert.ok(brief.includes('Bold geometric grotesk display type.'));
-  assert.ok(brief.includes('Mood: approachable, confident'));
-  assert.ok(brief.includes('Vocabulary: flat color-blocking, underline emphasis'));
+test('buildBrief emits the layered sections in fidelity order', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
 
-  var order = ['## Color Palette', '## Typography', '## Layout & Components', '## Imagery Style', '## Tone & Vocabulary', '## Style Summary'];
+  var order = [
+    '## How to read this brief',
+    '## 1. The style in one paragraph',
+    '## 2. Proportional system',
+    '## 3. Resolved values',
+    '## 4. Layout wireframe',
+    '## 5. Palette — locked',
+    '## 6. Typography and layout notes as observed',
+    '## 7. Imagery — and what to exclude',
+    '## 8. Vocabulary and mood'
+  ];
   var lastIndex = -1;
   order.forEach(function (heading) {
     var idx = brief.indexOf(heading);
-    assert.ok(idx > lastIndex, heading + ' out of order');
+    assert.ok(idx > lastIndex, heading + ' missing or out of order');
     lastIndex = idx;
   });
+
+  assert.ok(brief.includes('| mustard-gold wash | `#E9B97D` | section background |'));
+  assert.ok(brief.includes('Bold geometric grotesk display type.'));
+  assert.ok(brief.includes('Mood: approachable, confident.'));
+  assert.ok(brief.includes('Vocabulary: flat color-blocking, underline emphasis.'));
+  assert.ok(brief.includes('Never include: no text, no logos.'));
+});
+
+test('buildBrief keeps §2 in base units and resolves the same values to px in §3', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  var proportional = brief.slice(brief.indexOf('## 2.'), brief.indexOf('## 3.'));
+  var resolved = brief.slice(brief.indexOf('## 3.'), brief.indexOf('## 4.'));
+
+  assert.ok(proportional.includes('| Display | grotesk, 700 | 7u | 1.05 |'));
+  assert.ok(proportional.includes('6u tall, 2.5u × 6u padding'));
+
+  assert.ok(resolved.includes('| Display | 56px | 1.05 |'));
+  assert.ok(resolved.includes('48px tall, 20px × 48px padding'));
+  assert.ok(!/\d+u\b/.test(resolved), '§3 must not leave unresolved base units');
+});
+
+test('buildBrief degrades to the descriptive layers when no system or wireframe exists', function () {
+  var f = briefFixture();
+  delete f.category.system;
+  delete f.category.wireframe;
+  var brief = TasteContent.buildBrief(f.image, f.category);
+
+  assert.ok(!brief.includes('## 2. Proportional system'));
+  assert.ok(!brief.includes('## 4. Layout wireframe'));
+  assert.ok(brief.includes('## 5. Palette — locked'));
+  assert.ok(brief.includes('## 8. Vocabulary and mood'));
+});
+
+test('buildBrief prefers a per-image system override over the category default', function () {
+  var f = briefFixture();
+  f.image.system = {
+    baseUnit: 4,
+    canvas: '390 × 844 mobile',
+    grid: '4 columns, 16px gutter',
+    rhythm: 'section 8u',
+    typeScale: [['Display', 'grotesk, 700', '7u', 1.05]],
+    components: [['Pill CTA', '6u tall']]
+  };
+  var brief = TasteContent.buildBrief(f.image, f.category);
+
+  assert.ok(brief.includes('Base unit (1u): 4px'));
+  assert.ok(brief.includes('| Display | 28px | 1.05 |'));
+  assert.ok(!brief.includes('1440 × 900 desktop'));
 });
