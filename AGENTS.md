@@ -114,18 +114,40 @@ category's, which is how you'd pin one entry to its own measured values.
 `tests/palette_verification_test.sh` adds two checks that need the image files, so
 they live outside `node --test`:
 
-- **ABSENT** — a palette hex that does not occur anywhere in its own screenshot.
-  Catches invented colours, colours copied from a neighbouring entry, and colours
-  left stale after an image is replaced.
-- **OVERCLAIMED** — a hex that *is* present but is given a page-ground role
-  (`page ground`, `primary background`, …) while another entry in the same palette
-  covers substantially more of the image.
+- **NOT-IN-SAMPLE** — the hex is not one `sample-palette.py` proposes for that image.
+- **OVERCLAIMED** — the hex is real but is given a page-ground role (`page ground`,
+  `primary background`, …) while another entry in the same palette covers
+  substantially more of the image. Scoped grounds ("footer ground", "project tile
+  ground") are deliberately not checked; only page-level claims are.
 
-The second check is the one that matters. All eight of the original adam-fard hexes
-genuinely occurred in that screenshot — the lie was `#1D232B` labelled "primary
-background" on a page that is 63% white. **Presence-checking alone would have passed
-it.** Scoped grounds ("footer ground", "project tile ground") are deliberately not
-checked; only page-level claims are.
+### Never eyedrop a palette by hand
+
+**Every hex must come from the sampler's output for that specific image.** Not from
+memory, not from a sibling entry, not from a brand guideline. This is a provenance
+rule, and it exists because no pixel statistic reliably separates "a design colour"
+from "a colour that merely occurs" — a brand amber used for headline text and a
+foreign orange inside a client logo can have near-identical area, run length and page
+spread. What *is* checkable is where the hex came from.
+
+Both failure modes have shipped here. `adam-fard` carried a dark-charcoal "primary
+background" on a page that is 63% white. `experience-dynamics` carried
+`#E86C3A coral` on a page whose CTAs are pink — the hex was carried over from another
+entry, and an area-based check passed it because it matched an orange third-party
+logo in a client logo wall.
+
+The sampler proposes a colour on any of three independent signals, because design
+colours appear in three different ways:
+
+| Signal | Threshold | Catches |
+| --- | --- | --- |
+| `area` | ≥ 0.5% of the image | grounds, full-bleed bands, large fills |
+| `region` | flat run ≥ 12% of width | buttons, chips, cards, rules |
+| `spread` | present in ≥ 4 of 24 page bands | text, thin strokes, dashed borders, gradients |
+
+A colour meeting none of the three is not part of the design system whatever its raw
+pixel count. Run length alone is not enough — text, dashes and gradients never form
+long runs, and an early version of this check rejected 22 legitimate colours before
+the three-signal rule replaced it.
 
 ## Adding a screenshot
 

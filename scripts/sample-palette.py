@@ -1,28 +1,30 @@
 #!/usr/bin/env python3
-"""Author-side tool: sample a screenshot's real palette in two passes.
+"""Author-side tool: propose a screenshot's real palette, and verify data.js against it.
 
 Usage:
     python3 scripts/sample-palette.py <image-path> [<image-path> ...]
     python3 scripts/sample-palette.py --verify [<image-id> ...]
 
-Pass 1 ranks quantised colours by area, neutrals INCLUDED. Most pages in
-this library are 40-70% white or near-black, and that ground colour is the
-single most important palette entry — an extractor that filters neutrals
-out reports incidental pixels instead and produces a palette that describes
-no part of the page. (That is exactly what happened to the 19 entries
-rebuilt in commit fbbc1a6; see AGENTS.md.)
+THE RULE: every hex in data.js must be one this tool proposed for that image.
+Do not eyedrop by memory, do not copy a hex from a neighbouring entry, and do not
+name a colour before checking it is in the candidate list. `--verify` enforces this.
 
-Pass 2 ranks by area again but only among colours with real chroma, so a
-small saturated accent — a 4%-of-viewport green CTA, a magenta pill —
-surfaces instead of being averaged away by pass 1.
+Why provenance rather than pixel semantics: no statistic cleanly separates "a design
+colour" from "a colour that merely occurs". A brand amber used for headline text and
+a foreign orange inside a client logo can have near-identical area, run length and
+page spread. What is checkable is where a hex came from. The library once carried
+'#E86C3A coral' on a page whose CTAs are pink; the hex was carried over from another
+entry, and it survived an area-based check by matching an orange logo in a logo wall.
 
-Output is a starting point, not an answer. Look at the screenshot and
-assign each hex a usage role by hand before it goes into data.js.
+Candidates are proposed on three independent signals, because design colours show up
+in three different ways:
 
---verify goes the other way: it reads the palettes already in data.js and
-confirms every hex actually occurs in its own screenshot, so a colour cannot
-be invented, copied from a neighbouring entry, or left behind after an image
-is replaced. Run it after editing any palette.
+  AREA    >= 0.5% of the image          grounds, full-bleed bands, large fills
+  REGION  a flat run >= 12% of width    buttons, chips, cards, rules
+  SPREAD  present in >= 4 page bands    text, thin strokes, dashed borders, gradients
+
+A colour meeting none of the three is not part of the design system, whatever its
+raw pixel count.
 """
 import colorsys
 import json
@@ -33,14 +35,32 @@ from pathlib import Path
 
 from PIL import Image
 
-QUANT = 14          # bucket width per channel; coarse enough to merge JPEG noise
-SAMPLE_PX = 700     # longest-edge budget, keeps very tall pages fast
-MIN_SHARE = 0.0015  # ignore colours under 0.15% of the image
-MIN_CHROMA = 0.22   # "has real chroma" threshold for pass 2
+PROFILE_WIDTH = 600     # every image normalised to this width so signals compare
+PROFILE_MAX_H = 4000    # cap for very tall pages
+QUANT = 18              # bucket width; tolerates anti-aliasing inside one fill
+BANDS = 24              # horizontal slices used for the spread signal
+MIN_CHROMA = 0.22       # "has real chroma" — separates accents from grounds
+
+AREA_MIN = 0.005        # 0.5% of the image
+REGION_MIN = 0.12       # flat run as a fraction of width
+SPREAD_MIN = 4          # distinct page bands
+FLOOR = 0.0002          # 0.02% for area- and region-qualified colours
+SPREAD_FLOOR = 0.00005  # 0.005% — a recurring accent can be tiny and still deliberate,
+                        # e.g. one orange sphere repeated across several diagrams
+MATCH_TOLERANCE = 22    # how close a data.js hex must sit to a proposed candidate
 
 
 def to_hex(rgb):
     return '#{:02X}{:02X}{:02X}'.format(*rgb)
+
+
+def parse_hex(value):
+    value = value.lstrip('#')
+    return tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def distance(a, b):
+    return sum((x - y) ** 2 for x, y in zip(a, b)) ** 0.5
 
 
 def chroma(rgb):
@@ -50,49 +70,117 @@ def chroma(rgb):
     return saturation * (1 - abs(2 * lightness - 1))
 
 
-def quantise(image):
+def bucket(pixel):
+    return tuple(min(255, (v // QUANT) * QUANT + QUANT // 2) for v in pixel)
+
+
+def profile(path):
+    """One pass over the image producing all three signals per colour."""
+    image = Image.open(path).convert('RGB')
     width, height = image.size
-    scale = (SAMPLE_PX * SAMPLE_PX / (width * height)) ** 0.5
-    if scale < 1:
-        image = image.resize((max(1, int(width * scale)), max(1, int(height * scale))), Image.LANCZOS)
-    rgb_image = image.convert('RGB')
-    reader = getattr(rgb_image, 'get_flattened_data', None) or rgb_image.getdata
-    pixels = list(reader())
-    buckets = Counter(
-        tuple(min(255, (v // QUANT) * QUANT + QUANT // 2) for v in pixel)
-        for pixel in pixels
-    )
-    return buckets, len(pixels)
+    image = image.resize(
+        (PROFILE_WIDTH, max(BANDS, min(PROFILE_MAX_H, int(height * PROFILE_WIDTH / width)))),
+        Image.LANCZOS)
+    pixels = image.load()
+    _, tall = image.size
+    band_height = max(1, tall // BANDS)
+
+    counts, runs, bands = Counter(), {}, {}
+    for y in range(tall):
+        band = min(BANDS - 1, y // band_height)
+        current, length = None, 0
+        for x in range(PROFILE_WIDTH):
+            key = bucket(pixels[x, y])
+            counts[key] += 1
+            bands.setdefault(key, set()).add(band)
+            if key == current:
+                length += 1
+            else:
+                if current is not None and length > runs.get(current, 0):
+                    runs[current] = length
+                current, length = key, 1
+        if current is not None and length > runs.get(current, 0):
+            runs[current] = length
+
+    return counts, PROFILE_WIDTH * tall, runs, bands
 
 
-def analyse(path):
-    buckets, total = quantise(Image.open(path))
+def signals(profiled, target):
+    """Area share, longest flat run and band spread for one colour.
 
-    by_area = [(rgb, count / total) for rgb, count in buckets.most_common(8)]
-    chromatic = sorted(
-        ((rgb, count / total) for rgb, count in buckets.items()
-         if count / total >= MIN_SHARE and chroma(rgb) >= MIN_CHROMA),
-        key=lambda pair: -pair[1],
-    )[:6]
+    Share comes from the target's own bucket only — summing neighbours would
+    double-count adjacent buckets and inflate every figure past 100%. Run and
+    spread do look at neighbours, because a fill straddling a bucket boundary
+    would otherwise report a broken run.
+    """
+    counts, total, runs, bands = profiled
+    base = bucket(target)
+    share = counts.get(base, 0) / total
+    run, seen = 0, set()
+    for dr in (-QUANT, 0, QUANT):
+        for dg in (-QUANT, 0, QUANT):
+            for db in (-QUANT, 0, QUANT):
+                probe = (base[0] + dr, base[1] + dg, base[2] + db)
+                if distance(probe, target) <= QUANT * 1.6:
+                    run = max(run, runs.get(probe, 0))
+                    seen |= bands.get(probe, set())
+    return share, run, len(seen)
 
-    return by_area, chromatic
+
+def qualifies(share, run, spread):
+    if share >= AREA_MIN:
+        return 'area'
+    if run >= PROFILE_WIDTH * REGION_MIN and share >= FLOOR:
+        return 'region'
+    if spread >= SPREAD_MIN and share >= SPREAD_FLOOR:
+        return 'spread'
+    return None
 
 
-VERIFY_DISTANCE = 34    # max euclidean RGB distance to count as "this colour is present"
-VERIFY_MIN_SHARE = 0.0002   # 0.02% of the image — a small button still clears this
-# Phrases that claim the PAGE's base colour. Scoped grounds ("footer ground",
-# "project tile ground") are legitimate for a small area and are not checked.
-PAGE_GROUND_CLAIMS = (
-    'page ground', 'page background', 'page canvas',
-    'primary ground', 'primary background', 'primary content ground',
-)
-GROUND_TOLERANCE = 0.5      # a page-ground claim must hold at least half the widest
-                            # measured share in its own palette; the slack absorbs
-                            # near-duplicate entries (#FFFFFF and #F6F6F6) splitting it
+def candidates(profiled):
+    """Every colour the page actually uses deliberately, deduped."""
+    counts, total, runs, bands = profiled
+    rows = []
+    for key, count in counts.items():
+        share, run, spread = signals(profiled, key)
+        reason = qualifies(share, run, spread)
+        if reason:
+            rows.append((key, share, run, spread, reason))
+    rows.sort(key=lambda r: -r[1])
+
+    kept = []
+    for row in rows:
+        if any(distance(row[0], other[0]) < 30 for other in kept):
+            continue
+        kept.append(row)
+    return kept
+
+
+def report(path):
+    profiled = profile(path)
+    kept = candidates(profiled)
+    grounds = [r for r in kept if chroma(r[0]) < MIN_CHROMA]
+    accents = [r for r in kept if chroma(r[0]) >= MIN_CHROMA]
+
+    # Grounds read best largest-first. Accents must not be ordered by area or a
+    # 0.03% CTA button sinks below every large wash — order them by how strongly
+    # they read as a deliberate region.
+    grounds.sort(key=lambda r: -r[1])
+    accents.sort(key=lambda r: (-r[2], -r[1]))
+
+    print('\n%s' % path)
+    for label, rows, limit in (('GROUNDS AND NEUTRALS', grounds, 10),
+                               ('ACCENTS', accents, 12)):
+        print('  %s:' % label)
+        if not rows:
+            print('    (none)')
+        for rgb, share, run, spread, reason in rows[:limit]:
+            print('    %s  %6.2f%% area   run %3d/%d   %2d/%d bands   [%s]'
+                  % (to_hex(rgb), share * 100, run, PROFILE_WIDTH, spread, BANDS, reason))
 
 
 def load_entries():
-    """Read data.js through node so this stays the single source of truth."""
+    """Read data.js through node so it stays the single source of truth."""
     dumped = subprocess.check_output([
         'node', '-e',
         "var d=require('./data.js');"
@@ -102,23 +190,11 @@ def load_entries():
     return json.loads(dumped)
 
 
-def present_share(buckets, total, target):
-    """Fraction of the image within VERIFY_DISTANCE of target, and the nearest hit."""
-    share = 0.0
-    nearest = None
-    nearest_distance = 1e9
-    for rgb, count in buckets.items():
-        distance = sum((a - b) ** 2 for a, b in zip(rgb, target)) ** 0.5
-        if distance < nearest_distance:
-            nearest_distance, nearest = distance, rgb
-        if distance <= VERIFY_DISTANCE:
-            share += count / total
-    return share, nearest, nearest_distance
-
-
-def parse_hex(value):
-    value = value.lstrip('#')
-    return tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+PAGE_GROUND_CLAIMS = (
+    'page ground', 'page background', 'page canvas',
+    'primary ground', 'primary background', 'primary content ground',
+)
+GROUND_TOLERANCE = 0.5
 
 
 def verify(only_ids):
@@ -130,49 +206,53 @@ def verify(only_ids):
     for entry in entries:
         path = Path(entry['file'])
         if not path.exists():
-            failures.append((entry['id'], 'missing file', entry['file'], ''))
+            print('\n%s\n  MISSING FILE %s' % (entry['id'], entry['file']))
+            failures.append((entry['id'], 'missing', entry['file']))
             continue
 
-        buckets, total = quantise(Image.open(path))
+        profiled = profile(path)
+        proposals = candidates(profiled)
+
         measured = []
         for colour in entry['colors']:
-            share, nearest, distance = present_share(buckets, total, parse_hex(colour['hex']))
-            measured.append((colour, share, to_hex(nearest), distance))
+            target = parse_hex(colour['hex'])
+            share, run, spread = signals(profiled, target)
+            nearest = min(proposals, key=lambda r: distance(r[0], target)) if proposals else None
+            gap = distance(nearest[0], target) if nearest else 999
+            measured.append((colour, share, run, spread, nearest, gap))
 
         widest = max(m[1] for m in measured) or 1.0
-
         bad = []
-        for colour, share, nearest, distance in measured:
-            if share < VERIFY_MIN_SHARE:
-                bad.append(('absent', colour, share, nearest, distance))
+        for colour, share, run, spread, nearest, gap in measured:
+            if gap > MATCH_TOLERANCE:
+                bad.append(('not-in-sample', colour, share, run, spread, nearest, gap))
             elif (any(claim in colour.get('usage', '').lower() for claim in PAGE_GROUND_CLAIMS)
                   and share < widest * GROUND_TOLERANCE):
-                # A claim about the page's base colour. If another palette entry covers
-                # substantially more of the image, the role is wrong even though the hex
-                # itself is real — this is the failure mode that put "#1D232B primary
-                # background" on a page that is 63% white. Presence alone misses it:
-                # all eight of that entry's wrong hexes did occur in the screenshot.
-                bad.append(('overclaimed', colour, share, nearest, distance))
+                bad.append(('overclaimed', colour, share, run, spread, nearest, gap))
 
         if bad:
             print('\n%s' % entry['id'])
-            for kind, colour, share, nearest, distance in bad:
-                if kind == 'absent':
-                    print('  ABSENT      %-22s %s  %.3f%% of image; nearest %s (Δ%.0f)'
-                          % (colour['name'], colour['hex'], share * 100, nearest, distance))
+            for kind, colour, share, run, spread, nearest, gap in bad:
+                if kind == 'not-in-sample':
+                    hint = ('nearest proposed is %s (Δ%.0f)' % (to_hex(nearest[0]), gap)
+                            if nearest else 'nothing proposed')
+                    print('  NOT-IN-SAMPLE %-22s %s  area %.3f%%, run %d, %d bands — '
+                          'not a colour this page uses deliberately; %s'
+                          % (colour['name'], colour['hex'], share * 100, run, spread, hint))
                 else:
-                    print('  OVERCLAIMED %-22s %s  %.2f%% of image (widest in this palette '
-                          'is %.2f%%) but usage says "%s"'
-                          % (colour['name'], colour['hex'], share * 100,
-                             max(m[1] for m in measured) * 100, colour['usage']))
+                    print('  OVERCLAIMED   %-22s %s  %.2f%% of image (widest here is %.2f%%) '
+                          'but usage says "%s"'
+                          % (colour['name'], colour['hex'], share * 100, widest * 100,
+                             colour['usage']))
                 failures.append((entry['id'], kind, colour['hex']))
 
-    absent = len([f for f in failures if f[1] == 'absent'])
-    over = len([f for f in failures if f[1] == 'overclaimed'])
-    print('\n%d entries checked — %d colour(s) absent from their own screenshot, '
-          '%d claiming a ground role they do not hold.' % (len(entries), absent, over))
+    kinds = {k: len([f for f in failures if f[1] == k])
+             for k in ('not-in-sample', 'overclaimed', 'missing')}
+    print('\n%d entries checked — %d hex(es) not drawn from the image, '
+          '%d claiming a ground role they do not hold.'
+          % (len(entries), kinds['not-in-sample'], kinds['overclaimed']))
     if failures:
-        print('Fix the hex (absent) or the usage string (overclaimed), then re-run.')
+        print('Re-run the sampler on that image and take the hex from its output.')
     return 1 if failures else 0
 
 
@@ -190,20 +270,11 @@ def main():
             if not path.exists():
                 print('!! not found: %s' % path)
                 continue
+            report(path)
 
-            by_area, chromatic = analyse(path)
-            print('\n%s' % path)
-            print('  by area (grounds and bands — neutrals included):')
-            for rgb, share in by_area:
-                print('    %s  %5.1f%%' % (to_hex(rgb), share * 100))
-            print('  by area among chromatic colours (accents):')
-            if not chromatic:
-                print('    (none above the chroma threshold — the page is neutral)')
-            for rgb, share in chromatic:
-                print('    %s  %5.2f%%' % (to_hex(rgb), share * 100))
-
-    print('\nAssign a usage role to each hex by looking at the screenshot.')
-    print('data.js requires { name, hex, usage } — the usage test fails without it.')
+    print('\nEvery data.js hex must come from this output — --verify enforces it.')
+    print('[area] large fill · [region] button or band · [spread] text, stroke or rule.')
+    print('Assign each hex a usage role from the screenshot; data.js needs {name,hex,usage}.')
 
 
 if __name__ == '__main__':
