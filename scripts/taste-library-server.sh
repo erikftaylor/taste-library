@@ -131,9 +131,8 @@ pid_is_owned() {
   kill -0 "$pid" 2>/dev/null || return 1
   command_line=$(/bin/ps eww -p "$pid" -o command= 2>/dev/null) || return 1
   [[ "$command_line" == *"TASTE_LIBRARY_SERVER_TOKEN=${launch_token}"* ]] || return 1
-  [[ "$command_line" == *"-m http.server ${PORT}"* ]] || return 1
-  [[ "$command_line" == *"--bind ${HOST}"* ]] || return 1
-  [[ "$command_line" == *"--directory ${PROJECT_ROOT}"* ]] || return 1
+  [[ "$command_line" == *"taste-library-api.py"* ]] || return 1
+  [[ "$command_line" == *" ${PORT} ${HOST} ${PROJECT_ROOT}"* ]] || return 1
 }
 
 server_is_ready() {
@@ -229,7 +228,8 @@ environment = os.environ.copy()
 environment['TASTE_LIBRARY_SERVER_TOKEN'] = launch_token
 with open(log_file, 'ab', buffering=0) as log:
     process = subprocess.Popen(
-        [python_bin, '-m', 'http.server', port, '--bind', host, '--directory', project_root],
+        [python_bin, os.path.join(project_root, 'scripts', 'taste-library-api.py'),
+         port, host, project_root],
         stdin=subprocess.DEVNULL,
         stdout=log,
         stderr=subprocess.STDOUT,
