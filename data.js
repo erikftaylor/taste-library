@@ -1164,7 +1164,7 @@
         ],
         colors: [
           { name: 'White', hex: '#FFFFFF', usage: 'inset content panel' },
-          { name: 'Cool grey', hex: '#DEDEDE', usage: 'page canvas behind the panel' },
+          { name: 'Cool grey', hex: '#DEDEDE', usage: 'canvas behind the inset panel, visible at the edges' },
           { name: 'Near-black', hex: '#121212', usage: 'project tile imagery' },
           { name: 'Charcoal', hex: '#2A2A2A', usage: 'tile shadow detail and secondary surfaces' },
           { name: 'Acid green', hex: '#23E785', usage: 'circular arrow buttons and the hero chip' },

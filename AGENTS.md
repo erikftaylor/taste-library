@@ -18,6 +18,8 @@ scripts/taste-library-server.sh start    # serves http://127.0.0.1:8765/
 scripts/taste-library-server.sh status
 scripts/taste-library-server.sh stop
 node --test                              # 17 tests, no deps, no package.json
+tests/palette_verification_test.sh       # palettes vs. their screenshots (needs Pillow)
+tests/server_lifecycle_test.sh           # server start/stop/status
 ```
 
 `node --test` covers pure logic only — brief and prompt generation, filtering,
@@ -109,6 +111,22 @@ category's, which is how you'd pin one entry to its own measured values.
 - §3 of a brief contains no unresolved base units.
 - Every image's original, thumb, and display file exists on disk and is non-empty.
 
+`tests/palette_verification_test.sh` adds two checks that need the image files, so
+they live outside `node --test`:
+
+- **ABSENT** — a palette hex that does not occur anywhere in its own screenshot.
+  Catches invented colours, colours copied from a neighbouring entry, and colours
+  left stale after an image is replaced.
+- **OVERCLAIMED** — a hex that *is* present but is given a page-ground role
+  (`page ground`, `primary background`, …) while another entry in the same palette
+  covers substantially more of the image.
+
+The second check is the one that matters. All eight of the original adam-fard hexes
+genuinely occurred in that screenshot — the lie was `#1D232B` labelled "primary
+background" on a page that is 63% white. **Presence-checking alone would have passed
+it.** Scoped grounds ("footer ground", "project tile ground") are deliberately not
+checked; only page-level claims are.
+
 ## Adding a screenshot
 
 1. Drop the file in `images/`.
@@ -119,7 +137,11 @@ category's, which is how you'd pin one entry to its own measured values.
    is actually on screen.
 5. Match it to an existing category or add a new one. The taxonomy is emergent —
    there is no fixed set. A new category needs its own `system` and `wireframe`.
-6. `node --test`, then reload the page and open the modal.
+6. `node --test` and `tests/palette_verification_test.sh`, then reload the page and
+   open the modal.
+
+`python3 scripts/sample-palette.py --verify [id ...]` runs the palette check alone
+and exits non-zero on failure, which is quicker while you are iterating on one entry.
 
 ## Traps
 
