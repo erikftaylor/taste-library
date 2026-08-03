@@ -64,7 +64,19 @@ function briefFixture() {
         typeScale: [['Display', 'grotesk, 700', '7u', 1.05]],
         components: [['Pill CTA', '6u tall, 2.5u × 6u padding']]
       },
-      wireframe: ['┌─ 1 ── 12 ─┐', '│  HERO     │']
+      wireframe: ['┌─ 1 ── 12 ─┐', '│  HERO     │'],
+      fonts: {
+        roles: [['Display & body', 'Archivo, Space Grotesk or similar']],
+        never: 'Inter, Roboto, Arial or system-ui as a display face'
+      },
+      copyRegister: ['CTA labels: imperative, 1–3 words, all-caps'],
+      states: [['Pill CTA', 'hover: fill lightens to #333333; focus-visible: 2px outline; active: translateY(1px)']],
+      motion: ['No motion was observed — static reference. Default: static; if animating, transform and opacity only.'],
+      adaptation: {
+        yields: 'Palette hexes may re-derive if the role structure holds: one ground, one ink, one accent.',
+        locked: ['The hand-drawn thread', 'Torn-edge washes'],
+        register: 'approachable and zine-like — wrong for firms selling rigor or audit.'
+      }
     },
     image: {
       title: 'Usman Group — Homepage',
@@ -74,7 +86,10 @@ function briefFixture() {
       layoutNotes: 'Alternating full-bleed color-block sections.',
       imagerySubject: 'two people at a whiteboard',
       mood: ['approachable', 'confident'],
-      signature: ['A hand-drawn thread connects every section down the full page height']
+      signature: {
+        carry: ['A hand-drawn thread connects every section down the full page height'],
+        rewrite: ['CTA copy — write new 1–3-word all-caps imperatives for the target']
+      }
     }
   };
 }
@@ -93,7 +108,11 @@ test('buildBrief emits the layered sections in fidelity order', function () {
     '## 5. Palette — locked',
     '## 6. Typography and layout notes as observed',
     '## 7. Imagery — and what to exclude',
-    '## 8. Vocabulary and mood'
+    '## 8. Vocabulary and mood',
+    '## 9. Copy register',
+    '## 10. Interaction states',
+    '## 11. Motion',
+    '## 12. Adapting to an existing brand'
   ];
   var lastIndex = -1;
   order.forEach(function (heading) {
@@ -106,7 +125,98 @@ test('buildBrief emits the layered sections in fidelity order', function () {
   assert.ok(brief.includes('Bold geometric grotesk display type.'));
   assert.ok(brief.includes('Mood: approachable, confident.'));
   assert.ok(brief.includes('Vocabulary: flat color-blocking, underline emphasis.'));
-  assert.ok(brief.includes('Exclusions: no text, no logos.'));
+  assert.ok(brief.includes('Exclusions (locked): no text, no logos.'));
+});
+
+test('buildBrief splits §1b into labelled Carry and Rewrite lists', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  var section = brief.slice(brief.indexOf('## 1b.'), brief.indexOf('## 2.'));
+
+  var carryIdx = section.indexOf('**Carry (devices)**');
+  var rewriteIdx = section.indexOf('**Rewrite (content)**');
+  assert.ok(carryIdx > -1 && rewriteIdx > carryIdx, 'Carry must precede Rewrite');
+  assert.ok(section.indexOf('- A hand-drawn thread connects every section') > carryIdx);
+  assert.ok(section.indexOf('- CTA copy — write new 1–3-word all-caps imperatives') > rewriteIdx);
+});
+
+test('buildBrief states an explicit None when the rewrite list is empty', function () {
+  var f = briefFixture();
+  f.image.signature.rewrite = [];
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  assert.ok(brief.includes('- None — no literal copy from this reference is part of the style.'));
+});
+
+test('buildBrief names typefaces with a never-list inside §2', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  var section2 = brief.slice(brief.indexOf('## 2.'), brief.indexOf('## 3.'));
+  assert.ok(section2.includes('- **Display & body** — Archivo, Space Grotesk or similar'));
+  assert.ok(section2.includes('Never: Inter, Roboto, Arial or system-ui as a display face.'));
+});
+
+test('buildBrief emits copy register, states, motion and adaptation from the category', function () {
+  var f = briefFixture();
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  assert.ok(brief.includes('- CTA labels: imperative, 1–3 words, all-caps'));
+  assert.ok(brief.includes('- **Pill CTA** — hover: fill lightens to #333333'));
+  assert.ok(brief.includes('No motion was observed — static reference.'));
+  assert.ok(brief.includes('**Layers that yield.** Palette hexes may re-derive if the role structure holds'));
+  assert.ok(brief.includes('- The hand-drawn thread'));
+  assert.ok(brief.includes('**Register and contraindications.** Approachable and zine-like'));
+  assert.ok(brief.includes('Read the mood as a compatibility claim, not decoration: approachable and zine-like'));
+});
+
+test('buildBrief prescribes explicit defaults for states and motion when a category lacks them', function () {
+  var f = briefFixture();
+  delete f.category.states;
+  delete f.category.motion;
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  assert.ok(brief.includes('## 10. Interaction states'));
+  assert.ok(brief.includes('States were not separately specified for this family. Default for every interactive element:'));
+  assert.ok(brief.includes('## 11. Motion'));
+  assert.ok(brief.includes('No motion was observed — the reference is a static capture. Default: static.'));
+});
+
+test('buildGroundSafety classifies grounds by their best palette pairing', function () {
+  var safe = TasteContent.buildGroundSafety({
+    colors: [
+      { name: 'Paper', hex: '#FFFFFF', usage: 'page ground' },
+      { name: 'Ink', hex: '#111111', usage: 'body copy' },
+      { name: 'Teal band', hex: '#4D8593', usage: 'hero band' }
+    ]
+  });
+  // Paper carries ink at 18.9:1; the teal band still reaches 4.6:1 against ink.
+  assert.deepStrictEqual(safe.safe, ['Paper', 'Teal band']);
+  assert.deepStrictEqual(safe.large, []);
+
+  var large = TasteContent.buildGroundSafety({
+    colors: [
+      { name: 'Off-white', hex: '#F5F5F5', usage: 'page ground' },
+      { name: 'Teal', hex: '#4D8593', usage: 'pill CTA fill' }
+    ]
+  });
+  // Best pairing is 3.8:1 — large text only, in both directions.
+  assert.deepStrictEqual(large.large, ['Off-white', 'Teal']);
+
+  var deco = TasteContent.buildGroundSafety({
+    colors: [
+      { name: 'White', hex: '#FFFFFF', usage: 'page ground' },
+      { name: 'Pale wash', hex: '#E8E8E8', usage: 'watercolour field' }
+    ]
+  });
+  assert.deepStrictEqual(deco.decorative, ['White', 'Pale wash']);
+});
+
+test('the brief carries the ground-safety line inside section 5', function () {
+  var f = briefFixture();
+  f.image.colors = [
+    { name: 'Ink', hex: '#111111', usage: 'body copy' },
+    { name: 'Paper', hex: '#FFFFFF', usage: 'page ground' }
+  ];
+  var brief = TasteContent.buildBrief(f.image, f.category);
+  var section5 = brief.slice(brief.indexOf('## 5.'), brief.indexOf('## 6.'));
+  assert.ok(section5.includes('text-safe for body copy — Paper. Palette roles not named here are marks or accents, not grounds.'));
 });
 
 test('buildBrief keeps §2 in base units and resolves the same values to px in §3', function () {
@@ -274,7 +384,8 @@ test('token exports are well formed and carry the palette', function () {
   assert.strictEqual(json.palette[0].hex, '#E9B97D');
   assert.strictEqual(json.palette[0].role, 'section background');
   assert.ok(Array.isArray(json.contrast));
-  assert.ok(Array.isArray(json.signature));
+  assert.ok(Array.isArray(json.signature.carry) && Array.isArray(json.signature.rewrite));
+  assert.ok(json.adaptation && json.adaptation.register, 'json tokens must carry the adaptation layer');
 });
 
 test('css token names stay unique when two colours share a name', function () {

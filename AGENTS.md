@@ -55,14 +55,18 @@ before changing anything in `lib/content.js`.
 | Section | Source | Serves |
 |---|---|---|
 | §1 style paragraph | category | brainstorming — stop here |
-| §1b signature | **image** | what this reference does that its family doesn't |
-| §2 proportional system | category | variations — rescale from the ratios |
+| §1b signature: Carry / Rewrite | **image** | devices to reproduce vs. content to replace |
+| §2 proportional system + typefaces | category | variations — rescale from the ratios; named faces + never-list |
 | §3 resolved px | derived from §2 | faithful recreation, design tools |
 | §4 wireframe | category | replaces layout prose; unambiguous in any tool |
-| §5 palette | **image** | locked at every fidelity level |
+| §5 palette + contrast + ground safety | **image** | locked at every fidelity level |
 | §6 observed notes | **image** | wins where it conflicts with §2/§3 |
-| §7 imagery + exclusions | category | locked at every fidelity level |
-| §8 vocabulary + mood | both | brainstorming |
+| §7 imagery + exclusions | category + image | technique carry-class, subjects rewrite-class |
+| §8 vocabulary + mood | both | brainstorming; mood doubles as a compatibility claim |
+| §9 copy register | category | write new copy in the voice without the original words |
+| §10 interaction states | category | hover/focus/active/disabled — specified or explicitly defaulted |
+| §11 motion | category | mandatory even for static references; states "not observed" + default |
+| §12 adapting to an existing brand | category | which layers yield, which never do, who it reads wrong for |
 
 The mechanism that lets exact specs coexist with variation work: every measurement
 is authored **once**, in base units, in `category.system`. `resolveUnits()` converts
@@ -71,8 +75,45 @@ readings — a tool generating variations picks a new base unit and multiplies; 
 recreating faithfully reads the px table. A test asserts §3 leaves no unresolved `u`.
 
 Sections degrade gracefully: no `system` drops §2/§3, no `wireframe` drops §4, no
-`signature` drops §1b. An `image.system` or `image.wireframe` overrides the
+`signature` drops §1b. §10 and §11 never drop — with no authored data they emit an
+explicit generic default instead, because an absent section is a decision handed to
+the consuming agent. An `image.system` or `image.wireframe` overrides the
 category's, which is how you'd pin one entry to its own measured values.
+
+### The zero-decision standard
+
+A brief passes when a fresh agent applying it to a *different brand's real content*
+makes no narrated judgment calls — nothing to reconcile, sort, or invent. Every
+"I'm adapting X because…" or "I'll interpret Y as…" in a consuming agent's response
+is a defect in the brief, not diligence in the agent. The 2026-08-03 field test of
+the Usman Group brief produced exactly two such decisions (sorting §1b into devices
+vs. content; reconciling CTA copy with a new subject) — the Carry/Rewrite split and
+§9 exist because of them. Concretely:
+
+- **Carry vs. Rewrite (§1b).** Carry lists structural mechanisms portable to any
+  subject; Rewrite lists words, subjects and copy specific to the reference, each
+  with a rule for writing replacements. Never mix them. If an item can't be
+  classified, it goes in Rewrite. A Carry bullet must not quote literal copy — a
+  test rejects `"` in Carry bullets.
+- **Fonts.** Never a family description alone: every type role gets named typefaces
+  ("Archivo, Space Grotesk, or similar") or explicit selection criteria, plus a
+  never-list (default: Inter, Roboto, Arial, system-ui as a display face).
+- **Motion.** Mandatory. When nothing was observed, the brief says exactly that and
+  prescribes the default per signature device, transform/opacity only.
+- **States.** Interactive components get hover/focus/active described or explicitly
+  defaulted — a resting-state-only spec forces the agent to invent three more.
+- **Ground safety.** §5 states which palette roles are text-safe grounds and which
+  are decorative-only, computed from the verified hexes.
+
+### The zero-decision gate — run after generating or revising any brief
+
+Dispatch a **fresh subagent** (clean context — no access to this conversation or the
+repo) with only (a) the generated brief and (b) a dummy brand: different palette,
+different sector, real content. Ask it to state, *before building anything*, every
+decision the brief leaves to it. Count the decisions. **Zero passes.** Each non-zero
+item gets folded back into the brief as a rule or an explicit default — usually into
+the category's `copyRegister`/`states`/`motion`/`adaptation` or the image's
+`signature.rewrite` — then re-run the gate.
 
 ## Data model
 
@@ -88,26 +129,49 @@ category's, which is how you'd pin one entry to its own measured values.
 - `wireframe` — array of strings, joined with newlines into a fenced block. ASCII
   box drawing with **column spans labelled** (`┌ 1–6 ┐`). The last line is a prose
   rule about how to extend the layout.
+- `fonts` — `{ roles: [[scope, faces], …], never }`. Named typefaces or selection
+  criteria per type scope, plus the never-list (§2). Mandatory.
+- `copyRegister` — array of rules describing the copy voice ("CTA labels:
+  imperative, 1–3 words, all-caps"), never literal strings (§9). Mandatory.
+- `motion` — array of prose lines. First line states whether motion was observed;
+  the rest prescribe the default per device, transform/opacity only (§11). Mandatory.
+- `states` — `[[component, 'hover: …; focus-visible: …; active: …'], …]` for every
+  interactive component (§10). Mandatory.
+- `adaptation` — `{ yields, locked[], register }`. `yields` states the palette role
+  structure and what may be re-derived from a target brand; `locked` names the 2–4
+  devices that ARE the style; `register` is the compatibility claim, phrased as who
+  this reads wrong for (§8, §12). Mandatory.
+
+Like `system` and `wireframe`, these five are **authored, not measured** — they
+describe the style family prescriptively.
 
 **Image** — one screenshot. `id`, `file`, `thumb`, `display`, `categoryId`, `title`,
 `descriptor`, `keywords[]`, `colors[]`, `typography`, `layoutNotes`,
 `imagerySubject`, `mood[]`, plus:
 
-- `signature` — 3–5 bullets naming the **structural** moves specific to this
-  reference. This is the only per-image layer that carries structure, and it is what
-  stops every entry in a family from generating the same brief. Write
-  "dotted thread connects sections vertically, full page height", not "feels
-  playful" — mood already has its own field.
+- `signature` — `{ carry: [3–5 bullets], rewrite: [1+ items] }`. **Carry** names the
+  structural moves specific to this reference — write "dotted thread connects
+  sections vertically, full page height", not "feels playful" (mood has its own
+  field), and never quote literal copy in a Carry bullet. **Rewrite** names the
+  reference-specific words, copy and proper nouns that a consuming agent must
+  replace, each with the rule for writing the replacement. Can't classify an item?
+  It goes in Rewrite.
 - `colors[]` — `{ name, hex, usage }`. `usage` is the observed role
   ("full-bleed hero ground", "pill CTA fill"), not a guess.
 
 ## Invariants the tests enforce
 
-- Every image: valid `categoryId`, all text fields non-empty, **3+ signature bullets**.
+- Every image: valid `categoryId`, all text fields non-empty, **3+ Carry signature
+  bullets and 1+ Rewrite items**; no `"` inside a Carry bullet (literal copy belongs
+  in Rewrite).
 - Every colour: valid hex **and** a non-empty `usage`.
-- Every category: a `system` with 3+ type roles and 4+ components, and a `wireframe`.
-- **No two images in a category share a signature bullet** — this fails loudly if
-  someone pads an entry with generic filler instead of looking at the screenshot.
+- Every category: a `system` with 3+ type roles and 4+ components, a `wireframe`,
+  and the five prescriptive layers — `fonts` (with never-list), `copyRegister` (2+),
+  `motion` (2+ lines), `states` (2+ components), `adaptation` (with 2–4 `locked`
+  devices).
+- **No two images in a category share a signature bullet** (Carry or Rewrite) — this
+  fails loudly if someone pads an entry with generic filler instead of looking at
+  the screenshot.
 - §3 of a brief contains no unresolved base units.
 - Every image's original, thumb, and display file exists on disk and is non-empty.
 
@@ -155,12 +219,18 @@ the three-signal rule replaced it.
 2. `python3 scripts/resize-images.py "images/new-thing.png"` → thumb + display WebP.
 3. `python3 scripts/sample-palette.py "images/new-thing.png"` → real hexes, two passes.
 4. **Open the screenshot and look at it.** Assign each hex a `usage` role. Write
-   `descriptor`, `layoutNotes`, `typography`, and the `signature` bullets from what
-   is actually on screen.
+   `descriptor`, `layoutNotes`, `typography`, and the `signature` from what is
+   actually on screen — structural devices into `carry`, reference-specific words
+   and copy into `rewrite` (with the rule for writing replacements).
 5. Match it to an existing category or add a new one. The taxonomy is emergent —
-   there is no fixed set. A new category needs its own `system` and `wireframe`.
+   there is no fixed set. A new category needs its own `system`, `wireframe`,
+   `fonts`, `copyRegister`, `motion`, `states`, and `adaptation`.
 6. `node --test` and `tests/palette_verification_test.sh`, then reload the page and
    open the modal.
+7. **Run the zero-decision gate** (see "The brief format"): hand the generated brief
+   plus a dummy brand to a fresh subagent and count the decisions it says the brief
+   leaves to it. Fold every one back into the data as a rule or default, and re-run
+   until the count is zero.
 
 `python3 scripts/sample-palette.py --verify [id ...]` runs the palette check alone
 and exits non-zero on failure, which is quicker while you are iterating on one entry.
