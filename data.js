@@ -23,6 +23,43 @@
         ],
         imageryTechnique: 'loose single-line vector illustration with minimal facial detail and no shading, sitting on a torn-edge watercolour wash field in a single flat hue, generous white negative space around the figures',
         imageryExclusions: 'no text, no interface elements, no logos, no gradients, no photographic texture',
+        fonts: {
+          roles: [
+            ['Display, section heads, body & eyebrows', 'Archivo, Space Grotesk or Hanken Grotesk — one geometric grotesk family throughout, with a large x-height that holds 700 without clogging']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; no serif anywhere in this style'
+        },
+        copyRegister: [
+          'CTA labels: imperative, 1–3 words, all-caps, tracked wide',
+          'Eyebrows: conversational greeting or verb phrase, 1–3 words, all-caps, tracked wide',
+          'Headlines: plain-spoken first-person-plural claims in sentence case. The highlighter swipe lands on the hero display\'s claim words and on emphasised checkmark rows — never on block section heads, and never on wash grounds, where swipe and ground would share a hue',
+          'Block section heads: the target\'s own section names as supplied — claims belong to the hero display and body copy, never to block heads',
+          'Closing-band heading: a first-person-plural question or claim in the Headlines register — never a label',
+          'Block body: prose when the target supplies prose, a checkmarked list when it supplies enumerable items, and prose by default when it supplies only a title — swiped list rows exist only where a list does',
+          'Body: short declarative sentences, contractions welcome; no third-person firm-speak'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: reveal the connector thread by stroke-dashoffset as it enters the viewport; fade washes in at full size, never scaling; rise blocks 8px with a fade, 200ms ease-out; stagger ring badges 80ms apart.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Dark tape CTA', 'hover: fill lightens 10% keeping its own hue; focus-visible: 2px ink outline, 2px offset (tapes never sit on the ink footer); active: translateY(1px); disabled: 40% opacity'],
+          ['Accent tape button', 'hover: fill darkens 8%; focus-visible: 2px near-black outline, 2px offset; active: translateY(1px)'],
+          ['Text link', 'resting: set in the darkest wash hue with a matching 2px underline — the underline, not the colour, is the affordance and links are never colour-only (the link hue may sit below body-text AA, as the reference\'s does — §5\'s AA floor governs body copy); hover: underline thickens to 3px; focus-visible: same outline rule as buttons'],
+          ['Nav item', 'hover: highlighter swipe appears behind the label; current page: swipe persists — on a single-page build no item is current, so the swipe appears on hover only; focus-visible: 2px ink outline on light grounds, 2px page-ground outline on the ink footer; on the ink footer the hover swipe still appears and the label flips to ink over it'],
+          ['Burger menu', 'icon hover: highlighter swipe appears behind it; focus-visible: 2px ink outline, 2px offset; tap: opens a full-screen page-ground panel listing the nav links in eyebrow style, the icon becoming an ×; closes on selection; 150ms opacity fade only']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one white or near-white page ground, one near-black ink, one wash hue shared by the hero, the final numbered block and the closing band, plus one wash hue per intermediate block (every wash light enough to carry the ink at AA), one highlighter hue, one near-black CTA fill. Roles locked, hexes negotiable. Fill the shared hero wash first by §12\'s Filling-the-roles procedure, then the intermediate block washes in document order using §5\'s block rows in table order — never by semantic fit; when the brand\'s qualifying hues run out, derive the remainder as pale tints of the brand primary — the first at the relative luminance of the palest assigned wash, each further tint stepped 8% away so no two coincide. There is no cycling: every intermediate block gets its own hue. The highlighter is a near-twin of the hero wash — the same hue shifted just enough to read as a marker. Type rescales through §2; the grotesk voice does not yield to a brand serif.',
+          locked: [
+            'Torn-edge watercolour washes bleeding off the page edge',
+            'Single-line character illustration at uniform stroke',
+            'The hand-drawn connector thread crossing section boundaries',
+            'Highlighter marker emphasis on headline words'
+          ],
+          register: 'approachable and zine-like — people over firm. Wrong for firms selling rigor, audit, seniority or compliance; a bank, a law firm or a security vendor in this style reads as unserious.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -36,11 +73,13 @@
           ],
           components: [
             ['Watercolour wash', 'torn organic edge, single flat hue, bleeds off the nearest page edge, sits behind the illustration'],
-            ['Illustration', '1.5px uniform stroke, no fill and no shading, spans 4–6 columns'],
+            ['Illustration', '1.5px uniform stroke in the ink colour, no fill and no shading, spans 4–6 columns'],
+            ['Connector thread', '1.5px uniform stroke in the ink, one continuous line entering and leaving each block on its wash side'],
             ['Highlighter mark', '3u marker swipe behind 1–3 words, sits behind the glyphs'],
-            ['Tape button', '5u tall, 2u × 4u padding, square corners, flat accent fill'],
-            ['Pill CTA', '5u tall, fully rounded, near-black fill, all-caps label at eyebrow size'],
-            ['Numbered ring badge', '5u circle, 1px stroke, numeral centred']
+            ['Accent tape button', '5u tall, 2u × 4u padding, square corners, flat fill in the highlighter hue'],
+            ['Dark tape CTA', '5u tall, 2u × 4u padding, square corners, stacked-tape near-black fill, all-caps label at eyebrow size in the adjacent wash hue — the wash nearest the tape, including a band the tape sits on; the wash\'s own hex, lightened only if the pair falls below AA — and page-ground white when no wash is near'],
+            ['Numbered ring badge', '5u circle, 1px stroke, ink numeral centred'],
+            ['Footer', 'full-bleed ink ground; exactly the contact details the target supplies — nothing conventional added — stacked in a left column under an eyebrow-style heading (uppercase, tracked), page links in a row to the right using the same list and fallback as the burger and styled as nav items, everything at eyebrow size reversed to the page ground hue']
           ]
         },
         wireframe: [
@@ -58,7 +97,7 @@
           '│  BLOCK 01 ╲ wash LEFT, copy RIGHT              │',
           '│  ┌ 1–6 wash┐        ┌ 7–11 ────────────────┐   │',
           '│  │ (bleeds ╲        │ ( 01 ) head          │   │',
-          '│  │  off L) │╲       │ body · [pill CTA]    │   │',
+          '│  │  off L) │╲       │ body · [tape CTA]    │   │',
           '│  └─────────┘ ╲      └──────────────────────┘   │',
           '├──────────────╲────────────────────────────────┤',
           '│  BLOCK 02  copy LEFT, wash RIGHT   ← zigzag    │',
@@ -67,11 +106,13 @@
           '│  └────────────┘  ╱ └─────────────────────────┘ │',
           '├─────────────────╱─────────────────────────────┤',
           '│  CLOSING BAND — full-bleed accent wash         │',
-          '│         head · body · [pill CTA]               │',
+          '│   section head · body · [tape CTA]             │',
           '├───────────────────────────────────────────────┤',
           '│  FOOTER — full-bleed black                     │',
           '└───────────────────────────────────────────────┘',
-          'The thread is one continuous drawn line crossing every block boundary. Alternate wash side each block; never place two washes on the same side in a row.'
+          'The thread is one continuous drawn line crossing every block boundary; it starts under the hero and ends at the top edge of the closing band — never inside it or the footer. Alternate wash side each block; never place two washes on the same side in a row. Copy columns alternate 7–11 and 2–6 with each block; extend further blocks by repeating both alternations.',
+          'Every numbered block carries its own illustration over its wash and closes with body · tape CTA, exactly as BLOCK 01 draws. The hero carries no button. The dark tape CTA is the only button on this layout; the accent tape belongs to the family\'s card and form layouts. BLOCK 01 also carries the rotated eyebrow beside the thread (§1b) — the one element this drawing does not show.',
+          'The closing band is the one hard-edged wash: full-bleed both sides with straight edges, in the hero\'s wash hue, its heading in ink at section-head size, its content centred on the grid, and no illustration of its own — the final numbered block above it shares the hero\'s wash hue, and its illustration is the closing illustration. The NAV wordmark is the target\'s name in the grotesk at 700 in ink; the burger lists the target\'s pages, or the numbered blocks and closing CTA by their headings when no page list exists.'
         ]
       },
       {
@@ -90,6 +131,40 @@
         ],
         imageryTechnique: 'soft atmospheric gradient-mesh wash in two or three pastel hues under a faint square grid overlay, abstract and blurred like a colour field rather than a scene',
         imageryExclusions: 'no text, no interface elements, no logos, no hard edges, no illustrated figures, no visible banding',
+        fonts: {
+          roles: [
+            ['Display, heads, body & eyebrows', 'General Sans, Plus Jakarta Sans or Söhne — one contemporary neo-grotesk family throughout'],
+            ['Serif-italic accent word', 'Fraunces italic, Source Serif 4 italic or Freight Text italic']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'CTA labels: imperative, 2–4 words, sentence case, trailing arrow on the primary',
+          'Eyebrows: 2–3-word topic labels, all-caps, accent colour',
+          'Headlines: outcome claims in sentence case; exactly one phrase per display line set in the serif italic',
+          'Body: calm and consultative; no exclamation marks'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: the gradient wash may drift as a slow opacity cross-fade on a 20s+ loop; the product mockup rises 12px with a fade on scroll; spine cards fade in from their own side, 200ms ease-out.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Terracotta pill CTA', 'hover: fill darkens 8%, arrow shifts 4px right; focus-visible: 2px terracotta outline, 2px offset; active: translateY(1px)'],
+          ['Ghost pill', 'hover: 8% terracotta tint fill; focus-visible and active: same as the primary pill'],
+          ['Tag pill', 'static label — no hover, focus or active state'],
+          ['Text link', 'resting: terracotta, no underline; hover: underline appears; focus-visible: 2px terracotta outline']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one near-white ground, two to three pastel mesh hues pale enough to hold near-black display type, one saturated warm accent carrying every CTA and reaching 4.5:1 on white, one near-black ink. Roles locked, hexes negotiable.',
+          locked: [
+            'Pastel gradient-mesh wash under a fine grid texture',
+            'A serif-italic word interrupting the sans display line',
+            'The vertical dotted spine organising process steps',
+            'A single warm accent carrying every call to action'
+          ],
+          register: 'calm and premium — wrong for discount offers, urgency-driven marketing, or brands that need to look hand-made; loud playful brands read as sedated in it.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -160,6 +235,39 @@
         ],
         imageryTechnique: 'real documentary-style photography of people working together in a professional setting, natural light, candid and unposed, muted colour grading',
         imageryExclusions: 'no text overlay, no interface elements, no logos, no illustration or vector art, no posed groups facing camera',
+        fonts: {
+          roles: [
+            ['Display, section heads & pull-quotes', 'Source Serif 4, Freight Text or GT Sectra — an editorial serif that stays elegant at light weights'],
+            ['Body & eyebrows', 'Source Sans 3 or Public Sans — a humanist sans at 400/600']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; no geometric display grotesk'
+        },
+        copyRegister: [
+          'Headlines: complete declarative sentences making a checkable claim, sentence case, never exclamatory',
+          'Eyebrows: 1–3-word topic labels, all-caps',
+          'CTA labels: verb plus object, 2–4 words, sentence case',
+          'Attributions: full name, role and organisation — never anonymous'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: opacity fades only, 200ms ease-out; statistics may count up once on first view; photographs never zoom or pan.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Primary button', 'hover: fill darkens 8%; focus-visible: 2px outline in the accent, 2px offset; active: translateY(1px)'],
+          ['Bare-underline field', 'focus: underline thickens from 1px to 2px in the accent, label stays above; error: underline and label in a desaturated red'],
+          ['Text link', 'resting: accent colour, no underline; hover: underline appears; focus-visible: 2px accent outline']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one white ground, one pale band tint derived from the brand primary (pale enough for AAA ink on it), one dark ink, one saturated accent for eyebrows and links reaching 4.5:1 on white. Roles locked, hexes negotiable.',
+          locked: [
+            'Claim and proof sharing a row — every statement adjacent to a photograph, list, statistic or named quote',
+            'Pale tinted full-bleed bands with unmarked transitions',
+            'Serif display set light, never bold',
+            'Named attribution with a face on every quote'
+          ],
+          register: 'measured and senior — wrong for playful consumer brands, startups selling speed, or any subject without real evidence to show; the style collapses when the proof is thin.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -229,6 +337,39 @@
         ],
         imageryTechnique: 'product interface screenshots and duotone-graded photography on a dark ground, high contrast with cool shadows, a single saturated accent hue as the only colour present',
         imageryExclusions: 'no text overlay, no logos, no hand-drawn illustration, no pastel washes, no light backgrounds',
+        fonts: {
+          roles: [
+            ['Display, heads, body & labels', 'Suisse Int’l, Söhne or Space Grotesk — one sans family throughout; metrics may use its tabular figures']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Headlines: capability claims, sentence case, tightly worded',
+          'Micro labels: 1–2 words, all-caps, tracked',
+          'CTA labels: imperative, 1–3 words',
+          'Metrics: numeral plus a one-line caption'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: media tiles fade in with an 8px rise, 200ms ease-out; metrics count up once on first view; nothing loops and no carousel auto-plays.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Accent CTA', 'hover: fill lightens 10%; focus-visible: 2px accent outline, 2px offset; active: translateY(1px)'],
+          ['Dark card', 'hover: border brightens from 10–15% to 25% white; no fill change, no lift'],
+          ['Pill tab', 'resting: 1px border; hover: 8% white fill; active tab: solid accent fill'],
+          ['Text link', 'resting: white at 80%; hover: white at 100% with underline; focus-visible: 2px accent outline']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one near-black ground (the brand’s darkest hue may serve), exactly one high-chroma accent taken from the brand, one pale inset-panel tint, white type at the stated opacities. If the brand runs several accents, promote one and demote the rest to screenshot content. Roles locked, hexes negotiable.',
+          locked: [
+            'Near-black canvas with light panels as inset islands, never as the page ground',
+            'Exactly one high-chroma accent',
+            'Rounded media tiles carrying screenshots or duotone photography',
+            'Body copy in white at reduced opacity'
+          ],
+          register: 'technical and premium — wrong for warm human services, non-profits, and audiences needing maximum readability; the reduced-opacity body copy is part of the look and needs care.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -298,6 +439,39 @@
         ],
         imageryTechnique: 'fine grey line-art diagrams with one saturated focal element, or desaturated near-monochrome interface and product photography; flat, no gradients, no illustrated figures',
         imageryExclusions: 'no text overlay, no logos, no multi-colour palettes, no drop shadows, no photographic warmth',
+        fonts: {
+          roles: [
+            ['Display, heads, body & captions', 'Suisse Int’l, Neue Haas Grotesk or Aeonik — one quiet neo-grotesk family throughout']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Headlines: short noun phrases or claims, sentence case, no terminal punctuation',
+          'Captions: client and discipline pairs at micro size',
+          'CTA labels: 1–2 words, sentence case',
+          'Body: spare and unhurried; cut anything that only fills space'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static — stillness is part of the style. If animating: opacity-only fades at 150ms; nothing moves on scroll and nothing loops.',
+          'Transform and opacity only. Honour prefers-reduced-motion by disabling everything.'
+        ],
+        states: [
+          ['Small dark button', 'hover: fill lightens to #333333; focus-visible: 2px near-black outline, 2px offset; active: translateY(1px)'],
+          ['Media tile', 'hover: the caption pair underlines; the image itself never zooms or dims'],
+          ['Hairline list row', 'hover: rule under the row darkens to 20% ink; focus-visible: 2px near-black outline'],
+          ['Text link', 'resting: ink with 1px underline; hover: underline moves to the accent hue']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one bone or light-grey canvas (warmed or cooled toward the brand, never pure white), one near-black ink, exactly one saturated accent held at or under roughly 2% of the visible area. The accent hex is the only place the brand’s colour enters. Roles locked, hexes negotiable.',
+          locked: [
+            'The bone canvas held almost empty — emptiness is a component',
+            'A single accent used as punctuation, at roughly 2% of the area',
+            'Type at oversized display scale or very small — never comfortable mid-sizes',
+            'Asymmetric, unevenly sized media tiles'
+          ],
+          register: 'confident and unhurried — wrong for information-dense products, urgency marketing, or brands that need to look busy or affordable.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -366,6 +540,39 @@
         ],
         imageryTechnique: 'product interface screenshots, flat vector spot illustration with filled shapes, or candid team photography — clean, evenly lit, presented on white',
         imageryExclusions: 'no text overlay beyond the product UI itself, no dark canvases, no gradient mesh, no hand-drawn line work',
+        fonts: {
+          roles: [
+            ['Display & section heads', 'Hanken Grotesk, Public Sans or Plus Jakarta Sans; where the reference leads with a serif (see §6), Source Serif 4 or Freight Text'],
+            ['Body & eyebrows', 'the same sans family at 400/600']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Headlines: benefit claims, sentence case',
+          'Eyebrows: 1–4-word category labels, all-caps, accent colour',
+          'CTA labels: verb-led, 2–3 words, sentence case',
+          'Reviews: quote plus full name, role and company'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: sections fade in with an 8px rise, 200ms ease-out; accordions animate height at 200ms ease; logo walls stay still.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Accent CTA', 'hover: fill darkens 8%; focus-visible: 2px accent outline, 2px offset; active: translateY(1px); disabled: 40% opacity'],
+          ['Product card', 'hover: border darkens to 20% ink; no lift, no shadow growth'],
+          ['Accordion row', 'hover: 4% ink fill; open: the plus glyph becomes a minus; focus-visible: 2px accent outline'],
+          ['Text link', 'resting: accent colour; hover: underline appears; focus-visible: 2px accent outline']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one white ground, one bright primary carrying CTAs, eyebrows and links (4.5:1 on white, and able to carry a white button label), its pale tint for section bands, one near-black ink. Roles locked, hexes negotiable.',
+          locked: [
+            'The conventional B2B block order — hero, logos, services, proof, work, FAQ, CTA',
+            'One bright primary; personality lives in colour and imagery, never in structure',
+            'Proof blocks — the logo wall and review or metric cards'
+          ],
+          register: 'competent before distinctive — the workhorse costume for B2B services. Wrong for luxury, cultural or avant-garde brands that must not look like SaaS.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -433,6 +640,40 @@
         ],
         imageryTechnique: 'brand and product work shown as flat colour tiles or in-context photography, high contrast and unfiltered; any drawn element is a single-stroke hand-made mark laid over the type',
         imageryExclusions: 'no text overlay, no gradient mesh, no pastel washes, no drop shadows, no decorative iconography',
+        fonts: {
+          roles: [
+            ['Display caps', 'Archivo Condensed, Oswald or a Druk-class condensed grotesk at 700–800'],
+            ['Italic counterpoint', 'Freight Text italic, GT Sectra italic or Source Serif 4 italic'],
+            ['Body & micro labels', 'Work Sans or Public Sans at 400/600']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Display: blunt second-person claims — a heavy caps line completed or undercut by the serif-italic phrase',
+          'Micro labels: 1–2 words, all-caps, tracked',
+          'CTA labels: imperative, 1–3 words',
+          'Body: opinionated and editor-like; short sentences, no hedging'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: a hand-drawn mark may draw itself once by stroke reveal, 400ms, on first view — never on loop; everything else stays still.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by disabling the stroke reveal.'
+        ],
+        states: [
+          ['Arrow link', 'hover: the arrow glyph shifts 4px right; focus-visible: 2px accent outline, 2px offset'],
+          ['Accordion row', 'hover: 4% ink fill on light bands, 8% white on dark; open: arrow rotates 90°'],
+          ['Button', 'hover: fill inverts between black and white; focus-visible: 2px accent outline; active: translateY(1px)']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand only at the annotation layer: the bands stay pure black and pure white, and the single annotation accent is taken from the brand. Role structure: black, white, one accent. Roles locked; only the accent hex is negotiable.',
+          locked: [
+            'Display type carrying the page with no accompanying imagery',
+            'Exactly one hand-made mark per viewport — circle, swipe, underline or arrow',
+            'The serif-italic counterpoint inside heavy caps',
+            'Stark black-and-white band alternation'
+          ],
+          register: 'opinionated and editor-like — the style is an argument, not a catalogue. Wrong for neutral institutions, comparison shoppers, or brands unwilling to state a view.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -503,6 +744,39 @@
         ],
         imageryTechnique: 'corporate stock photography of people working, laid full-bleed under a heavy dark scrim so type sits directly on the image; supporting graphics are thin line-art glyphs, never filled illustration',
         imageryExclusions: 'no text overlay baked into the photograph, no logos, no gradient mesh, no hand-drawn marks, no filled or shaded illustration',
+        fonts: {
+          roles: [
+            ['All roles', 'IBM Plex Sans, Source Sans 3 or Public Sans — one utilitarian sans family throughout; the statistic role drops to weight 300']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Headlines: task-oriented and second-person, sentence case, with the opening word emphasised in the warm accent',
+          'Tile titles: 2–4-word noun phrases',
+          'Links: full phrases ending in the trailing arrow — never "click here"',
+          'Statistics: numeral plus a caption with the figure bolded'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. Wave dividers never animate. If animating: link arrows may shift 4px right on hover; content fades in at 150ms.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Solid warm CTA', 'hover: fill darkens 8%; focus-visible: 2px outline in the cool accent, 2px offset; active: translateY(1px)'],
+          ['Capability tile', 'whole tile clickable; hover: the icon circle takes a 10% cool-accent tint; focus-visible: 2px cool-accent outline around the tile'],
+          ['Anchor sub-nav link', 'hover: white underline; current section: underline persists'],
+          ['Arrow link', 'hover: arrow shifts 4px right; focus-visible: 2px cool-accent outline']
+        ],
+        adaptation: {
+          yields: 'Both accents may be re-derived from the target brand IF the division of labour holds: one warm accent carrying headlines, CTAs and statistics; one cool accent carrying navigation and iconography; an off-white ground with dark bands. The warm accent never carries navigation; the cool accent never carries a statistic. Roles locked, hexes negotiable.',
+          locked: [
+            'The scrimmed photographic hero with type sitting directly on it',
+            'The outlined-circle line-art icon grid',
+            'Curved wave dividers handing light bands into dark ones',
+            'The warm/cool division of labour between the two accents'
+          ],
+          register: 'institutional wayfinding — built for colleagues, not conversion. Wrong for consumer marketing, boutique studios, or anything selling delight.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -573,6 +847,41 @@
         ],
         imageryTechnique: 'minimal analytical line graphics — a single-stroke trend line or small chart on a flat tinted plate; no photography, no illustrated figures, no icons',
         imageryExclusions: 'no photography, no illustrated figures, no decorative iconography, no gradients, no drop shadows',
+        fonts: {
+          roles: [
+            ['Display, heads & statements', 'Source Serif 4, Freight Text or Lora — an editorial serif'],
+            ['Body', 'Public Sans or Source Sans 3 at 400'],
+            ['Methodology labels', 'IBM Plex Mono, JetBrains Mono or Space Mono — a true monospace, never a tracked sans']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Claims: complete sentences a reviewer could mark true or false',
+          'Methodology labels: mono all-caps naming a real standard — never decorative',
+          'Step titles: imperative, closed by a mono line stating the deliverable',
+          'CTA labels: verb plus object, 2–4 words, sentence case'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: the line chart may draw itself once by stroke reveal on first view; nothing else moves and nothing loops.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by disabling the stroke reveal.'
+        ],
+        states: [
+          ['Solid accent CTA', 'hover: fill darkens 8%; focus-visible: 2px accent outline, 2px offset; active: translateY(1px)'],
+          ['Outlined secondary CTA', 'hover: 8% accent tint fill; focus-visible and active: same as the primary'],
+          ['Taxonomy tag', 'static label — no hover, focus or active state'],
+          ['Text link', 'resting: accent with 1px underline; hover: underline thickens to 2px']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one warm bone band hue, one lighter ground, one ink, one accent dark enough to carry white labels and used sparingly enough to read as punctuation; the taxonomy tag hues re-derive as a coded set. Roles locked, hexes negotiable.',
+          locked: [
+            'The monospaced methodology label anchoring every claim',
+            'The bordered parameter grid with shared 1px rules',
+            'The three-voice system — serif claims, sans body, mono citations',
+            'The accent as punctuation, never decoration'
+          ],
+          register: 'diagnostic and accountable — the visual language of an audit. Wrong for brands selling warmth, creativity or speed; without real named standards to cite it becomes costume.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -646,6 +955,41 @@
         ],
         imageryTechnique: 'photography duotone-mapped entirely into the single brand hue, or line illustration drawn in that hue at uniform stroke — no second colour appears anywhere in the image',
         imageryExclusions: 'no second hue, no full-colour photography, no gradients, no drop shadows, no greyscale midtones beyond the paper stock',
+        fonts: {
+          roles: [
+            ['Display & section heads', 'Archivo or Space Grotesk; a serif display of equivalent weight range is admissible where the reference used one (see §6)'],
+            ['Italic counterpoint', 'Fraunces italic, GT Sectra italic or Freight Text italic'],
+            ['Body & micro labels', 'the same sans at 400, or Space Mono where the reference sets labels in mono']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Display: confident claims in sentence case or caps, with a 1–3-word serif-italic aside supplying the wink',
+          'Micro chips: 1–2 words, all-caps',
+          'CTA labels: imperative, 1–3 words',
+          'Body: brand-forward and direct; the constraint does the charming, not the copy'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. Duotone images never animate. If animating: hover fills cross-fade between hue and paper at 120ms; entrances are opacity fades at 200ms.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Hue-filled CTA', 'hover: inverts to paper fill with hue label and a 1px hue border; focus-visible: 2px hue outline, 2px offset; active: translateY(1px)'],
+          ['Outline panel', 'hover: 8% hue tint fill; the border never changes weight'],
+          ['Text link', 'resting: hue with 1px underline; hover: underline thickens to 2px; focus-visible: 2px hue outline'],
+          ['Micro chip', 'static label — no hover, focus or active state']
+        ],
+        adaptation: {
+          yields: 'The single hue is taken from the target brand’s primary; every tint, shade and duotone derives from it, over one paper ground. If the brand primary is too light to carry text on paper, darken it for type and keep the brand hex for fills. Role structure: one hue, one paper. Roles locked; the hue hex is the only negotiable value.',
+          locked: [
+            'The single-hue constraint itself — no second accent, no grey midtones beyond the paper',
+            'Photography duotone-mapped entirely into the hue',
+            'The serif-italic counterpoint inside the display voice',
+            'Knockout reversal — hue band, paper type — as the contrast mechanism'
+          ],
+          register: 'disciplined and brand-forward — the constraint is the identity. Wrong for content-heavy products needing semantic colour (alerts, charts, states), or brands without one ownable hue.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -713,6 +1057,40 @@
         ],
         imageryTechnique: 'bright posed portrait photography of real named people in real interiors, warm natural light, cut to circles or soft-cornered rectangles',
         imageryExclusions: 'no stock imagery, no illustration, no duotone treatment, no dark colour grading, no anonymous crowds',
+        fonts: {
+          roles: [
+            ['Display, heads & step titles', 'Fraunces at 300–400, Source Serif 4 Light or Playfair Display at low weight — a light editorial serif'],
+            ['Body & eyebrows', 'Work Sans or Nunito Sans at 400/700']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Headlines: warm first-person-plural, sentence case',
+          'Eyebrows: short greeting or topic, all-caps, accent colour',
+          'Quotes: first person, attributed in bold caps to a full name and role',
+          'CTA labels: invitation phrases, 2–4 words, sentence case'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. The quote strip scrolls only on drag or arrow press — never automatically. If animating: entrances are opacity fades at 200ms; chevrons stay still.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Accent CTA', 'hover: fill darkens 8%; focus-visible: 2px outline in the same accent, 2px offset; active: translateY(1px)'],
+          ['Quote card', 'static surface; only its attribution link underlines on hover'],
+          ['Form field', 'white fill on the tinted panel; focus: 2px accent outline, 2px offset; error: outline in the coral accent'],
+          ['Portrait link', 'hover: a 2px accent ring appears around the circle']
+        ],
+        adaptation: {
+          yields: 'The accent set may be rebuilt from the target brand IF it stays a fixed, ordered set: one bone ground, one ink, four or five saturated accents of comparable weight, reused in the same order across quotes, steps and stripes. Never pick colours per element. Roles locked, hexes negotiable.',
+          locked: [
+            'The fixed ordered accent set repeating across quotes, steps and stripes',
+            'The light serif display voice',
+            'Named people — portraits with names and roles, first-person quotes',
+            'The warm bone ground'
+          ],
+          register: 'approachable expertise — serious method delivered warmly by named people. Wrong for anonymous enterprises, technical products sold on specs, or brands that cannot show real faces.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -778,6 +1156,38 @@
         ],
         imageryTechnique: 'photoreal 3D render at miniature scale — tiny human figures interacting with oversized geometric solids (cube, sphere, seesaw, stepped columns) on a pale seamless backdrop with soft cloud, desaturated throughout',
         imageryExclusions: 'no photography of real interiors, no line illustration, no saturated colour, no text overlay, no hard shadows',
+        fonts: {
+          roles: [
+            ['All roles', 'Karla, Work Sans or Assistant at 300–400 — one quiet humanist sans; nothing on the page is set at display weight']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; no serifs, no condensed faces'
+        },
+        copyRegister: [
+          'Headlines: short reflective statements, sentence case, no terminal punctuation, deliberately quiet',
+          'Accordion rows: noun phrases',
+          'CTA labels: 1–2 words, sentence case',
+          'Body: unhurried and metaphor-led; the render argues, the copy confirms'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: one render per page may float slowly (translateY ±6px, 6s ease loop); accordions animate height at 200ms; nothing else moves.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by disabling the float.'
+        ],
+        states: [
+          ['Accordion row', 'hover: the bottom rule darkens; open: the plus glyph rotates to a cross; focus-visible: 2px accent outline'],
+          ['Small solid CTA', 'hover: fill darkens 8%; focus-visible: 2px accent outline, 2px offset; active: translateY(1px)'],
+          ['Text link', 'resting: accent, no underline; hover: underline appears']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one white or off-white ground, one muted accent made by desaturating the brand primary until it reads calm (it carries every heading, rule, button and the footer), one mid-grey body ink, plus the render palette of a pale backdrop and one or two muted solids. Roles locked, hexes negotiable.',
+          locked: [
+            'Photoreal renders at impossible scale — tiny figures against giant solids — as the argument',
+            'The pale seamless cloud backdrop; no real setting, no horizon',
+            'Deliberately quiet, small type',
+            'Empty space of roughly 20 base units between sections'
+          ],
+          register: 'considered and unhurried, metaphor over copy — wrong for feature-list products, urgent offers, or audiences who need literal imagery of the actual service.'
+        },
         system: {
           baseUnit: 8,
           canvas: '1440 × 900 desktop',
@@ -844,7 +1254,7 @@
           'hand-drawn connector thread',
           'numbered ring badge',
           'highlighter marker emphasis',
-          'dark pill CTA',
+          'dark tape CTA',
           'rotated vertical eyebrow',
           'zigzag block alternation'
         ],
@@ -855,19 +1265,26 @@
           { name: 'Pale cyan wash', hex: '#93F5F5', usage: 'watercolour field behind the research block' },
           { name: 'Coral red wash', hex: '#FF6969', usage: 'watercolour field behind the guidance block' },
           { name: 'Highlighter yellow', hex: '#FFD977', usage: 'marker swipe behind key headline words' },
-          { name: 'Charcoal pill', hex: '#2C2C2C', usage: 'pill CTA fill' }
+          { name: 'Charcoal tape', hex: '#2C2C2C', usage: 'stacked tape CTA fill' }
         ],
-        typography: 'Geometric grotesk throughout — display at roughly 56px/700 with tight tracking, body at 17px/400, and 12px all-caps eyebrows tracked wide ("HI THERE"). One eyebrow is rotated 90° and set vertically down the left margin ("THREAD ON").',
-        layoutNotes: 'White ground with illustration blocks alternating left and right. A hand-drawn connector line runs the full page height, stepping between sections and physically joining them. Watercolour washes have torn organic edges and bleed off the left or right edge rather than sitting inside the grid. Numbered ring badges mark each block. A full-bleed mustard CTA band sits above the black footer.',
+        typography: 'Geometric grotesk throughout — display at roughly 56px/700 with tight tracking, body at 17px/400, and 12px all-caps eyebrows tracked wide ("HI THERE"). One eyebrow ("THREAD ON") is rotated 90°, reading top-to-bottom, set beside the thread in the white gap where the hero hands into the first block.',
+        layoutNotes: 'White ground with illustration blocks alternating left and right. A hand-drawn connector line runs from below the hero to the closing band, stepping between sections and physically joining them. Watercolour washes have torn organic edges and bleed off the left or right edge rather than sitting inside the grid. Numbered ring badges mark each block. A full-bleed mustard CTA band sits above the black footer.',
         imagerySubject: 'two people collaborating at a whiteboard, sketching a diagram',
         mood: ['approachable', 'optimistic', 'human', 'confident'],
-        signature: [
-          'A single hand-drawn line runs the full page height, stepping left and right to physically connect every section',
-          'Watercolour washes have torn organic edges and bleed off the page edge — never rectangles sitting inside the grid',
-          'Numbered ring badges (01, 02, 03) sit above each block heading, stroke colour matching the adjacent wash',
-          'CTA labels are imperative and playful ("PROVE IT", "LET\'S TALK"), tracked all-caps on near-black pills',
-          'A rotated eyebrow ("THREAD ON") runs 90° down the left margin of the first block'
-        ]
+        signature: {
+          carry: [
+            'A single hand-drawn line runs from below the hero to the top of the closing band, stepping left and right to physically connect every section',
+            'Watercolour washes have torn organic edges and bleed off the page edge — never rectangles sitting inside the grid',
+            'Numbered ring badges (01, 02, 03) sit above each block heading, stroke colour matching the adjacent wash',
+            'CTAs are stacked tape-style rectangles in near-black, their tracked all-caps label set in the adjacent wash hue',
+            'A rotated eyebrow reads top-to-bottom beside the connector thread as it leaves the hero, on white — never over a wash'
+          ],
+          rewrite: [
+            'CTA copy — the reference uses playful imperatives ("PROVE IT", "LET\'S TALK"); write new 1–3-word all-caps imperatives for the target',
+            'Eyebrow copy — the reference greets with "HI THERE" and puns with "THREAD ON"; write new 1–3-word conversational eyebrows for the target',
+            'Highlighted words — the marker swipe lands on the one or two words carrying each headline\'s claim; choose the new headline\'s claim words'
+          ]
+        }
       },
       {
         id: 'usman-blog',
@@ -900,13 +1317,19 @@
         layoutNotes: 'Featured article as a white split hero — headline and tape button left, single-line illustration right with a gold wash under the figures only. Below it a full-bleed 2×2 grid of saturated colour cards with zero gutters, edges meeting flush. Each card carries an eyebrow, short rule, title, body and a long arrow. A filter tab row sits between hero and grid.',
         imagerySubject: 'four musicians playing instruments together in a loose group',
         mood: ['playful', 'editorial', 'direct', 'energetic'],
-        signature: [
-          'Article cards form a full-bleed 2×2 grid with zero gutters — colour fields meet flush, no borders or radii',
-          'A long → arrow is the only link affordance on each card, bottom-left, with no button around it',
-          'The active filter tab is marked with a hand-drawn squiggle underline rather than a solid rule',
-          'The featured CTA is a tape-style rectangle in highlighter yellow, not the site\'s usual dark pill',
-          'Watercolour wash appears only beneath the illustration\'s feet, acting as a ground line rather than a field'
-        ]
+        signature: {
+          carry: [
+            'Article cards form a full-bleed 2×2 grid with zero gutters — colour fields meet flush, no borders or radii',
+            'A long → arrow is the only link affordance on each card, bottom-left, with no button around it',
+            'The active filter tab is marked with a hand-drawn squiggle underline rather than a solid rule',
+            'The featured CTA is a tape-style rectangle in highlighter yellow rather than the site\'s usual near-black',
+            'Watercolour wash appears only beneath the illustration\'s feet, acting as a ground line rather than a field'
+          ],
+          rewrite: [
+            'Article titles, filter-tab labels and card body copy are reference content — write the target\'s own articles and categories',
+            'Button copy — the tape buttons read "READ IT" and "JOIN"; write new 1–2-word all-caps imperatives for the target'
+          ]
+        }
       },
       {
         id: 'usman-contact',
@@ -938,13 +1361,19 @@
         layoutNotes: 'Hero splits headline left — with a mint highlighter swipe on key words — against a single-line illustration right sitting over a mint wash. The form below is one continuous sentence at headline size with underlined blanks in place of inputs. A tape-style mint SEND button closes it, above the black footer.',
         imagerySubject: 'two people talking across armchairs, one holding a flag-like banner',
         mood: ['warm', 'conversational', 'inviting', 'informal'],
-        signature: [
-          'The contact form is a mad-lib: one running sentence at headline size with inline underlined blanks as the inputs',
-          'Field labels float above each blank in small grey caps, inside the sentence flow rather than beside it',
-          'Every input is a 2px mint underline — no boxes, no fills, no borders anywhere in the form',
-          'Mint replaces the site\'s usual yellow across this whole page, including the highlighter swipe',
-          'The SEND button is a tape-style rectangle matching the blanks, not the site\'s dark pill CTA'
-        ]
+        signature: {
+          carry: [
+            'The contact form is a mad-lib: one running sentence at headline size with inline underlined blanks as the inputs',
+            'Field labels float above each blank in small grey caps, inside the sentence flow rather than beside it',
+            'Every input is a 2px mint underline — no boxes, no fills, no borders anywhere in the form',
+            'Mint replaces the site\'s usual yellow across this whole page, including the highlighter swipe',
+            'The SEND button is a tape-style rectangle matching the blanks, in mint rather than the site\'s near-black'
+          ],
+          rewrite: [
+            'The running sentence itself is reference copy — write a new one-sentence form in the target\'s voice that collects the same fields (name, company, need, email)',
+            'The mint SEND button label is reference copy — write the target\'s own 1–2-word all-caps send imperative'
+          ]
+        }
       },
       {
         id: 'usman-about',
@@ -977,13 +1406,20 @@
         layoutNotes: 'A hard-edge three-up colour panel (cyan, coral, mint) carries eyebrow, heading and checkmark list in each cell, meeting flush with no gutters. Faint dot-grid texture fills the white sections. A full-bleed coral team section holds a five-across grid of black-and-white square portraits. Below it a horizontal timeline of bordered cards with arrow navigation, then coloured accordion bars and a coral closing band.',
         imagerySubject: 'three people gathered around a large whiteboard, one gesturing at a diagram',
         mood: ['candid', 'collective', 'warm', 'plainspoken'],
-        signature: [
-          'Three value panels sit flush as one hard-edge colour band, each with its own eyebrow, heading and checkmark list',
-          'Team portraits are black-and-white squares in a five-across grid on a full-bleed coral ground',
-          'Year headings in the history cards are struck through with a hand-drawn red marker line',
-          'Faint dot-grid texture fills the white sections — the only texture anywhere in the site',
-          'Service categories appear as full-width coloured accordion bars with a caret at the right edge'
-        ]
+        signature: {
+          carry: [
+            'Three value panels sit flush as one hard-edge colour band, each with its own eyebrow, heading and checkmark list',
+            'Team portraits are black-and-white squares in a five-across grid on a full-bleed coral ground',
+            'Year headings in the history cards are struck through with a hand-drawn red marker line',
+            'Faint dot-grid texture fills the white sections — the only texture anywhere in the site',
+            'Service categories appear as full-width coloured accordion bars with a caret at the right edge'
+          ],
+          rewrite: [
+            'Panel eyebrows — the reference declares "WE ARE", "WE BELIEVE", "WE DELIVER"; write new 1–3-word first-person-plural declarations',
+            'History-card years and milestones are the reference\'s history — use the target\'s real dates',
+            'Team portraits are the reference\'s staff — use the target\'s real people, kept black-and-white'
+          ]
+        }
       },
       {
         id: 'chase-ai-homepage',
@@ -1016,13 +1452,19 @@
         layoutNotes: 'Full-bleed pastel gradient mesh with a fine grid texture, content held to a narrow centred measure. A light code-editor mockup with window chrome and a file-tree sidebar floats over the wash. Service cards run 1 + 3 with pale tinted fills. The four-step approach section uses a vertical dotted spine with cards alternating left and right. The closing section pairs a progress-meter sidebar with a long multi-field form.',
         imagerySubject: 'an abstract pastel colour field, blurred and gridded, with no subject in it',
         mood: ['calm', 'premium', 'technical', 'unhurried'],
-        signature: [
-          'The code-editor mockup is light, not dark, with window traffic-lights and a file-tree sidebar',
-          'Approach steps alternate left and right of a vertical dotted spine, each anchored by a small ringed numeral',
-          'A terracotta all-caps eyebrow sits above every section headline without exception',
-          'Card body copy ends in tinted rust micro-pills used as inline tags',
-          'The closing section is a full multi-field consultation form with a live progress meter in a sidebar'
-        ]
+        signature: {
+          carry: [
+            'The code-editor mockup is light, not dark, with window traffic-lights and a file-tree sidebar',
+            'Approach steps alternate left and right of a vertical dotted spine, each anchored by a small ringed numeral',
+            'A terracotta all-caps eyebrow sits above every section headline without exception',
+            'Card body copy ends in tinted rust micro-pills used as inline tags',
+            'The closing section is a full multi-field consultation form with a live progress meter in a sidebar'
+          ],
+          rewrite: [
+            'Eyebrow strings — the reference labels sections "WHAT WE BUILD", "OUR APPROACH", "GET STARTED"; write new 2–3-word all-caps labels for the target',
+            'Form fields and progress-meter steps mirror the reference\'s intake — collect what the target actually needs'
+          ]
+        }
       },
       {
         id: 'chase-ai-mentorship',
@@ -1055,13 +1497,20 @@
         layoutNotes: 'Same pastel wash and grid texture as the homepage. A long 90-day roadmap runs as a vertical dotted spine with cards alternating left and right, each carrying a ringed numeral and tinted rust tag pills. Social proof appears as a 2×2 grid of real dark chat-app screenshots. A single centred price card states the figure at display size in terracotta, followed by an FAQ accordion and a three-step numbered circle row above the application form.',
         imagerySubject: 'an abstract pastel colour field, blurred and gridded, with no subject in it',
         mood: ['aspirational', 'structured', 'premium', 'direct'],
-        signature: [
-          'A serif-italic phrase is set inline inside the sans display headline at the same size ("in 90 Days")',
-          'The roadmap is a long vertical dotted spine with cards alternating either side and ringed numerals on the spine',
-          'Social proof is real dark chat-app screenshots in a 2×2 grid, not styled testimonial cards',
-          'One centred price card carries the figure at display size in terracotta above a checkmark list',
-          'A three-step numbered circle row sits directly above the application form as the closing move'
-        ]
+        signature: {
+          carry: [
+            'A serif-italic phrase is set inline inside the sans display headline at the same size',
+            'The roadmap is a long vertical dotted spine with cards alternating either side and ringed numerals on the spine',
+            'Social proof is real dark chat-app screenshots in a 2×2 grid, not styled testimonial cards',
+            'One centred price card carries the figure at display size in terracotta above a checkmark list',
+            'A three-step numbered circle row sits directly above the application form as the closing move'
+          ],
+          rewrite: [
+            'The italic phrase — the reference italicises its timeframe promise ("in 90 Days"); italicise the new headline\'s outcome phrase',
+            'The price figure and checkmark inclusions are the reference\'s offer — use the target\'s real price and terms',
+            'Chat screenshots are real conversations — substitute the target\'s own receipts, never mock them up'
+          ]
+        }
       },
       {
         id: 'think-company-session',
@@ -1093,13 +1542,19 @@
         layoutNotes: 'Alternating white and pale ice-blue full-bleed bands with no borders marking the transition. Documentary photography is always paired side by side with a checkmark or numbered list rather than standing alone. A centred serif pull-quote sits above a circular avatar with blue attribution. Two-column "what this is / what you get" checkmark comparison. The closing request section places a numbered process list above a form whose fields are bare underlines.',
         imagerySubject: 'a room of people at a workshop, one presenting to seated colleagues',
         mood: ['measured', 'senior', 'trustworthy', 'calm'],
-        signature: [
-          'Serif display is set large and light — never bold — with unusually generous leading',
-          'Every documentary photo is paired side by side with a checkmark or numbered list, never used alone',
-          'Section bands are pale ice-blue and white with no rule or border marking the transition',
-          'The pull-quote is centred serif with a circular avatar beneath and blue link-styled attribution',
-          'Form fields are bare 1px underlines with the label above — no boxes, no fills'
-        ]
+        signature: {
+          carry: [
+            'Serif display is set large and light — never bold — with unusually generous leading',
+            'Every documentary photo is paired side by side with a checkmark or numbered list, never used alone',
+            'Section bands are pale ice-blue and white with no rule or border marking the transition',
+            'The pull-quote is centred serif with a circular avatar beneath and blue link-styled attribution',
+            'Form fields are bare 1px underlines with the label above — no boxes, no fills'
+          ],
+          rewrite: [
+            'Comparison copy — the two-column checkmark block contrasts what the offer is with what you get; rewrite both columns for the target offer',
+            'The quote, avatar and attribution are reference people — use a real named client of the target'
+          ]
+        }
       },
       {
         id: 'constructive-1',
@@ -1132,13 +1587,19 @@
         layoutNotes: 'Dark full-bleed photo hero with white serif copy over it. Case studies form a mosaic of unequal tiles mixing documentary photography with saturated flat-colour panels carrying white label text. A white card floats over a pale grey band holding the services list, with each service underlined in a different accent hue. A perspectives carousel pairs a cutout portrait with an avatar column and serif italic quote. Teal closing band above the footer.',
         imagerySubject: 'a group of young people standing together outdoors, arms around each other',
         mood: ['principled', 'warm', 'considered', 'civic'],
-        signature: [
-          'Case studies are a mosaic of unequal tiles mixing photography with flat saturated colour panels',
-          'Colour tiles carry their label as white text set directly on the fill, with no card or overlay',
-          'A four-part interlocking ring diagram labels the process (discover, define, design, develop)',
-          'Service links are underlined in different accent hues, one colour per service line',
-          'The perspectives carousel pairs a full-height cutout portrait with a stacked avatar column beside the quote'
-        ]
+        signature: {
+          carry: [
+            'Case studies are a mosaic of unequal tiles mixing photography with flat saturated colour panels',
+            'Colour tiles carry their label as white text set directly on the fill, with no card or overlay',
+            'A four-part interlocking ring diagram labels the process stages',
+            'Service links are underlined in different accent hues, one colour per service line',
+            'The perspectives carousel pairs a full-height cutout portrait with a stacked avatar column beside the quote'
+          ],
+          rewrite: [
+            'Process stage names — the reference uses discover, define, design, develop; use the target\'s own four stages, one word each',
+            'Case-study tiles and their labels are reference work — substitute the target\'s projects'
+          ]
+        }
       },
       {
         id: 'goinvo-1',
@@ -1170,13 +1631,19 @@
         layoutNotes: 'Dark hero holding a dashboard screenshot with an orange statistic beneath it. A hairline-ruled statistic row runs full width, four across. Cream bands alternate with white. Case study cards each lead with an orange metric above a serif title. A black "open source design" section carries light project cards. A four-column headshot grid presents the team, followed by serif pull-quotes, a full-bleed orange CTA band and a teal footer.',
         imagerySubject: 'a clinician and a colleague reviewing information together at a screen',
         mood: ['rigorous', 'civic', 'senior', 'plainspoken'],
-        signature: [
-          'Oversized burnt-orange statistics carry the argument, each with a tiny all-caps caption beneath',
-          'Cream, white and black bands rotate, so no two adjacent sections share a ground colour',
-          'Every case-study card leads with its metric in orange above the serif title, not below it',
-          'The team appears as a dense four-column grid of candid headshots at equal size',
-          'The footer is teal — the only place that hue appears at full-bleed scale'
-        ]
+        signature: {
+          carry: [
+            'Oversized burnt-orange statistics carry the argument, each with a tiny all-caps caption beneath',
+            'Cream, white and black bands rotate, so no two adjacent sections share a ground colour',
+            'Every case-study card leads with its metric in orange above the serif title, not below it',
+            'The team appears as a dense four-column grid of candid headshots at equal size',
+            'The footer is teal — the only place that hue appears at full-bleed scale'
+          ],
+          rewrite: [
+            'Statistic values and captions are the reference\'s outcomes — use the target\'s real figures, never carry the numbers',
+            'Headshots are the reference\'s team — use the target\'s real people at equal crop and size'
+          ]
+        }
       },
       {
         id: 'ux-cabin-1',
@@ -1209,13 +1676,18 @@
         layoutNotes: 'Bone ground with a dark forest-green hero and footer. A before-and-after comparison places two interface screenshots against each other with arrows between them. Service rows alternate screenshot and copy. Case studies run as full-width rounded bands, each in a different saturated colour, holding a serif title, a row of tag pills and a testimonial card with a play button.',
         imagerySubject: 'a designer at a desk talking to camera in a home studio',
         mood: ['grounded', 'friendly', 'evidence-led', 'unfussy'],
-        signature: [
-          'Each case study is a full-width rounded band in its own saturated colour — navy, purple, rust, black',
-          'Every case band pairs a serif title and tag pills on the left with a video testimonial card on the right',
-          'A literal before-and-after comparison sets two interface screenshots against each other with arrows between',
-          'The closing CTA band is acid lime, the only high-chroma light colour on an otherwise deep palette',
-          'Testimonial cards carry a real face and a play button rather than a pull-quote alone'
-        ]
+        signature: {
+          carry: [
+            'Each case study is a full-width rounded band in its own saturated colour — navy, purple, rust, black',
+            'Every case band pairs a serif title and tag pills on the left with a video testimonial card on the right',
+            'A literal before-and-after comparison sets two interface screenshots against each other with arrows between',
+            'The closing CTA band is acid lime, the only high-chroma light colour on an otherwise deep palette',
+            'Testimonial cards carry a real face and a play button rather than a pull-quote alone'
+          ],
+          rewrite: [
+            'Tag pill labels, case titles and testimonial faces are reference content — use the target\'s projects and clients'
+          ]
+        }
       },
       {
         id: 'craft-innovations-1',
@@ -1248,13 +1720,18 @@
         layoutNotes: 'Near-black ground with hairline-bordered dark cards in a two-row service grid. Full-width inset panels in pale lavender and cream break the darkness as islands, holding tabbed industry content. Case studies pair copy with a device screenshot. A world map renders reach in lavender and mint beside oversized metrics. Testimonial and download panels repeat the inset-island pattern.',
         imagerySubject: 'a laptop on a stand displaying a banking interface, shot on a dark surface',
         mood: ['technical', 'precise', 'premium', 'analytical'],
-        signature: [
-          'Full-width cream and lavender panels are inset as islands inside the black page, never used as the ground',
-          'The hero headline ends in a live typewriter cursor mid-word',
-          'Section labels are small pill badges with a leading dot, sitting above each heading',
-          'Reach is shown as a world map in lavender and mint beside oversized metric numerals',
-          'Every dark card is defined by a 1px hairline border alone, with no fill behind it'
-        ]
+        signature: {
+          carry: [
+            'Full-width cream and lavender panels are inset as islands inside the black page, never used as the ground',
+            'The hero headline ends in a live typewriter cursor mid-word',
+            'Section labels are small pill badges with a leading dot, sitting above each heading',
+            'Reach is shown as a world map in lavender and mint beside oversized metric numerals',
+            'Every dark card is defined by a 1px hairline border alone, with no fill behind it'
+          ],
+          rewrite: [
+            'Map data, metrics and industry tabs are the reference\'s reach — plot the target\'s real markets and figures'
+          ]
+        }
       },
       {
         id: 'huemor-1',
@@ -1286,13 +1763,19 @@
         layoutNotes: 'Deep purple hero holding a 3D character render at right, with magenta pill CTAs beneath the headline. Sections are separated by large curved arc horizons rather than straight rules, so the dark ground swells and recedes. A three-up card row carries checkmark feature lists with magenta CTAs. Metrics run three across in magenta. Mid-page switches to white for case studies and insights before returning to purple for the closing arc.',
         imagerySubject: 'a stylised humanoid robot standing against a deep field, three-quarter view',
         mood: ['bold', 'futuristic', 'confident', 'theatrical'],
-        signature: [
-          'Sections are divided by large curved arc horizons rather than straight edges, so the dark ground swells and recedes',
-          'A 3D character render is the hero image, not a screenshot or photograph',
-          'Magenta is used only for pills and metrics — never for type, fills or borders',
-          'The page inverts to white in the middle third, then returns to purple for the closing arc',
-          'Feature cards carry checkmark lists with a magenta CTA inside each card rather than one shared CTA'
-        ]
+        signature: {
+          carry: [
+            'Sections are divided by large curved arc horizons rather than straight edges, so the dark ground swells and recedes',
+            'A 3D character render is the hero image, not a screenshot or photograph',
+            'Magenta is used only for pills and metrics — never for type, fills or borders',
+            'The page inverts to white in the middle third, then returns to purple for the closing arc',
+            'Feature cards carry checkmark lists with a magenta CTA inside each card rather than one shared CTA'
+          ],
+          rewrite: [
+            'Metric values are the reference\'s results — use the target\'s real numbers',
+            'The robot render is the reference\'s mascot — substitute the target\'s own character, kept a 3D render'
+          ]
+        }
       },
       {
         id: 'make-it-clear-1',
@@ -1325,13 +1808,19 @@
         layoutNotes: 'Dark ground holding a two-column mosaic of project tiles at deliberately uneven heights, each tile a fully saturated flat colour or a full-bleed photograph. A rainbow gradient hairline divides the portfolio from the services block. Services and processes are set as three-column link tables with hairline rules and line-icon circles. A cyan gradient band carries the review score and testimonial, followed by an FAQ accordion.',
         imagerySubject: 'a racing car photographed head-on in a dramatic sky',
         mood: ['assertive', 'saturated', 'contemporary', 'confident'],
-        signature: [
-          'Project tiles form a two-column mosaic at deliberately uneven heights, never a regular grid',
-          'Each tile is either a fully saturated flat colour or a full-bleed photograph — no cards, borders or radii',
-          'A rainbow gradient hairline is the only divider between major sections',
-          'Process steps are thin line-icon circles in a four-up row, all at identical size',
-          'The testimonial band is a cyan gradient carrying an oversized review score at its left edge'
-        ]
+        signature: {
+          carry: [
+            'Project tiles form a two-column mosaic at deliberately uneven heights, never a regular grid',
+            'Each tile is either a fully saturated flat colour or a full-bleed photograph — no cards, borders or radii',
+            'A rainbow gradient hairline is the only divider between major sections',
+            'Process steps are thin line-icon circles in a four-up row, all at identical size',
+            'The testimonial band is a cyan gradient carrying an oversized review score at its left edge'
+          ],
+          rewrite: [
+            'The review score and testimonial are reference proof — use the target\'s real score and quote',
+            'Project tiles are reference work — substitute the target\'s portfolio, keeping saturated flat colour or full-bleed photography per tile'
+          ]
+        }
       },
       {
         id: 'experience-dynamics-1',
@@ -1363,13 +1852,19 @@
         layoutNotes: 'Cyan hero pairs the headline with a cutout portrait at right. Below it a quadrant grid of tiles alternates duotone photography with flat dark panels holding pull-quotes and case links. A full-width video tile carries a play button and a cyan CTA. A dark contact section places a duotone portrait beside a form with a drag-and-drop upload field. A full-colour client logo wall sits on white, followed by a cyan newsletter band and a dark footer.',
         imagerySubject: 'a consultant speaking to camera in an office, and colleagues at a whiteboard session',
         mood: ['expert', 'personal', 'established', 'direct'],
-        signature: [
-          'Photography is duotone-graded into the palette so every image reads as blue rather than full colour',
-          'Tiles are arranged as quadrants that meet flush, alternating photography with flat dark copy panels',
-          'The hero portrait is a cutout with no background, standing directly on the cyan band',
-          'Salmon-pink pill CTAs are the only warm colour on the page and appear in every section',
-          'The client logo wall is full-colour on white — deliberately breaking the duotone treatment used elsewhere'
-        ]
+        signature: {
+          carry: [
+            'Photography is duotone-graded into the palette so every image reads as blue rather than full colour',
+            'Tiles are arranged as quadrants that meet flush, alternating photography with flat dark copy panels',
+            'The hero portrait is a cutout with no background, standing directly on the cyan band',
+            'Salmon-pink pill CTAs are the only warm colour on the page and appear in every section',
+            'The client logo wall is full-colour on white — deliberately breaking the duotone treatment used elsewhere'
+          ],
+          rewrite: [
+            'The client logo wall is the reference\'s roster — use the target\'s real clients',
+            'Portraits are the reference\'s consultants — use the target\'s people, cut out on the hero band'
+          ]
+        }
       },
       {
         id: 'guidea-1',
@@ -1401,13 +1896,19 @@
         layoutNotes: 'Deep indigo ground with generously rounded corners on every surface — photo tiles, cards, panels and buttons all share a large radius. A stat row pairs line icons with numerals and captions. A periwinkle process panel stacks four labelled steps down its right edge. Client testimonials form a masonry grid of white rounded cards at uneven heights. A white rounded panel carries the closing form.',
         imagerySubject: 'two colleagues reviewing a product interface together at a desk',
         mood: ['assured', 'corporate', 'polished', 'systematic'],
-        signature: [
-          'Every surface shares one large corner radius — photos, cards, panels and buttons alike',
-          'The process panel is a single periwinkle block with its four steps stacked down the right edge',
-          'Testimonials form a masonry grid of white rounded cards at uneven heights against the indigo ground',
-          'Statistics pair a line icon above the numeral, with the caption below in small caps',
-          'The closing form sits inside a white rounded panel rather than directly on the page ground'
-        ]
+        signature: {
+          carry: [
+            'Every surface shares one large corner radius — photos, cards, panels and buttons alike',
+            'The process panel is a single periwinkle block with its four steps stacked down the right edge',
+            'Testimonials form a masonry grid of white rounded cards at uneven heights against the indigo ground',
+            'Statistics pair a line icon above the numeral, with the caption below in small caps',
+            'The closing form sits inside a white rounded panel rather than directly on the page ground'
+          ],
+          rewrite: [
+            'Stat values and captions are reference outcomes — use the target\'s real figures',
+            'Process step labels are the reference\'s method — write the target\'s own four steps'
+          ]
+        }
       },
       {
         id: 'eleken-1',
@@ -1439,13 +1940,18 @@
         layoutNotes: 'Bone ground with an unusually low content density. A logo wall is drawn as a bordered cell grid with hairline rules and no fills. Content alternates between centred single-column statements and two-column rows pairing copy with a line-art diagram. Diagrams are fine grey isometric or dot-cluster drawings, each containing exactly one orange sphere as the focal point.',
         imagerySubject: 'a fine grey isometric wireframe lattice with one orange sphere resting on it',
         mood: ['restrained', 'pragmatic', 'quiet', 'assured'],
-        signature: [
-          'Exactly one orange element appears in each diagram, acting as the focal point in an otherwise grey drawing',
-          'The logo wall is a bordered cell grid with hairline rules and no fills, not a floating row of marks',
-          'The canvas is warm bone rather than white, and stays visible across most of the page',
-          'Statements alternate between centred single-column and two-column diagram rows, with no other layout used',
-          'Buttons are small, dark and rectangular — deliberately understated against all the empty space'
-        ]
+        signature: {
+          carry: [
+            'Exactly one orange element appears in each diagram, acting as the focal point in an otherwise grey drawing',
+            'The logo wall is a bordered cell grid with hairline rules and no fills, not a floating row of marks',
+            'The canvas is warm bone rather than white, and stays visible across most of the page',
+            'Statements alternate between centred single-column and two-column diagram rows, with no other layout used',
+            'Buttons are small, dark and rectangular — deliberately understated against all the empty space'
+          ],
+          rewrite: [
+            'The logo wall is the reference\'s clients — fill the bordered cells with the target\'s real logos'
+          ]
+        }
       },
       {
         id: 'createape-1',
@@ -1477,13 +1983,19 @@
         layoutNotes: 'Near-white ground with project tiles placed asymmetrically against the grid at deliberately uneven sizes, some full-bleed and some inset. Each tile carries a caption pair beneath it — client name left, discipline right, both in micro caps. A statement block is set in low-contrast grey at display size. Insights are hairline-ruled rows with a category label left and title right. An oversized wordmark bleeds off both edges at the foot of the page.',
         imagerySubject: 'health-tech product interfaces shown as flat screenshots on plain grounds',
         mood: ['assured', 'spare', 'modern', 'unhurried'],
-        signature: [
-          'Project tiles are placed asymmetrically at deliberately uneven sizes — never a regular grid',
-          'Each tile is captioned by a pair in micro caps: client name left, discipline right',
-          'A full statement block is set in low-contrast grey at display size, almost disappearing into the canvas',
-          'An oversized wordmark runs across the page foot and bleeds off both edges',
-          'Insights are hairline-ruled rows with no thumbnails, category label left and title right'
-        ]
+        signature: {
+          carry: [
+            'Project tiles are placed asymmetrically at deliberately uneven sizes — never a regular grid',
+            'Each tile is captioned by a pair in micro caps: client name left, discipline right',
+            'A full statement block is set in low-contrast grey at display size, almost disappearing into the canvas',
+            'An oversized wordmark runs across the page foot and bleeds off both edges',
+            'Insights are hairline-ruled rows with no thumbnails, category label left and title right'
+          ],
+          rewrite: [
+            'The oversized wordmark at the page foot is the reference\'s brand — set the target\'s own wordmark bleeding off both edges',
+            'Caption pairs name the reference\'s clients and disciplines — write the target\'s own'
+          ]
+        }
       },
       {
         id: 'fuselab-creative-1',
@@ -1515,13 +2027,18 @@
         layoutNotes: 'Cool grey canvas with a narrow fixed left rail carrying the nav at very small size. The content sits in a white panel inset from the left rail. Projects run as a single stacked column of ultra-wide near-monochrome tiles, each showing a dashboard or AI interface with the project name reversed out at bottom-left and a circular green arrow button at bottom-right.',
         imagerySubject: 'dark enterprise dashboards and AI data interfaces, desaturated to near-monochrome',
         mood: ['austere', 'technical', 'controlled', 'serious'],
-        signature: [
-          'A narrow fixed left rail holds the entire navigation at very small size, with content inset beside it',
-          'Projects are a single stacked column of ultra-wide tiles, never a two- or three-up grid',
-          'Every tile image is desaturated to near-monochrome, so acid green is the only chroma on the page',
-          'Each tile carries its title reversed out at bottom-left and a circular green arrow at bottom-right',
-          'The white content panel floats on the grey canvas rather than filling the viewport'
-        ]
+        signature: {
+          carry: [
+            'A narrow fixed left rail holds the entire navigation at very small size, with content inset beside it',
+            'Projects are a single stacked column of ultra-wide tiles, never a two- or three-up grid',
+            'Every tile image is desaturated to near-monochrome, so acid green is the only chroma on the page',
+            'Each tile carries its title reversed out at bottom-left and a circular green arrow at bottom-right',
+            'The white content panel floats on the grey canvas rather than filling the viewport'
+          ],
+          rewrite: [
+            'Tile imagery and project names are reference work — substitute the target\'s projects, desaturated to match'
+          ]
+        }
       },
       {
         id: 'adam-fard-studio-1',
@@ -1554,13 +2071,19 @@
         layoutNotes: 'White ground with a horizontal strip of product screenshots directly beneath the hero. A qualification block pairs questions with radio-style options. Video testimonial cards run two-up with star ratings and named attribution beneath. Case studies alternate screenshot and copy left-to-right, each with a soft organic colour blob sitting behind the screenshot. Services close with a tab row and a pricing-style card.',
         imagerySubject: 'B2B SaaS dashboards and analytics interfaces shown as clean product screenshots',
         mood: ['competent', 'commercial', 'busy', 'reassuring'],
-        signature: [
-          'Soft organic colour blobs sit behind each case-study screenshot in teal, magenta or sky — the only non-neutral shapes',
-          'Testimonials are video cards with a play button, star rating and named role, two across',
-          'Every case study leads with bolded metric bullets rather than prose',
-          'A horizontal strip of product screenshots runs directly under the hero as proof-of-work before any copy',
-          'Section headings are centred while case-study content alternates left and right beneath them'
-        ]
+        signature: {
+          carry: [
+            'Soft organic colour blobs sit behind each case-study screenshot in teal, magenta or sky — the only non-neutral shapes',
+            'Testimonials are video cards with a play button, star rating and named role, two across',
+            'Every case study leads with bolded metric bullets rather than prose',
+            'A horizontal strip of product screenshots runs directly under the hero as proof-of-work before any copy',
+            'Section headings are centred while case-study content alternates left and right beneath them'
+          ],
+          rewrite: [
+            'Metric bullets are the reference\'s case results — use the target\'s real figures in the same bolded-inline form',
+            'Video testimonials are reference clients — use the target\'s real clients'
+          ]
+        }
       },
       {
         id: 'baymard-institute-1',
@@ -1592,13 +2115,18 @@
         layoutNotes: 'White ground with an unusually dense text-to-space ratio. Claims pair with data-table and scorecard screenshots placed right of the copy. Client logo bars break the sections. A long two-column accordion lists industry-specific audits. Brand pull-quotes are set centred with a large grayscale wordmark above them. A pale CTA band precedes the deep navy footer, which is itself a dense multi-column link directory.',
         imagerySubject: 'UX audit scorecards, benchmark tables and annotated interface screenshots',
         mood: ['rigorous', 'dense', 'authoritative', 'unglamorous'],
-        signature: [
-          'Text density is deliberately high — long measures, small type, minimal spacing between blocks',
-          'Every claim is paired with a data-table or scorecard screenshot placed to its right',
-          'Brand quotes are centred beneath a large grayscale client wordmark rather than an avatar',
-          'Industry audits are listed as a two-column accordion running dozens of rows deep',
-          'The navy footer is a dense multi-column link directory, as tall as a content section'
-        ]
+        signature: {
+          carry: [
+            'Text density is deliberately high — long measures, small type, minimal spacing between blocks',
+            'Every claim is paired with a data-table or scorecard screenshot placed to its right',
+            'Brand quotes are centred beneath a large grayscale client wordmark rather than an avatar',
+            'Industry audits are listed as a two-column accordion running dozens of rows deep',
+            'The navy footer is a dense multi-column link directory, as tall as a content section'
+          ],
+          rewrite: [
+            'Data tables, scorecards and benchmark figures are the reference\'s research — show the target\'s real data, never invented numbers'
+          ]
+        }
       },
       {
         id: 'depalma-studios-1',
@@ -1630,13 +2158,19 @@
         layoutNotes: 'White ground with the hero splitting copy left against a flat vector spot illustration right. Service and review sections alternate illustration and screenshot sides. Reviews are three-up cards with blue star rows and verified badges. A grayscale logo wall sits on a pale band. Project rows pair a coloured screenshot tile with copy. A bright blue CTA band with a subtle squiggle texture precedes the black footer.',
         imagerySubject: 'flat vector figures at desks and a watering can tending a plant, drawn with filled colour shapes',
         mood: ['friendly', 'commercial', 'approachable', 'straightforward'],
-        signature: [
-          'Spot illustrations use filled colour shapes with outlined figures — not line art, not photography',
-          'Reviews are Clutch-style cards with blue star rows and a verified badge beneath each attribution',
-          'Project screenshots each sit on their own saturated colour tile rather than on white',
-          'The closing CTA band carries a subtle squiggle texture over the flat blue',
-          'A tracked all-caps eyebrow labels every section, always above the heading'
-        ]
+        signature: {
+          carry: [
+            'Spot illustrations use filled colour shapes with outlined figures — not line art, not photography',
+            'Reviews are Clutch-style cards with blue star rows and a verified badge beneath each attribution',
+            'Project screenshots each sit on their own saturated colour tile rather than on white',
+            'The closing CTA band carries a subtle squiggle texture over the flat blue',
+            'A tracked all-caps eyebrow labels every section, always above the heading'
+          ],
+          rewrite: [
+            'Eyebrow strings — the reference uses 2–4-word all-caps labels ("WHAT WE DO", "CASE STUDIES"); write the target\'s own',
+            'Clutch reviews and verified badges are reference proof — use the target\'s real review platform and scores'
+          ]
+        }
       },
       {
         id: 'slide-ux-1',
@@ -1668,13 +2202,19 @@
         layoutNotes: 'A white content column sits inside a slate navy page frame. Focus areas are shown as three offset pairs: a pastel tile filled with a repeating line-icon pattern, overlapped by a dark navy card carrying the copy, alternating which side leads. An award badge row, a two-column accordion, and a grayscale client logo grid follow. A pale band carries contact details above the navy footer.',
         imagerySubject: 'repeating line-icon patterns of domain objects — carts, shields, brain glyphs — tiled at low contrast',
         mood: ['clear', 'considered', 'professional', 'calm'],
-        signature: [
-          'Focus areas pair a pastel icon-pattern tile with a dark navy card overlapping it, alternating which side leads',
-          'The pattern tiles are filled with repeating line icons drawn from that focus area\'s domain',
-          'The whole content column is inset inside a slate navy page frame rather than running full-bleed',
-          'Display copy is centred serif across three short lines, unusually narrow for the page width',
-          'Award badges are shown as their original hexagonal medallions in a six-up row, not flattened to logos'
-        ]
+        signature: {
+          carry: [
+            'Focus areas pair a pastel icon-pattern tile with a dark navy card overlapping it, alternating which side leads',
+            'The pattern tiles are filled with repeating line icons drawn from that focus area\'s domain',
+            'The whole content column is inset inside a slate navy page frame rather than running full-bleed',
+            'Display copy is centred serif across three short lines, unusually narrow for the page width',
+            'Award badges are shown as their original hexagonal medallions in a six-up row, not flattened to logos'
+          ],
+          rewrite: [
+            'Icon-pattern glyphs are drawn from each focus area\'s domain — redraw the tiles from the target\'s own domains',
+            'Award medallions are the reference\'s awards — show the target\'s real ones'
+          ]
+        }
       },
       {
         id: 'ux-studio-1',
@@ -1706,13 +2246,19 @@
         layoutNotes: 'White ground alternating with full-bleed black bands. Portfolio tiles run three-up with a caption beneath each. A "how can we help" block uses pale mint cards with abstract leaf-shaped green icons. A black band carries the commitment strip and a scrolling row of guarantees. Process steps run four-up as cards with green check icons. A candid team photo grid and a full-bleed electric green CTA band close the page.',
         imagerySubject: 'SaaS product interfaces on device mockups, and candid photos of a design team at work',
         mood: ['energetic', 'systematic', 'contemporary', 'direct'],
-        signature: [
-          'One electric green carries every accent — icons, checks, highlights and the full-bleed closing band',
-          'Full-bleed black bands interrupt the white ground at regular intervals, each holding a single claim',
-          'Help topics are shown as pale mint cards with abstract green leaf shapes rather than conventional icons',
-          'The team appears as a candid photo grid of uneven tile sizes, not as headshots',
-          'Guarantees run as a horizontal strip of short negative statements ("no cost", "no commitment")'
-        ]
+        signature: {
+          carry: [
+            'One electric green carries every accent — icons, checks, highlights and the full-bleed closing band',
+            'Full-bleed black bands interrupt the white ground at regular intervals, each holding a single claim',
+            'Help topics are shown as pale mint cards with abstract green leaf shapes rather than conventional icons',
+            'The team appears as a candid photo grid of uneven tile sizes, not as headshots',
+            'Guarantees run as a horizontal strip of short negative statements'
+          ],
+          rewrite: [
+            'Guarantee strings — the reference reassures with "no cost", "no commitment"; write the target\'s own short negative reassurances',
+            'Team photos are the reference\'s studio — use candid photos of the target\'s real team'
+          ]
+        }
       },
       {
         id: 'wandr-1',
@@ -1743,13 +2289,19 @@
         layoutNotes: 'Stark alternation between full-bleed black and white bands with no transitional colour. Display type fills the full measure with no accompanying image. Device screenshots float over the bands carrying mint metric callouts. Statistics run four-up at display size. Services are an accordion of all-caps rows with arrow glyphs at the right edge. Testimonial cards sit three-up on white.',
         imagerySubject: 'mobile app screens floating at an angle with metric callouts beside them',
         mood: ['blunt', 'confident', 'high-contrast', 'commercial'],
-        signature: [
-          'Every display line pairs heavy condensed caps with a serif-italic phrase completing the sentence',
-          'Bands alternate pure black and pure white with no intermediate tone anywhere in the page',
-          'Mint appears only on numerals and metric callouts — never on type, fills or buttons',
-          'Display blocks fill the full 12-column measure with no accompanying image beside them',
-          'Service categories are all-caps accordion rows with a → glyph pinned to the right edge'
-        ]
+        signature: {
+          carry: [
+            'Every display line pairs heavy condensed caps with a serif-italic phrase completing the sentence',
+            'Bands alternate pure black and pure white with no intermediate tone anywhere in the page',
+            'Mint appears only on numerals and metric callouts — never on type, fills or buttons',
+            'Display blocks fill the full 12-column measure with no accompanying image beside them',
+            'Service categories are all-caps accordion rows with a → glyph pinned to the right edge'
+          ],
+          rewrite: [
+            'Serif-italic completions — each caps sentence is finished by an italic phrase ("that don\'t.", "you can measure"); write new completions that land the target\'s claim',
+            'Statistic values are reference results — use the target\'s real numbers'
+          ]
+        }
       },
       {
         id: 'bird-ux-1',
@@ -1781,13 +2333,19 @@
         layoutNotes: 'White ground with a gradient-mesh hero carrying ghosted outline display type. Each section opens with a flush-left heavy caps heading immediately followed by a serif-italic line. Case studies run two-up separated only by a thin vertical rule with no card or fill. Article cards run four-up with saturated thumbnail images. A deep teal footer carries the email address at heading size in mint.',
         imagerySubject: 'saturated abstract poster art and portrait collages used as article thumbnails',
         mood: ['opinionated', 'editorial', 'European', 'direct'],
-        signature: [
-          'Every section heading is heavy condensed caps in teal, answered immediately beneath by a serif-italic sentence',
-          'The serif-italic line always contains one thickly underlined link as its emphasis',
-          'A mint highlighter swipe marks a single serif-italic line, used exactly once on the page',
-          'Case studies are separated by a thin vertical rule alone — no cards, borders or fills',
-          'The footer sets the studio email address at heading size in mint on deep teal'
-        ]
+        signature: {
+          carry: [
+            'Every section heading is heavy condensed caps in teal, answered immediately beneath by a serif-italic sentence',
+            'The serif-italic line always contains one thickly underlined link as its emphasis',
+            'A mint highlighter swipe marks a single serif-italic line, used exactly once on the page',
+            'Case studies are separated by a thin vertical rule alone — no cards, borders or fills',
+            'The footer sets the studio email address at heading size in mint on deep teal'
+          ],
+          rewrite: [
+            'The footer email is the studio\'s — set the target\'s real address at heading size',
+            'Article thumbnails are the reference\'s editorial art — substitute the target\'s own imagery at equal saturation'
+          ]
+        }
       },
       {
         id: 'focus-lab-1',
@@ -1819,13 +2377,19 @@
         layoutNotes: 'Cream canvas alternating with full-bleed black bands. Brand work is shown as flat colour tiles at logo scale — one wide, two half-width — each with a tiny caption beneath. Hand-drawn red circles and arrows annotate headings, book covers and FAQ titles throughout. A book promotion card sits on black with a red arrow pointing at the cover. Client press runs as a hairline-ruled serif list with a red arrow link at the foot.',
         imagerySubject: 'brand identity work shown as flat colour fields with the client wordmark centred',
         mood: ['confident', 'crafted', 'editorial', 'warm'],
-        signature: [
-          'Hand-drawn red circles and arrows annotate headings, covers and FAQ titles across the whole page',
-          'Brand work appears as flat colour tiles at logo scale rather than as screenshots or mockups',
-          'The canvas is cream, not white, and alternates with pure black full-bleed bands',
-          'Section labels appear as small red tabs attached to the top edge of the band they introduce',
-          'Client press is an editorial serif list with hairline rules and no thumbnails'
-        ]
+        signature: {
+          carry: [
+            'Hand-drawn red circles and arrows annotate headings, covers and FAQ titles across the whole page',
+            'Brand work appears as flat colour tiles at logo scale rather than as screenshots or mockups',
+            'The canvas is cream, not white, and alternates with pure black full-bleed bands',
+            'Section labels appear as small red tabs attached to the top edge of the band they introduce',
+            'Client press is an editorial serif list with hairline rules and no thumbnails'
+          ],
+          rewrite: [
+            'Press headlines and the book promotion are the reference\'s publications — substitute the target\'s real press and publications',
+            'Brand tiles carry reference client wordmarks — use the target\'s real client marks'
+          ]
+        }
       },
       {
         id: 'ibm-guidebook-home',
@@ -1858,13 +2422,19 @@
         layoutNotes: 'Full-bleed photograph under a heavy dark scrim carries the headline and a rounded search field, with the photo subject bleeding off the right edge. News and Spotlight sit as two plain link columns inside the darkened band below. A light band holds twelve capability tiles four across, each an outlined blue circle icon above a title and two lines of body. A full-width curved wave hands the light band into the dark resources footer.',
         imagerySubject: 'a person at a laptop holding a mug, shot in warm natural light in a plain interior',
         mood: ['institutional', 'service-like', 'orderly', 'plain'],
-        signature: [
-          'The headline sits directly on the scrimmed photograph with no card, panel or plate behind it',
-          'News and Spotlight are two plain link columns inside the darkened hero band, not a separate section',
-          'Capability tiles are outlined blue circle icons above a title and two lines of body, four across and three rows deep',
-          'A full-width curved wave hands the light icon grid into the dark resources footer',
-          'Every link inside the dark bands closes with a trailing arrow glyph instead of being underlined'
-        ]
+        signature: {
+          carry: [
+            'The headline sits directly on the scrimmed photograph with no card, panel or plate behind it',
+            'News and Spotlight are two plain link columns inside the darkened hero band, not a separate section',
+            'Capability tiles are outlined blue circle icons above a title and two lines of body, four across and three rows deep',
+            'A full-width curved wave hands the light icon grid into the dark resources footer',
+            'Every link inside the dark bands closes with a trailing arrow glyph instead of being underlined'
+          ],
+          rewrite: [
+            'Tile titles, News and Spotlight links are the reference\'s programmes — write the target\'s own 2–4-word noun-phrase titles',
+            'The search placeholder and hero headline are reference copy — write the target\'s own task-oriented prompt'
+          ]
+        }
       },
       {
         id: 'ibm-cognitive-sales-advisor',
@@ -1897,13 +2467,19 @@
         layoutNotes: 'Deep navy hero splits an amber headline and amber CTA left against an embedded video thumbnail right. A blue anchor sub-nav band runs full width directly beneath it. The white feature section places a rotated statement at far left against a six-cell grid of amber line-art icons with bulleted body copy. An orange CTA card floats over the curved divider, half on white and half on navy. Below, three oversized amber statistics sit on navy, then a testimonial carousel of bordered cards with circular avatars.',
         imagerySubject: 'a video still of a meeting room seen through overlapping translucent panels on a dark network backdrop',
         mood: ['institutional', 'explanatory', 'evidence-led', 'corporate'],
-        signature: [
-          'The hero splits an amber headline left against an embedded video thumbnail right, both on deep navy',
-          'A blue anchor sub-nav band of in-page links sits directly beneath the hero as its own full-width band',
-          'Feature icons are amber line-art glyphs with no enclosing circle, unlike the outlined blue circles used elsewhere on the site',
-          'An amber CTA card floats over the curved divider, half on the white band and half on the navy one',
-          'Statistics are set at display size in amber on navy, with the money figure bolded inside the caption beneath'
-        ]
+        signature: {
+          carry: [
+            'The hero splits an amber headline left against an embedded video thumbnail right, both on deep navy',
+            'A blue anchor sub-nav band of in-page links sits directly beneath the hero as its own full-width band',
+            'Feature icons are amber line-art glyphs with no enclosing circle, unlike the outlined blue circles used elsewhere on the site',
+            'An amber CTA card floats over the curved divider, half on the white band and half on the navy one',
+            'Statistics are set at display size in amber on navy, with the money figure bolded inside the caption beneath'
+          ],
+          rewrite: [
+            'Statistics and money figures are the reference\'s business case — use the target\'s real numbers with the figure bolded',
+            'Sub-nav anchor labels name the reference\'s page sections — write the target\'s own'
+          ]
+        }
       },
       {
         id: 'ridgeframe-strategies-group',
@@ -1936,13 +2512,18 @@
         layoutNotes: 'Warm bone bands alternate with a lighter ground, transitions unmarked by any rule. The hero splits serif copy left against a flat tinted plate carrying a single-stroke line chart right, with a tinted note box beneath the buttons. A full-width serif statement fills its own bone band. Four ordered steps run across, each a teal numeral above a hairline rule with a closing monospaced deliverable line. The diagnostic framework is a bordered four-by-two grid of cells, each naming its anchoring standard in mono caps, with one cell tinted mint. Severity and effort legends close the section as colour-coded pill tags.',
         imagerySubject: 'a single-stroke analytical trend line on a flat tinted plate, no axes or labels',
         mood: ['diagnostic', 'accountable', 'restrained', 'senior'],
-        signature: [
-          'Every claim carries a monospaced uppercase label beneath it naming the standard it is scored against (CORE WEB VITALS, WCAG 2.1 AA, BAYMARD INSTITUTE)',
-          'The diagnostic framework is a bordered four-by-two grid sharing 1px rules between cells, with exactly one cell tinted mint to explain the scoring',
-          'Findings are classified by two independent legends — severity and effort — each a row of pill tags in its own hue with a leading glyph',
-          'The only image on the page is a single-stroke line chart on a flat tinted plate, with no axes, labels or gridlines',
-          'Ordered steps place the teal numeral above a hairline rule and close with a monospaced line stating the deliverable'
-        ]
+        signature: {
+          carry: [
+            'Every claim carries a monospaced uppercase label beneath it naming the standard it is scored against',
+            'The diagnostic framework is a bordered four-by-two grid sharing 1px rules between cells, with exactly one cell tinted mint to explain the scoring',
+            'Findings are classified by two independent legends — severity and effort — each a row of pill tags in its own hue with a leading glyph',
+            'The only image on the page is a single-stroke line chart on a flat tinted plate, with no axes, labels or gridlines',
+            'Ordered steps place the teal numeral above a hairline rule and close with a monospaced line stating the deliverable'
+          ],
+          rewrite: [
+            'The standards cited — the reference scores against CORE WEB VITALS, WCAG 2.1 AA and BAYMARD INSTITUTE; cite only standards the target actually audits against, never invent one'
+          ]
+        }
       },
       {
         id: 'cgr-consulting',
@@ -1974,13 +2555,19 @@
         layoutNotes: 'Off-white ground alternating with full-bleed electric blue bands where all type is knocked out to white. The hero photograph is duotoned entirely into the blue and runs full-bleed beneath the serif headline. A starburst badge reading "Since 2012" sits inside the blue band beside the founder story and a row of client wordmarks. Below, a long light-serif heading is paired with three blue line-illustration capability blocks, then a second illustrated section, and a closing blue band carrying contact columns.',
         imagerySubject: 'a salesperson leaning over a desk mid-conversation, duotoned entirely into a single blue',
         mood: ['disciplined', 'confident', 'brand-forward', 'energetic'],
-        signature: [
-          'The hero photograph is duotoned entirely into the brand blue, so the page contains no full-colour image anywhere',
-          'A serif-italic "(Almost)" sits above the heavy caps statement, softening a line that would otherwise read as a boast',
-          'A starburst badge carries the founding year inside the blue band, the only non-rectangular shape on the page',
-          'Capability illustrations are drawn in blue line only, at uniform stroke, with no fill or shading',
-          'Light serif and heavy condensed caps alternate as the two display voices, never appearing in the same block'
-        ]
+        signature: {
+          carry: [
+            'The hero photograph is duotoned entirely into the brand blue, so the page contains no full-colour image anywhere',
+            'A serif-italic aside sits above the heavy caps statement, softening a line that would otherwise read as a boast',
+            'A starburst badge carries the founding year inside the blue band, the only non-rectangular shape on the page',
+            'Capability illustrations are drawn in blue line only, at uniform stroke, with no fill or shading',
+            'Light serif and heavy condensed caps alternate as the two display voices, never appearing in the same block'
+          ],
+          rewrite: [
+            'The italic aside — the reference softens its boast with "(Almost)"; write a new 1–2-word aside that undercuts the target\'s caps statement',
+            'The badge year and client wordmarks are the reference\'s history — use the target\'s real founding year and clients'
+          ]
+        }
       },
       {
         id: 'tori-talkjs',
@@ -2012,13 +2599,19 @@
         layoutNotes: 'White ground gridded by 1px dashed blue borders that outline nearly every region, giving a blueprint feel. The hero is a solid blue panel split between headline and white-outlined wireframe chat boxes. Step and feature cards sit inside dashed cells with an arrow-prefixed label, a solid blue icon chip, and a blue title. A full-width band renders "ASK TORI" in outline lettering filled with horizontal stripes. The closing contact section pairs copy with a dashed-bordered form.',
         imagerySubject: 'wireframe chat panels drawn as white outlines on flat blue, with no interface chrome or real text',
         mood: ['technical', 'precise', 'engineered', 'restrained'],
-        signature: [
-          'Nearly every region is outlined by a 1px dashed blue border, giving the page a blueprint rather than a card feel',
-          'Body copy in the primary explanation block is monospaced, not sans, and set at reading size rather than as code',
-          'Every micro label is prefixed with an arrow glyph (→ STEP 01, → KNOWLEDGE, → DATA)',
-          'The "ASK TORI" band is outline lettering filled with horizontal stripes, the only decorative type on the page',
-          'There is no black anywhere — headlines, body and rules are all blue, and the darkest value on the page is a deep blue'
-        ]
+        signature: {
+          carry: [
+            'Nearly every region is outlined by a 1px dashed blue border, giving the page a blueprint rather than a card feel',
+            'Body copy in the primary explanation block is monospaced, not sans, and set at reading size rather than as code',
+            'Every micro label is prefixed with an arrow glyph',
+            'The product-name band is outline lettering filled with horizontal stripes, the only decorative type on the page',
+            'There is no black anywhere — headlines, body and rules are all blue, and the darkest value on the page is a deep blue'
+          ],
+          rewrite: [
+            'Micro-label strings — the reference labels steps and features (STEP 01, KNOWLEDGE, DATA); write the target\'s own 1–2-word all-caps labels behind the arrow',
+            'The striped band word is the reference\'s product name — set the target\'s product name'
+          ]
+        }
       },
       {
         id: 'high-five-strategies',
@@ -2051,13 +2644,19 @@
         layoutNotes: 'Warm bone ground with a circular badge ring overlapping the founder portrait in the hero. Client quotes run as a horizontally scrolling strip of cards, each filled with a different accent and closed by a bold-caps attribution. A full-bleed near-black band carries five arrow-shaped process steps, one per accent, each with a line icon and a serif title beneath. A five-colour stripe closes that band. Team members alternate left and right as large circular portraits beside serif bios, and a mint form panel closes the page.',
         imagerySubject: 'two women high-fiving across a desk in a bright office, and warm posed portraits of named consultants',
         mood: ['warm', 'personal', 'encouraging', 'methodical'],
-        signature: [
-          'Five fixed accents repeat in the same order across quote cards, chevron steps and the stripe divider',
-          'Process steps are arrow-shaped chevrons interlocking across a full-bleed near-black band, one accent each',
-          'A five-colour stripe divider closes the dark band, restating the palette as a legend',
-          'Client quotes scroll horizontally as colour-filled cards, each attributed in bold caps to a named executive',
-          'A circular badge ring overlaps the founder portrait in the hero, part logo and part frame'
-        ]
+        signature: {
+          carry: [
+            'Five fixed accents repeat in the same order across quote cards, chevron steps and the stripe divider',
+            'Process steps are arrow-shaped chevrons interlocking across a full-bleed near-black band, one accent each',
+            'A five-colour stripe divider closes the dark band, restating the palette as a legend',
+            'Client quotes scroll horizontally as colour-filled cards, each attributed in bold caps to a named executive',
+            'A circular badge ring overlaps the founder portrait in the hero, part logo and part frame'
+          ],
+          rewrite: [
+            'Eyebrow strings — the reference greets in first person ("HI, WE\'RE HIGH FIVE."); write new short we-voice eyebrows for the target',
+            'Quotes, executives and portraits are reference people — use the target\'s real clients and team'
+          ]
+        }
       },
       {
         id: 'fourfold-consulting',
@@ -2090,13 +2689,18 @@
         layoutNotes: 'A pale cloud-gradient hero carries a two-line teal heading at left against a render of stepped columns bleeding off the right. Below, sections alternate a narrow copy column with a render, separated by unusually deep empty space. A full-bleed render places two figures against a cube and a sphere. Services are a plain accordion of four teal rows with plus glyphs, paired with a short copy column. A teal full-bleed footer closes the page with centred white type.',
         imagerySubject: 'tiny human figures pushing a giant pink cube, rolling a teal sphere, and balancing on a seesaw against a pale cloud backdrop',
         mood: ['considered', 'unhurried', 'spacious', 'thoughtful'],
-        signature: [
-          'Every image is a photoreal render at impossible scale — human figures the size of a hand beside cubes and spheres taller than they are',
-          'Renders sit on a pale seamless backdrop with soft cloud, so no image has a real setting or horizon',
-          'The only saturated element is a muted teal, and it carries every heading, rule and button on the page',
-          'Empty space between sections runs to roughly twenty base units, more than most sections occupy themselves',
-          'Headings are deliberately small for their position — the render, not the type, opens each section'
-        ]
+        signature: {
+          carry: [
+            'Every image is a photoreal render at impossible scale — human figures the size of a hand beside cubes and spheres taller than they are',
+            'Renders sit on a pale seamless backdrop with soft cloud, so no image has a real setting or horizon',
+            'The only saturated element is a muted teal, and it carries every heading, rule and button on the page',
+            'Empty space between sections runs to roughly twenty base units, more than most sections occupy themselves',
+            'Headings are deliberately small for their position — the render, not the type, opens each section'
+          ],
+          rewrite: [
+            'Accordion row labels name the reference\'s services — write the target\'s own noun phrases'
+          ]
+        }
       },
       {
         id: 'canopy-ai-seo',
@@ -2129,13 +2733,19 @@
         layoutNotes: 'White ground with a grainy green gradient rising into the hero and mirrored in the closing band, each fading to a dot-grid texture strip at its edge. A pale rounded app mockup floats over the hero gradient. Feature sections use pale rounded cards in one- and two-column arrangements. A comparison table sets three alternatives against a green-highlighted Canopy column. Pricing runs three tiers across, followed by a plain FAQ accordion.',
         imagerySubject: 'a Squarespace blog editor interface shown as a pale rounded product mockup, no chrome beyond window dots',
         mood: ['clean', 'confident', 'commercial', 'calm'],
-        signature: [
-          'A grainy green gradient bookends the page, rising into the hero and mirrored in the closing band',
-          'Each gradient terminates in a dot-grid texture strip rather than a hard edge',
-          'Every section heading is a transitional serif, unusual for a product page otherwise built from conventional SaaS blocks',
-          'The comparison table highlights the Canopy column with a green fill and a leading dot, while alternatives stay grey',
-          'The product mockup carries only window dots — no browser chrome, no toolbar, no real interface text'
-        ]
+        signature: {
+          carry: [
+            'A grainy green gradient bookends the page, rising into the hero and mirrored in the closing band',
+            'Each gradient terminates in a dot-grid texture strip rather than a hard edge',
+            'Every section heading is a transitional serif, unusual for a product page otherwise built from conventional SaaS blocks',
+            'The comparison table highlights the Canopy column with a green fill and a leading dot, while alternatives stay grey',
+            'The product mockup carries only window dots — no browser chrome, no toolbar, no real interface text'
+          ],
+          rewrite: [
+            'Section headings — the reference speaks in clipped serif promises ("Blog on autopilot."); write new 2–4-word promises ending in a full stop',
+            'Comparison and pricing content is the reference\'s offer — use the target\'s real alternatives and tiers'
+          ]
+        }
       },
       {
         id: 'onlook-ring-menu-bar',
@@ -2167,13 +2777,19 @@
         layoutNotes: 'Near-black ground opened by a full-bleed iridescent gradient ribbon that carries the centred headline and a glass download pill. Below it a centred section head introduces a single large rounded product screenshot. Three feature markers run across, each a small app icon above a caption and two lines of body. Two rounded cards sit two-up with screenshots and captions. A left-aligned serif-free FAQ heading pairs with a chevron accordion column, and a minimal footer closes on the app glyph.',
         imagerySubject: 'an iridescent ribbon of twisted colour bands, and Ring camera feeds shown inside a macOS menu-bar panel',
         mood: ['polished', 'premium', 'restrained', 'contemporary'],
-        signature: [
-          'The hero is a full-bleed iridescent ribbon of twisted colour, the only saturated element on an otherwise monochrome page',
-          'The download CTA is a translucent glass pill carrying the Apple glyph, floating directly on the ribbon',
-          'Feature markers are small app icons rather than line icons or numerals, set above their captions',
-          'Body copy sits at markedly reduced opacity against the near-black, so headings carry almost all the contrast',
-          'The FAQ heading is left-aligned against a right-hand accordion column, breaking the page\'s otherwise centred axis'
-        ]
+        signature: {
+          carry: [
+            'The hero is a full-bleed iridescent ribbon of twisted colour, the only saturated element on an otherwise monochrome page',
+            'The download CTA is a translucent glass pill carrying the Apple glyph, floating directly on the ribbon',
+            'Feature markers are small app icons rather than line icons or numerals, set above their captions',
+            'Body copy sits at markedly reduced opacity against the near-black, so headings carry almost all the contrast',
+            'The FAQ heading is left-aligned against a right-hand accordion column, breaking the page\'s otherwise centred axis'
+          ],
+          rewrite: [
+            'The Apple glyph and app icons are platform marks — use the real marks of the target\'s platform',
+            'Feature captions and FAQ copy are reference product facts — write the target\'s own'
+          ]
+        }
       }
     ]
   };

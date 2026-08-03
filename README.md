@@ -48,8 +48,9 @@ and reports the conflict.
    Reports the page's ground colours and its accents as two separate passes.
 4. **Open the screenshot and look at it.** Give each hex a `usage` role, then
    write the entry's `descriptor`, `typography`, `layoutNotes`, `mood`, and its
-   `signature` — three to five bullets naming what this page does structurally
-   that others in its style family don't.
+   `signature` — a **Carry** list of three to five bullets naming what this page
+   does structurally that others in its style family don't, and a **Rewrite** list
+   naming the reference-specific words and copy a consuming agent must replace.
 5. Match it to an existing category or add a new one. A new category also needs
    a `system` (its proportional scale) and a `wireframe`.
 6. Check your work, then reload the page and open the modal:
@@ -76,10 +77,15 @@ for a while. `sample-palette.py` replaces both. See [AGENTS.md](AGENTS.md).
 
 **Copy Brief** in the modal produces layered Markdown, ordered so each reader can
 stop where it makes sense: a one-paragraph style summary, then what makes this
-particular reference distinct, then the proportional system in base units, the
-same values resolved to pixels, an ASCII wireframe with column spans, the locked
-palette, and the imagery rules. A header at the top tells the receiving tool which
-layers to obey depending on whether you want a faithful recreation or a variation.
+particular reference distinct (split into devices to carry and content to rewrite),
+then the proportional system in base units with named typefaces, the same values
+resolved to pixels, an ASCII wireframe with column spans, the locked palette with
+measured contrast and text-safe grounds, the imagery rules, and the prescriptive
+layers — copy register, interaction states, motion, and how to adapt the style to
+an existing brand. A header at the top tells the receiving tool which layers to
+obey depending on whether you want a faithful recreation, a variation, or a brand
+adaptation. The aim is a *zero-decision* brief: a consuming agent should have
+nothing left to reconcile, sort, or invent.
 
 [AGENTS.md](AGENTS.md) documents the data model and the invariants behind this.
 

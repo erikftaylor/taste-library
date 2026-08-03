@@ -32,7 +32,13 @@ test('every image has the required non-empty fields and a valid categoryId', fun
       assert.ok(HEX_RE.test(color.hex), image.id + ' has invalid hex: ' + color.hex);
       assert.ok(color.usage, image.id + ' has a color with no usage role: ' + color.hex);
     });
-    assert.ok(Array.isArray(image.signature) && image.signature.length >= 3, image.id + ' needs at least 3 signature bullets');
+    var sig = image.signature;
+    assert.ok(sig && Array.isArray(sig.carry) && sig.carry.length >= 3, image.id + ' needs at least 3 Carry signature bullets');
+    assert.ok(Array.isArray(sig.rewrite) && sig.rewrite.length >= 1, image.id + ' needs at least 1 Rewrite item — even if only the reference\'s proper nouns');
+    sig.carry.forEach(function (line) {
+      assert.ok(line.indexOf('"') === -1 && line.indexOf('“') === -1,
+        image.id + ' Carry bullet quotes literal copy — move the words to Rewrite: ' + line);
+    });
     assert.ok(image.typography, image.id + ' missing typography');
     assert.ok(image.layoutNotes, image.id + ' missing layoutNotes');
     assert.ok(image.imagerySubject, image.id + ' missing imagerySubject');
@@ -61,10 +67,36 @@ test('no two images in a category share a signature bullet', function () {
   var byCategory = {};
   data.images.forEach(function (image) {
     byCategory[image.categoryId] = byCategory[image.categoryId] || [];
-    image.signature.forEach(function (line) {
+    image.signature.carry.concat(image.signature.rewrite).forEach(function (line) {
       var hit = byCategory[image.categoryId].filter(function (e) { return e.line === line; })[0];
       assert.ok(!hit, image.id + ' repeats a signature bullet from ' + (hit && hit.id) + ': ' + line);
       byCategory[image.categoryId].push({ id: image.id, line: line });
     });
+  });
+});
+
+test('every category carries the typeface, register, motion, states and adaptation layers', function () {
+  data.categories.forEach(function (category) {
+    var f = category.fonts;
+    assert.ok(f && Array.isArray(f.roles) && f.roles.length >= 1, category.id + ' missing fonts.roles');
+    f.roles.forEach(function (row) {
+      assert.ok(row[0] && row[1], category.id + ' has a fonts role without a scope or faces');
+    });
+    assert.ok(f.never, category.id + ' missing fonts.never — the never-list is mandatory');
+
+    assert.ok(Array.isArray(category.copyRegister) && category.copyRegister.length >= 2,
+      category.id + ' needs at least 2 copy-register rules');
+    assert.ok(Array.isArray(category.motion) && category.motion.length >= 2,
+      category.id + ' needs a motion spec — state "not observed" and prescribe the default rather than omitting it');
+    assert.ok(Array.isArray(category.states) && category.states.length >= 2,
+      category.id + ' needs hover/focus/active states for its interactive components');
+    category.states.forEach(function (row) {
+      assert.ok(row[0] && row[1], category.id + ' has a states row without a component or spec');
+    });
+
+    var a = category.adaptation;
+    assert.ok(a && a.yields && a.register, category.id + ' missing adaptation.yields or adaptation.register');
+    assert.ok(Array.isArray(a.locked) && a.locked.length >= 2 && a.locked.length <= 4,
+      category.id + ' adaptation.locked must name the 2–4 devices that ARE the style');
   });
 });
