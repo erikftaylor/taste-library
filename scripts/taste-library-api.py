@@ -205,6 +205,12 @@ def run_prepare(root, job_id, files):
 
 ANALYST_PROMPT = """You are adding one reference to a design taste library.
 
+A reference is any designed artifact — a website screenshot, a UI kit board,
+a palette card, a poster, an app screen. Describe the design OF the artifact
+itself: its own composition, its own typography, its own colour roles. Use
+the artifact's vocabulary for colour usage (a palette card has a "canvas
+ground", not a "page ground").
+
 Read AGENTS.md in this repository first — it defines the data model, the
 provenance rule for colour, and the authoring standards. Follow it exactly.
 

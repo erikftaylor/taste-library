@@ -213,7 +213,18 @@ pixel count. Run length alone is not enough — text, dashes and gradients never
 long runs, and an early version of this check rejected 22 legitimate colours before
 the three-signal rule replaced it.
 
-## Adding a screenshot
+## Adding a reference
+
+A reference is any **designed artifact**, not only a web page — UI kit
+boards, palette cards, posters, and app screens all qualify. The entry
+describes the design *of the artifact itself* (the palette card's own
+rounded blocks, its typography, its composition) with the same fields and
+the same standards as a website entry. Categories stay emergent: a board
+that fits no existing family founds a new category whose `system` and
+`wireframe` describe the board's composition. Colour `usage` roles use the
+artifact's own vocabulary ("canvas ground", "card ground") rather than
+forcing "page ground" — the verifier's OVERCLAIMED check only fires on
+page-level ground claims, and that rule applies verbatim.
 
 1. Drop the file in `images/`.
 2. `python3 scripts/resize-images.py "images/new-thing.png"` → thumb + display WebP.

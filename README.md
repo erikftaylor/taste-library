@@ -35,7 +35,11 @@ and reports the conflict.
 
 ## Adding new screenshots
 
-1. Drop image files into `images/`, or use the in-app Upload area.
+1. Drop image files into `images/`, or use the in-app Upload area — when the
+   local server is running, dropped files are saved into `images/` for you
+   and each Inbox card offers a one-click Import. Any designed artifact
+   qualifies, not just website screenshots: UI kit boards, palette cards,
+   posters, app screens.
 2. Generate WebP derivatives:
    ```bash
    python3 scripts/resize-images.py "images/design.png"
