@@ -17,6 +17,11 @@ Two endpoints matter, and the split between them is deliberate:
                         then REFUSES the result unless the deterministic
                         verifier agrees every hex came from that screenshot.
 
+    POST /api/upload    saves one image into images/ so the two endpoints
+                        above can see it. Raw binary body, filename in an
+                        X-Filename header (URI-encoded), name sanitized to
+                        ASCII, byte-identical re-uploads deduplicated.
+
 The verifier gates the write. A proposed palette that fails provenance is
 discarded rather than saved, whoever authored it — that rule is what keeps a
 model from reintroducing the class of error this library already shipped once.
@@ -35,14 +40,17 @@ import shutil
 import subprocess
 import sys
 import threading
+import unicodedata
 import uuid
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import unquote
 
 TOKEN = secrets.token_urlsafe(24)
 JOBS = {}
 JOBS_LOCK = threading.Lock()
 IMAGE_SUFFIXES = ('.png', '.jpg', '.jpeg', '.webp')
+MAX_UPLOAD_BYTES = 50 * 1024 * 1024
 
 
 def repo_run(root, args, timeout=900):
@@ -81,6 +89,56 @@ def scan(root):
             'hasDisplay': os.path.exists(os.path.join(root, 'images/display', os.path.splitext(name)[0] + '.webp')),
         })
     return found
+
+
+def sanitize_filename(raw):
+    """ASCII kebab basename for images/, or None if not an image extension.
+
+    The client sends encodeURIComponent(name) because fetch() headers cannot
+    carry characters above U+00FF; unquote() reverses that and is harmless on
+    plain names.
+    """
+    name = unquote(raw or '').replace('\\', '/').rsplit('/', 1)[-1]
+    stem, dot, ext = name.rpartition('.')
+    if not dot:
+        return None
+    ext = '.' + ext.lower()
+    if ext not in IMAGE_SUFFIXES:
+        return None
+    stem = unicodedata.normalize('NFKD', stem).encode('ascii', 'ignore').decode()
+    stem = re.sub(r'[^a-z0-9]+', '-', stem.lower()).strip('-') or 'upload'
+    return stem + ext
+
+
+def store_upload(root, name, data):
+    """Write into images/. Returns (relative path, alreadyPresent).
+
+    Byte-identical content under any candidate name is reported as already
+    present rather than rewritten; a name collision with different content
+    walks -2, -3, … until a free or identical slot appears. The create uses
+    O_EXCL ('xb') so two threads racing on the same sanitized name cannot
+    both pass a check and then both write — the loser gets FileExistsError
+    and falls through to the byte-compare / suffix walk instead of
+    silently clobbering the winner's bytes.
+    """
+    images_dir = os.path.join(root, 'images')
+    os.makedirs(images_dir, exist_ok=True)
+    stem, ext = os.path.splitext(name)
+    candidate = name
+    counter = 2
+    while True:
+        full = os.path.join(images_dir, candidate)
+        try:
+            with open(full, 'xb') as fh:
+                fh.write(data)
+            return 'images/' + candidate, False
+        except FileExistsError:
+            pass
+        with open(full, 'rb') as fh:
+            if fh.read() == data:
+                return 'images/' + candidate, True
+        candidate = '%s-%d%s' % (stem, counter, ext)
+        counter += 1
 
 
 def new_job():
@@ -267,6 +325,28 @@ class Handler(SimpleHTTPRequestHandler):
         self._json(403, {'error': 'bad or missing token'})
         return False
 
+    def _upload(self):
+        if not self._authorised():
+            return
+        name = sanitize_filename(self.headers.get('X-Filename', ''))
+        if name is None:
+            self._json(400, {'error': 'filename must end in .png, .jpg, .jpeg or .webp'})
+            return
+        length = int(self.headers.get('Content-Length') or 0)
+        if length <= 0:
+            self._json(400, {'error': 'empty upload'})
+            return
+        if length > MAX_UPLOAD_BYTES:
+            self._json(413, {'error': 'upload larger than 50 MB'})
+            return
+        data = self.rfile.read(length)
+        try:
+            file_path, already = store_upload(self.project_root, name, data)
+        except OSError as exc:
+            self._json(500, {'error': str(exc)})
+            return
+        self._json(200, {'file': file_path, 'alreadyPresent': already})
+
     def do_GET(self):
         if self.path == '/api/token':
             self._json(200, {'token': TOKEN})
@@ -287,6 +367,9 @@ class Handler(SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self):
+        if self.path == '/api/upload':
+            self._upload()
+            return
         if self.path not in ('/api/prepare', '/api/import'):
             self._json(404, {'error': 'no such endpoint'})
             return
