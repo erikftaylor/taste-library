@@ -72,6 +72,8 @@ body {
 }
 .inbox-card-body { padding: 10px; }
 .inbox-badge { font-size: 10px; color: #999; margin-bottom: 8px; display: block; }
+.inbox-badge.saved { color: #2f6f4f; }
+.inbox-badge.failed { color: #a8442a; }
 .inbox-card-name { font-size: 11px; word-break: break-all; margin-bottom: 8px; }
 .inbox-actions { display: flex; gap: 6px; }
 .inbox-actions button {

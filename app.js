@@ -458,14 +458,52 @@ function addFilesToInbox(fileList) {
   Array.prototype.forEach.call(fileList, function (file) {
     if (!file.type || file.type.indexOf('image/') !== 0) return;
     inboxIdCounter += 1;
-    inboxImages.push({
+    var item = {
       id: 'inbox-' + inboxIdCounter,
       file: file,
       name: file.name,
-      previewUrl: URL.createObjectURL(file)
-    });
+      previewUrl: URL.createObjectURL(file),
+      // null = browser-only (no API): today's behaviour, Download/Remove.
+      status: importToken ? 'uploading' : null,
+      serverPath: null,
+      note: ''
+    };
+    inboxImages.push(item);
+    if (item.status === 'uploading') uploadInboxItem(item);
   });
   renderInbox();
+}
+
+function uploadInboxItem(item) {
+  item.status = 'uploading';
+  item.note = '';
+  renderInbox();
+  fetch('/api/upload', {
+    method: 'POST',
+    headers: {
+      'X-Taste-Token': importToken,
+      // Header values are ByteStrings — an em dash in a filename would throw.
+      'X-Filename': encodeURIComponent(item.name),
+      'Content-Type': 'application/octet-stream'
+    },
+    body: item.file
+  }).then(function (r) {
+    return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+  }).then(function (result) {
+    if (result.ok) {
+      item.status = 'saved';
+      item.serverPath = result.data.file;
+      item.note = result.data.alreadyPresent ? 'Was already in images/.' : '';
+    } else {
+      item.status = 'failed';
+      item.note = result.data.error || 'The server refused the upload.';
+    }
+    renderInbox();
+  }).catch(function () {
+    item.status = 'failed';
+    item.note = 'Could not reach the import API.';
+    renderInbox();
+  });
 }
 
 function removeFromInbox(id) {
@@ -510,7 +548,20 @@ function renderInbox() {
 
     var badge = document.createElement('span');
     badge.className = 'inbox-badge';
-    badge.textContent = '◇ Uncategorized';
+    if (item.status === 'uploading') {
+      badge.textContent = '⇡ Uploading…';
+    } else if (item.status === 'saved') {
+      badge.className += ' saved';
+      badge.textContent = '◆ In images/ — not in library' + (item.note ? ' · ' + item.note : '');
+    } else if (item.status === 'imported') {
+      badge.className += ' saved';
+      badge.textContent = '✓ Imported — reload to see it';
+    } else if (item.status === 'failed') {
+      badge.className += ' failed';
+      badge.textContent = '✕ ' + item.note;
+    } else {
+      badge.textContent = '◇ Uncategorized';
+    }
     body.appendChild(badge);
 
     var name = document.createElement('div');
@@ -521,11 +572,32 @@ function renderInbox() {
     var actions = document.createElement('div');
     actions.className = 'inbox-actions';
 
-    var downloadBtn = document.createElement('button');
-    downloadBtn.type = 'button';
-    downloadBtn.textContent = 'Download';
-    downloadBtn.addEventListener('click', function () { downloadInboxItem(item.id); });
-    actions.appendChild(downloadBtn);
+    if (item.status === 'saved') {
+      var importBtn = document.createElement('button');
+      importBtn.type = 'button';
+      importBtn.textContent = 'Import';
+      importBtn.addEventListener('click', function () {
+        if (importJobRunning) return;
+        startJob('/api/import', { files: [item.serverPath], mode: 'model' },
+          'Analysing ' + item.name + ' — several minutes: it reads the authoring rules, examines the image and runs the test suite.',
+          function (job) {
+            if (job.ok) { item.status = 'imported'; renderInbox(); }
+          });
+      });
+      actions.appendChild(importBtn);
+    } else if (item.status === 'failed') {
+      var retryBtn = document.createElement('button');
+      retryBtn.type = 'button';
+      retryBtn.textContent = 'Retry';
+      retryBtn.addEventListener('click', function () { uploadInboxItem(item); });
+      actions.appendChild(retryBtn);
+    } else if (item.status === null) {
+      var downloadBtn = document.createElement('button');
+      downloadBtn.type = 'button';
+      downloadBtn.textContent = 'Download';
+      downloadBtn.addEventListener('click', function () { downloadInboxItem(item.id); });
+      actions.appendChild(downloadBtn);
+    }
 
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
@@ -596,7 +668,10 @@ function importNote(text, kind) {
   note.className = 'import-note' + (kind ? ' ' + kind : '');
 }
 
+var importJobRunning = false;
+
 function setImportBusy(busy) {
+  importJobRunning = busy;
   ['scan-btn', 'prepare-btn', 'import-btn'].forEach(function (id) {
     document.getElementById(id).disabled = busy;
   });
@@ -618,7 +693,7 @@ function pollJob(jobId, onDone) {
     });
 }
 
-function startJob(endpoint, body, startingNote) {
+function startJob(endpoint, body, startingNote, onDone) {
   setImportBusy(true);
   importNote(startingNote);
   importLog('');
@@ -637,6 +712,7 @@ function startJob(endpoint, body, startingNote) {
       if (job.ok && endpoint === '/api/import') {
         importNote('Imported. Reload to see the new entries — they are flagged unreviewed.', '');
       }
+      if (onDone) onDone(job);
     });
   }).catch(function () {
     setImportBusy(false);
