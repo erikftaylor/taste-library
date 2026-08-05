@@ -217,19 +217,21 @@ start_server() {
     error 'could not create a unique server launch identity.'
     return 1
   }
-  pid=$("$PYTHON_BIN" - "$PYTHON_BIN" "$PORT" "$HOST" "$PROJECT_ROOT" "$LOG_FILE" "$launch_token" \
+  # The API script is resolved next to this launcher, not under PROJECT_ROOT:
+  # the served root is just a directory to serve, and need not be a full
+  # checkout carrying its own copy of scripts/.
+  pid=$("$PYTHON_BIN" - "$PYTHON_BIN" "$SCRIPT_DIR/taste-library-api.py" "$PORT" "$HOST" "$PROJECT_ROOT" "$LOG_FILE" "$launch_token" \
     2>>"$LOG_FILE" <<'PY'
 import os
 import subprocess
 import sys
 
-python_bin, port, host, project_root, log_file, launch_token = sys.argv[1:]
+python_bin, api_script, port, host, project_root, log_file, launch_token = sys.argv[1:]
 environment = os.environ.copy()
 environment['TASTE_LIBRARY_SERVER_TOKEN'] = launch_token
 with open(log_file, 'ab', buffering=0) as log:
     process = subprocess.Popen(
-        [python_bin, os.path.join(project_root, 'scripts', 'taste-library-api.py'),
-         port, host, project_root],
+        [python_bin, api_script, port, host, project_root],
         stdin=subprocess.DEVNULL,
         stdout=log,
         stderr=subprocess.STDOUT,

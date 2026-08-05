@@ -33,13 +33,14 @@ notification reports the log location. Port `8765` is localhost-only; if
 another process already uses it, Taste Library leaves that process untouched
 and reports the conflict.
 
-## Adding new screenshots
+## Adding new references
+
+Any designed artifact qualifies, not just website screenshots: UI kit
+boards, palette cards, posters, app screens.
 
 1. Drop image files into `images/`, or use the in-app Upload area — when the
    local server is running, dropped files are saved into `images/` for you
-   and each Inbox card offers a one-click Import. Any designed artifact
-   qualifies, not just website screenshots: UI kit boards, palette cards,
-   posters, app screens.
+   and each Inbox card offers a one-click Import.
 2. Generate WebP derivatives:
    ```bash
    python3 scripts/resize-images.py "images/design.png"

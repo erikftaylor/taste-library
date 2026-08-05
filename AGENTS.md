@@ -224,12 +224,14 @@ that fits no existing family founds a new category whose `system` and
 `wireframe` describe the board's composition. Colour `usage` roles use the
 artifact's own vocabulary ("canvas ground", "card ground") rather than
 forcing "page ground" — the verifier's OVERCLAIMED check only fires on
-page-level ground claims, and that rule applies verbatim.
+page-level ground claims, and that rule applies verbatim — which means an
+artifact-level ground claim gets no verifier backstop; get it right by
+looking.
 
 1. Drop the file in `images/`.
 2. `python3 scripts/resize-images.py "images/new-thing.png"` → thumb + display WebP.
 3. `python3 scripts/sample-palette.py "images/new-thing.png"` → real hexes, two passes.
-4. **Open the screenshot and look at it.** Assign each hex a `usage` role. Write
+4. **Open the image and look at it.** Assign each hex a `usage` role. Write
    `descriptor`, `layoutNotes`, `typography`, and the `signature` from what is
    actually on screen — structural devices into `carry`, reference-specific words
    and copy into `rewrite` (with the rule for writing replacements).
