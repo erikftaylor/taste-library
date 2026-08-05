@@ -329,11 +329,7 @@ def verify(only_ids):
               'there. Do NOT change the hex. Open the image, confirm what the colour '
               'actually sits on, and add a contrastNote to that colour; the brief then '
               'carries the warning into §5 instead of implying the pairing is safe.')
-        print('LOWCONTRAST does not fail the run yet: entries predating this check are '
-              'still unannotated. Once every one carries a note, drop it from this '
-              'exemption so a new unannotated failure breaks the build.')
-    fatal = [f for f in failures if f[1] != 'lowcontrast']
-    return 1 if fatal else 0
+    return 1 if failures else 0
 
 
 def main():

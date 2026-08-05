@@ -247,9 +247,20 @@ the colour actually sits on, and write a `contrastNote`. §5 of the brief then
 carries an explicit "do not reproduce" block naming the failure, instead of
 letting the palette's AA framing imply the pairing is safe.
 
-LOWCONTRAST does not fail the run yet: 9 entries predating the check are still
-unannotated. Once each carries a note, remove the exemption at the end of
-`verify()` in `sample-palette.py` so a new unannotated failure breaks the build.
+LOWCONTRAST **fails the run**. Every entry in the library carries a note where one
+is due, so a new unannotated failure breaks the build — which is the point.
+
+Pair against what the type *actually sits on*, not the widest colour in the palette.
+The verifier uses the widest as a stand-in because it has no way to know better, and
+it is wrong often enough to matter: an IBM amber it scored 2.31:1 against white
+measures 5.68:1 on the dark navy the headline really sits on, and a Marble knockout
+it scored 1.12:1 on bone measures 5.95:1 on the sky it is cut out of. Sample the
+local ground before writing the note.
+
+Watch for accents that fail in both directions. A mid-luminance accent used as type
+on a light ground and as a fill under a white label misses 4.5:1 *both* ways —
+contrast is symmetric. Four entries here do exactly that, and no amount of swapping
+mark for ground fixes it; the value itself has to move.
 
 ### Never eyedrop a palette by hand
 

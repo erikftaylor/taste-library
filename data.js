@@ -1989,7 +1989,7 @@
           { name: 'Blush white', hex: '#FFF6F6', usage: 'dominant page wash' },
           { name: 'Pale periwinkle', hex: '#DEEAF6', usage: 'cool zone of the gradient mesh' },
           { name: 'Pale peach', hex: '#F6EADE', usage: 'warm zone of the gradient mesh' },
-          { name: 'Terracotta', hex: '#CB693F', usage: 'pill CTAs, eyebrow labels, inline links' },
+          { name: 'Terracotta', hex: '#CB693F', usage: 'pill CTAs, eyebrow labels, inline links', contrastNote: '3.27:1 measured against the near-white it actually sits on, short of the 4.5:1 the eyebrow labels and inline links need. As a CTA fill it is no better — white on this terracotta is 3.73:1. The accent sits mid-luminance, so it fails in both directions and can carry only large text or non-text fills.' },
           { name: 'White', hex: '#FFFFFF', usage: 'card and mockup surfaces' },
           { name: 'Near-black', hex: '#1A1A1A', usage: 'display type and code text' },
           { name: 'Hairline grey', hex: '#F0F0F0', usage: 'card borders' }
@@ -2480,7 +2480,7 @@
           { name: 'Orange', hex: '#E7853F', usage: 'the single focal element inside each diagram' },
           { name: 'Charcoal', hex: '#333333', usage: 'headings and body copy' },
           { name: 'Hairline grey', hex: '#DDDDDD', usage: 'logo grid rules and diagram line work' },
-          { name: 'Warm taupe', hex: '#D4CFC4', usage: 'muted captions and secondary text' }
+          { name: 'Warm taupe', hex: '#D4CFC4', usage: 'muted captions and secondary text', contrastNote: '1.49:1 against the near-white it sits on — the most severe failure in the library. It sets the muted captions and secondary text, which are close to invisible in the capture itself. Darken substantially before reuse; this is not a stylistic choice worth carrying.' }
         ],
         typography: 'Sans throughout: centred display at roughly 34px/500; section heads at 24px/500; body at 15px/400 held to a narrow measure; small dark buttons carry 12px/500 labels.',
         layoutNotes: 'Bone ground with an unusually low content density. A logo wall is drawn as a bordered cell grid with hairline rules and no fills. Content alternates between centred single-column statements and two-column rows pairing copy with a line-art diagram. Diagrams are fine grey isometric or dot-cluster drawings, each containing exactly one orange sphere as the focal point.',
@@ -2652,7 +2652,7 @@
         colors: [
           { name: 'White', hex: '#FFFFFF', usage: 'page ground, roughly two thirds of the visible area' },
           { name: 'Deep navy', hex: '#061E42', usage: 'header bar and full-bleed footer' },
-          { name: 'Steel blue', hex: '#4D77BD', usage: 'inline links and section labels' },
+          { name: 'Steel blue', hex: '#4D77BD', usage: 'inline links and section labels', contrastNote: '4.29:1 against the near-white it sits on, against the 4.5:1 the inline links and section labels need — a marginal miss rather than a design failure. White on the same blue is 4.48:1, so the button fill misses by the same hair.' },
           { name: 'Data yellow', hex: '#F5BD07', usage: 'chart and scorecard highlights' },
           { name: 'Off-white', hex: '#F6F6F6', usage: 'alternating band behind the closing CTA' },
           { name: 'Charcoal', hex: '#333333', usage: 'body copy' }
@@ -2739,7 +2739,7 @@
         colors: [
           { name: 'White', hex: '#FFFFFF', usage: 'centred content column' },
           { name: 'Slate navy', hex: '#36364E', usage: 'page frame, overlapping cards, footer' },
-          { name: 'Teal', hex: '#078593', usage: 'outlined and solid pill CTAs, links' },
+          { name: 'Teal', hex: '#078593', usage: 'outlined and solid pill CTAs, links', contrastNote: '4.20:1 against the near-white it sits on, short of 4.5:1 for the links named here. White on the same teal reaches only 4.39:1, so the solid pill CTAs miss too — another mid-luminance accent that fails in both directions.' },
           { name: 'Pale peach', hex: '#F6EAC6', usage: 'icon-pattern tile behind the first card' },
           { name: 'Blush', hex: '#FFAB99', usage: 'icon-pattern tile behind the second card' },
           { name: 'Pale mint', hex: '#C6EAEA', usage: 'icon-pattern tile behind the third card' }
@@ -2827,7 +2827,7 @@
         colors: [
           { name: 'White', hex: '#FFFFFF', usage: 'alternating full-bleed band' },
           { name: 'Ink black', hex: '#060606', usage: 'alternating full-bleed band and display type' },
-          { name: 'Mint green', hex: '#07BDA1', usage: 'metrics, inline highlights, accent numerals' },
+          { name: 'Mint green', hex: '#07BDA1', usage: 'metrics, inline highlights, accent numerals', contrastNote: '2.27:1 against the cream it sits on. Everything it sets here is large — an italic display line and oversized metric numerals — so the bar is 3:1, and it still fails. It reads better than the number suggests at display size, but would not survive at body size.' },
           { name: 'Off-white', hex: '#F6F6F6', usage: 'secondary light band' },
           { name: 'Charcoal', hex: '#121212', usage: 'card fills on the dark bands' }
         ],
@@ -2873,7 +2873,7 @@
           { name: 'Forest teal', hex: '#1B7563', usage: 'secondary headings and body accents' },
           { name: 'Mint green', hex: '#1BFFBD', usage: 'highlighter swipe and footer accent type' },
           { name: 'Ink black', hex: '#1A1A1A', usage: 'body copy and solid buttons' },
-          { name: 'Sage grey', hex: '#7E7E7E', usage: 'captions and metadata' }
+          { name: 'Sage grey', hex: '#7E7E7E', usage: 'captions and metadata', contrastNote: '3.89:1 against the near-white it sits on, short of the 4.5:1 captions and metadata need. A small darkening clears it; nothing structural is wrong here.' }
         ],
         typography: 'Very heavy condensed sans in all caps at roughly 44px/800 for section headings in deep teal, each answered directly beneath by a serif-italic sentence at 24px/400 carrying a thickly underlined link. Body at 15px/400; case-study titles at 24px/700.',
         layoutNotes: 'White ground with a gradient-mesh hero carrying ghosted outline display type. Each section opens with a flush-left heavy caps heading immediately followed by a serif-italic line. Case studies run two-up separated only by a thin vertical rule with no card or fill. Article cards run four-up with saturated thumbnail images. A deep teal footer carries the email address at heading size in mint.',
@@ -2916,7 +2916,7 @@
           { name: 'Ink black', hex: '#121212', usage: 'full-bleed bands and display type' },
           { name: 'Brand green', hex: '#074D31', usage: 'first case-study tile fill' },
           { name: 'Electric blue', hex: '#074DF5', usage: 'second case-study tile fill' },
-          { name: 'Annotation red', hex: '#E03C1F', usage: 'hand-drawn circles, arrows and tab labels' },
+          { name: 'Annotation red', hex: '#E03C1F', usage: 'hand-drawn circles, arrows and tab labels', contrastNote: '3.79:1 against the cream it sits on, short of 4.5:1 for the tab labels named here. The hand-drawn circles and arrows are graphics rather than text and are not held to this threshold.' },
           { name: 'White', hex: '#FFFFFF', usage: 'closing form card' }
         ],
         typography: 'Serif display at roughly 44px/400 with generous leading; section heads at 30px/400 serif; body at 14px/400 sans; 10px all-caps red tab labels; press headlines set in serif at 20px in a hairline-ruled list.',
@@ -2960,8 +2960,8 @@
           { name: 'Near-black', hex: '#232323', usage: 'news and spotlight band, dark resources footer' },
           { name: 'Charcoal scrim', hex: '#313131', usage: 'dark overlay laid across the hero photograph' },
           { name: 'Warm taupe', hex: '#AFA193', usage: 'photographic hero tones showing through the scrim' },
-          { name: 'Amber', hex: '#F3993F', usage: 'headline emphasis word, section headings, register link' },
-          { name: 'Corporate blue', hex: '#0785BD', usage: 'outlined icon circles and the Launch CSA nav button' },
+          { name: 'Amber', hex: '#F3993F', usage: 'headline emphasis word, section headings, register link', contrastNote: '2.50:1 measured against the brown photograph it actually sits on. The verifier pairs it against the off-white page ground instead, which is the wrong pairing — but the real one is worse, not better. Both the headline emphasis word and the register link fail.' },
+          { name: 'Corporate blue', hex: '#0785BD', usage: 'outlined icon circles and the Launch CSA nav button', contrastNote: '3.95:1 against the near-white it sits on. The outlined icon circles are graphics and exempt, but the nav button carries a white label on this blue at 4.12:1, which also misses.' },
           { name: 'White', hex: '#FFFFFF', usage: 'nav bar and the rounded search field' }
         ],
         typography: 'Sans throughout: hero display at roughly 40px/600 with the first word in amber; section headings at 24px/600 in amber; tile titles at 18px/600; body at 16px/400; link rows at 15px/400 each closing with a trailing arrow.',
@@ -3003,8 +3003,8 @@
         colors: [
           { name: 'Deep navy', hex: '#23314D', usage: 'hero ground and the business-value statistics band' },
           { name: 'White', hex: '#FFFFFF', usage: 'feature grid ground' },
-          { name: 'Amber', hex: '#F59323', usage: 'display headline, CTA fills, line icons, statistic numerals' },
-          { name: 'Corporate blue', hex: '#0785BD', usage: 'anchor sub-nav band, inline links, nav button' },
+          { name: 'Amber', hex: '#F59323', usage: 'display headline, CTA fills, line icons, statistic numerals', contrastNote: 'Checked, and it splits. The verifier pairs this against white for 2.31:1, but the display headline and statistic numerals sit on a dark navy ground, measuring 5.68:1 — clear at any size. Where it is a CTA fill the white label on it is 2.31:1, which fails badly. Same hex, one role safe and one not.' },
+          { name: 'Corporate blue', hex: '#0785BD', usage: 'anchor sub-nav band, inline links, nav button', contrastNote: '3.95:1 against the near-white it sits on, short of the 4.5:1 the inline links and nav button label need.' },
           { name: 'Charcoal', hex: '#313131', usage: 'demo-video button and testimonial card fills' },
           { name: 'Near-black', hex: '#232323', usage: 'footer band' },
           { name: 'Off-white', hex: '#F5F5F5', usage: 'thin transitional band above the curved divider' }
@@ -3182,7 +3182,7 @@
           { name: 'Near-black', hex: '#313131', usage: 'full-bleed process band behind the chevron steps' },
           { name: 'Mint', hex: '#AFD9D9', usage: 'quote card fill, chevron step, closing form panel' },
           { name: 'Amber', hex: '#FFBD5B', usage: 'quote card fill, chevron step, "Let\'s talk about it" CTA' },
-          { name: 'Coral', hex: '#F54D31', usage: 'quote card fill, chevron step, hero CTA, role labels' },
+          { name: 'Coral', hex: '#F54D31', usage: 'quote card fill, chevron step, hero CTA, role labels', contrastNote: '4.20:1 measured against the dark it actually sits on, rather than the 3.19:1 the verifier computes against the warm bone. Still short of 4.5:1 for the role labels. White on the coral quote-card fill reaches 3.51:1, so that misses as well.' },
           { name: 'Blue', hex: '#3177BD', usage: 'quote card fill, chevron step, secondary CTA' },
           { name: 'White', hex: '#FFFFFF', usage: 'quote strip ground and form field fills' }
         ],
