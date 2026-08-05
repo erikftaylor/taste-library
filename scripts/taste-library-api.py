@@ -218,7 +218,7 @@ Add exactly one entry to data.js for this image:
 
     {image}
 
-The palette candidates below were measured from that screenshot. Every hex you
+The palette candidates below were measured from that image. Every hex you
 use MUST come from this list — do not eyedrop by eye, do not carry a hex from
 another entry, do not invent one. Assign each a usage role by looking at the
 image.
@@ -241,6 +241,20 @@ they report."""
 def run_import(root, job_id, files, mode):
     try:
         targets = files or [entry['file'] for entry in scan(root)]
+        if files:
+            # scan() already excludes referenced images, but an explicit list
+            # arrives unfiltered — e.g. two Inbox cards deduped to the same
+            # serverPath, one imported, then the other's Import clicked.
+            # Re-running the analyst on a referenced image writes a
+            # near-duplicate entry, so drop those here too.
+            known = known_sources(root)
+            fresh = []
+            for path in targets:
+                if path in known:
+                    log(job_id, '%s is already in the library, skipped.' % path)
+                else:
+                    fresh.append(path)
+            targets = fresh
         if not targets:
             log(job_id, 'Nothing to import.')
             finish(job_id, True, {'imported': []})
@@ -267,7 +281,7 @@ def run_import(root, job_id, files, mode):
             backup = os.path.join(root, 'data.js.import-backup')
             shutil.copyfile(os.path.join(root, 'data.js'), backup)
 
-            log(job_id, '   analysing — several minutes: it reads AGENTS.md, examines the screenshot,')
+            log(job_id, '   analysing — several minutes: it reads AGENTS.md, examines the image,')
             log(job_id, '   writes the entry, then runs the tests…')
             prompt = ANALYST_PROMPT.format(image=path, sampler=sampler.stdout)
             analysis = repo_run(root, [claude, '-p', prompt], timeout=900)

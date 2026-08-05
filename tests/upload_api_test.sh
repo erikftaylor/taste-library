@@ -107,7 +107,33 @@ out=$(upload "$TEST_ROOT/a.png" 'untokened.png')
 [[ "$out" == *'|403' ]] || fail "missing token was not rejected: $out"
 [[ ! -e "$SITE_ROOT/images/untokened.png" ]] || fail '403 upload still wrote a file'
 
-# 6. Path traversal: basename only, lands inside images/.
+# 6. Import with an explicit file already in data.js: skipped, never re-analysed.
+# (Two Inbox cards can dedupe to the same serverPath; importing the second must
+# not run the analyst again and write a near-duplicate entry.)
+cat > "$SITE_ROOT/data.js" <<'JS'
+module.exports = { images: [ { file: 'images/known.png' } ] };
+JS
+print -rn -- 'known-image-bytes' > "$SITE_ROOT/images/known.png"
+
+job=$(/usr/bin/curl --silent --max-time 5 -X POST "$BASE/api/import" \
+  -H "X-Taste-Token: $TOKEN" -H 'Content-Type: application/json' \
+  --data '{"files":["images/known.png"]}' | "$PYTHON_BIN" -c \
+  'import json,sys; print(json.load(sys.stdin)["jobId"])')
+[[ -n "$job" ]] || fail 'import job did not start'
+
+out=''
+for attempt in {1..100}; do
+  out=$(/usr/bin/curl --silent "$BASE/api/job?id=$job")
+  [[ "$out" == *'"done": true'* ]] && break
+  sleep 0.1
+done
+[[ "$out" == *'"done": true'* ]] || fail "import job never finished: $out"
+[[ "$out" == *'already in the library, skipped'* ]] \
+  || fail "already-imported file was not skipped: $out"
+[[ "$out" == *'"imported": []'* ]] || fail "already-imported file was re-imported: $out"
+[[ "$out" == *'"ok": true'* ]] || fail "skip-only import job did not finish ok: $out"
+
+# 7. Path traversal: basename only, lands inside images/.
 out=$(upload "$TEST_ROOT/a.png" '../../escape.png' -H "X-Taste-Token: $TOKEN")
 [[ "$out" == *'"file": "images/escape.png"'* ]] || fail "traversal name not flattened: $out"
 [[ -e "$SITE_ROOT/images/escape.png" ]] || fail 'flattened upload missing from images/'

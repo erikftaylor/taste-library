@@ -398,3 +398,23 @@ test('css token names stay unique when two colours share a name', function () {
   assert.ok(css.indexOf('--blue: #0000FF;') > -1, css);
   assert.ok(css.indexOf('--blue-2: #000088;') > -1, css);
 });
+
+test('markInboxImported flips every card sharing the serverPath, leaves others alone', function () {
+  var items = [
+    { id: 'inbox-1', status: 'saved', serverPath: 'images/dup.png' },
+    { id: 'inbox-2', status: 'saved', serverPath: 'images/dup.png' },
+    { id: 'inbox-3', status: 'saved', serverPath: 'images/other.png' },
+    { id: 'inbox-4', status: null, serverPath: null }
+  ];
+  TasteContent.markInboxImported(items, 'images/dup.png');
+  assert.strictEqual(items[0].status, 'imported');
+  assert.strictEqual(items[1].status, 'imported');
+  assert.strictEqual(items[2].status, 'saved');
+  assert.strictEqual(items[3].status, null);
+});
+
+test('markInboxImported never matches cards whose serverPath is still null', function () {
+  var items = [{ id: 'inbox-1', status: 'uploading', serverPath: null }];
+  TasteContent.markInboxImported(items, null);
+  assert.strictEqual(items[0].status, 'uploading');
+});

@@ -581,7 +581,12 @@ function renderInbox() {
         startJob('/api/import', { files: [item.serverPath], mode: 'model' },
           'Analysing ' + item.name + ' — several minutes: it reads the authoring rules, examines the image and runs the test suite.',
           function (job) {
-            if (job.ok) { item.status = 'imported'; renderInbox(); }
+            if (job.ok) {
+              // Deduped uploads can leave several cards pointing at the same
+              // serverPath — one import satisfies all of them.
+              TasteContent.markInboxImported(inboxImages, item.serverPath);
+              renderInbox();
+            }
           });
       });
       actions.appendChild(importBtn);
