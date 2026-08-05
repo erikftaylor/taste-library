@@ -64,7 +64,10 @@ boards, palette cards, posters, app screens.
    tests/palette_verification_test.sh
    ```
    The second one confirms every hex you wrote actually occurs in that screenshot,
-   and that nothing is labelled as the page's background unless it really is.
+   that nothing is labelled as the page's background unless it really is, and that
+   any hex you described as type clears the contrast its role needs. If it doesn't,
+   **don't change the hex** — the reference is allowed to fail. Add a `contrastNote`
+   saying what fails and by how much, and the brief will carry the warning.
 7. Remove the processed file from the in-app Inbox, if you used the upload area.
 
 Categories are emergent — there's no fixed taxonomy. There are currently seven,

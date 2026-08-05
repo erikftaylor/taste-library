@@ -28,6 +28,7 @@ raw pixel count.
 """
 import colorsys
 import json
+import re
 import subprocess
 import sys
 from collections import Counter
@@ -196,6 +197,56 @@ PAGE_GROUND_CLAIMS = (
 )
 GROUND_TOLERANCE = 0.5
 
+# Words in a usage string that mean the colour is set as type. Normal-size roles
+# are checked first, because a colour doing both ("display headline and the bold
+# lead-in clauses") has to clear the stricter of the two thresholds.
+TEXT_NORMAL = ('body', 'copy', 'caption', 'label', 'link', 'paragraph', 'bio',
+               'micro', 'descriptor', 'spec-value', 'nav')
+TEXT_LARGE = ('display', 'headline', 'wordmark', 'heading', 'numeral')
+# A usage naming a surface means the hex sits *behind* type rather than being
+# set as type. Those are not text pairings and are not checked here.
+FILL_ONLY = ('fill', 'fills', 'behind', 'band', 'bands', 'bar', 'field',
+             'fields', 'plate', 'tile', 'tiles', 'swipe', 'panel', 'bezel')
+AA_NORMAL = 4.5
+AA_LARGE = 3.0
+
+
+def relative_luminance(rgb):
+    channels = []
+    for value in rgb[:3]:
+        srgb = value / 255.0
+        channels.append(srgb / 12.92 if srgb <= 0.03928
+                        else ((srgb + 0.055) / 1.055) ** 2.4)
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast_ratio(a, b):
+    la, lb = relative_luminance(a), relative_luminance(b)
+    lighter, darker = max(la, lb), min(la, lb)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def text_threshold(usage):
+    """Strictest threshold any single clause of the usage demands.
+
+    Clause by clause, not whole-string: one hex routinely does fill work in one
+    clause and type work in the next ("pill CTA fills, step numerals, quote
+    attributions"). Testing the whole string let the fill word suppress the
+    entire colour, so a red setting both buttons and numerals went unchecked.
+    """
+    def has(clause, words):
+        return any(re.search(r'\b' + re.escape(w) + r's?\b', clause) for w in words)
+
+    strictest = None
+    for clause in re.split(r',|;| and | plus ', usage.lower()):
+        if has(clause, FILL_ONLY):
+            continue
+        if has(clause, TEXT_NORMAL):
+            return AA_NORMAL
+        if has(clause, TEXT_LARGE):
+            strictest = AA_LARGE
+    return strictest
+
 
 def verify(only_ids):
     entries = load_entries()
@@ -222,6 +273,9 @@ def verify(only_ids):
             measured.append((colour, share, run, spread, nearest, gap))
 
         widest = max(m[1] for m in measured) or 1.0
+        # The widest measured colour is the ground most type on the page sits on.
+        # Text checked against anything else needs an acknowledgement saying so.
+        ground = max(measured, key=lambda m: m[1])[0]
         bad = []
         for colour, share, run, spread, nearest, gap in measured:
             if gap > MATCH_TOLERANCE:
@@ -229,6 +283,15 @@ def verify(only_ids):
             elif (any(claim in colour.get('usage', '').lower() for claim in PAGE_GROUND_CLAIMS)
                   and share < widest * GROUND_TOLERANCE):
                 bad.append(('overclaimed', colour, share, run, spread, nearest, gap))
+                continue
+
+            threshold = text_threshold(colour.get('usage', ''))
+            if threshold is None or colour['hex'] == ground['hex']:
+                continue
+            ratio = contrast_ratio(parse_hex(colour['hex']), parse_hex(ground['hex']))
+            if ratio >= threshold or colour.get('contrastNote'):
+                continue
+            bad.append(('lowcontrast', colour, ratio, threshold, ground, None, 0))
 
         if bad:
             print('\n%s' % entry['id'])
@@ -239,6 +302,12 @@ def verify(only_ids):
                     print('  NOT-IN-SAMPLE %-22s %s  area %.3f%%, run %d, %d bands — '
                           'not a colour this page uses deliberately; %s'
                           % (colour['name'], colour['hex'], share * 100, run, spread, hint))
+                elif kind == 'lowcontrast':
+                    ratio, threshold, ground_colour = share, run, spread
+                    print('  LOWCONTRAST   %-22s %s  %.2f:1 on %s %s — needs %.1f:1 for "%s"'
+                          % (colour['name'], colour['hex'], ratio,
+                             ground_colour['name'], ground_colour['hex'],
+                             threshold, colour['usage']))
                 else:
                     print('  OVERCLAIMED   %-22s %s  %.2f%% of image (widest here is %.2f%%) '
                           'but usage says "%s"'
@@ -247,13 +316,24 @@ def verify(only_ids):
                 failures.append((entry['id'], kind, colour['hex']))
 
     kinds = {k: len([f for f in failures if f[1] == k])
-             for k in ('not-in-sample', 'overclaimed', 'missing')}
+             for k in ('not-in-sample', 'overclaimed', 'lowcontrast', 'missing')}
     print('\n%d entries checked — %d hex(es) not drawn from the image, '
-          '%d claiming a ground role they do not hold.'
-          % (len(entries), kinds['not-in-sample'], kinds['overclaimed']))
-    if failures:
+          '%d claiming a ground role they do not hold, '
+          '%d set as type below the contrast their role needs.'
+          % (len(entries), kinds['not-in-sample'], kinds['overclaimed'],
+             kinds['lowcontrast']))
+    if kinds['not-in-sample'] or kinds['missing']:
         print('Re-run the sampler on that image and take the hex from its output.')
-    return 1 if failures else 0
+    if kinds['lowcontrast']:
+        print('A reference is allowed to fail contrast — the library records what is '
+              'there. Do NOT change the hex. Open the image, confirm what the colour '
+              'actually sits on, and add a contrastNote to that colour; the brief then '
+              'carries the warning into §5 instead of implying the pairing is safe.')
+        print('LOWCONTRAST does not fail the run yet: entries predating this check are '
+              'still unannotated. Once every one carries a note, drop it from this '
+              'exemption so a new unannotated failure breaks the build.')
+    fatal = [f for f in failures if f[1] != 'lowcontrast']
+    return 1 if fatal else 0
 
 
 def main():

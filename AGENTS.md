@@ -156,8 +156,16 @@ describe the style family prescriptively.
   reference-specific words, copy and proper nouns that a consuming agent must
   replace, each with the rule for writing the replacement. Can't classify an item?
   It goes in Rewrite.
-- `colors[]` — `{ name, hex, usage }`. `usage` is the observed role
-  ("full-bleed hero ground", "pill CTA fill"), not a guess.
+- `colors[]` — `{ name, hex, usage }`, plus an optional `contrastNote`. `usage` is
+  the observed role ("full-bleed hero ground", "pill CTA fill"), not a guess.
+  `contrastNote` is the record that someone opened the image and checked. Usually
+  it names a contrast failure the reference actually ships — what fails, against
+  what, and by how much. It also covers the opposite finding: the verifier pairs
+  every text colour against the widest colour in its palette, which is wrong
+  whenever the type sits on something else (a knockout over an illustration, copy
+  inside a card), so a note may instead record the real pairing and the ratio it
+  clears. Either way the note states measured values. Adding one never licenses
+  changing the hex; see the LOWCONTRAST check below.
 
 ## Invariants the tests enforce
 
@@ -183,6 +191,22 @@ they live outside `node --test`:
   `primary background`, …) while another entry in the same palette covers
   substantially more of the image. Scoped grounds ("footer ground", "project tile
   ground") are deliberately not checked; only page-level claims are.
+- **LOWCONTRAST** — a hex whose `usage` says it is set as *type* does not clear
+  4.5:1 (or 3:1 where the usage names only large roles — display, headline,
+  wordmark, heading, numeral) against the widest-area colour in its own palette.
+  Usages naming a surface — fill, band, plate, tile, panel, or anything sitting
+  *behind* text — are excluded, because those are not text pairings.
+
+**A reference is allowed to fail contrast. The library records what is there.**
+Never adjust a hex to pass this check — that is fabricating the reference, and it
+is the same class of error as eyedropping a palette. Open the image, confirm what
+the colour actually sits on, and write a `contrastNote`. §5 of the brief then
+carries an explicit "do not reproduce" block naming the failure, instead of
+letting the palette's AA framing imply the pairing is safe.
+
+LOWCONTRAST does not fail the run yet: 9 entries predating the check are still
+unannotated. Once each carries a note, remove the exemption at the end of
+`verify()` in `sample-palette.py` so a new unannotated failure breaks the build.
 
 ### Never eyedrop a palette by hand
 
