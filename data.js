@@ -1740,8 +1740,7 @@
             ['Icon circle', '5u outlined circle holding a line glyph, a serif label beneath and two lines of body under that'],
             ['Rounded section panel', 'the bone panel overlaps the section above it with a 4u top radius on both corners, and no rule between them'],
             ['Inline signup form', 'two filled fields and an accent pill CTA on a single row, all 5.5u tall, set directly in the illustrated hero'],
-            ['Arced ticker', 'a single line of accent capitals set on a shallow arc, bleeding past both edges of the viewport'],
-            ['Evidence diagram', 'a node graph on a plain card with a three-state legend beneath — one state filled in the ink, one outlined in the accent, one outlined in the ground; omit the whole card where the target has nothing genuine to map']
+            ['Arced ticker', 'a single line of accent capitals set on a shallow arc, bleeding past both edges of the viewport']
           ]
         },
         wireframe: [
@@ -1771,11 +1770,6 @@
           '│         ▭ device mockup                        │',
           '├───────────────────────────────────────────────┤',
           '│  ╭─ ARCED TICKER IN ACCENT CAPITALS ─╮         │',
-          '├───────────────────────────────────────────────┤',
-          '│  EVIDENCE DIAGRAM — nodes + a state legend     │',
-          '│  ┌ 3–10 ─────────────────────────────────┐     │',
-          '│  │ ◦──◦──◦   ▪ got it ▫ starts ○ coming  │     │',
-          '│  └───────────────────────────────────────┘     │',
           '├───────────────────────────────────────────────┤',
           '│  TESTIMONIALS — bordered cards, scrolls right  │',
           '│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────              │',

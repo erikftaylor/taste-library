@@ -158,6 +158,10 @@ describe the style family prescriptively.
   It goes in Rewrite.
 - `colors[]` — `{ name, hex, usage }`, plus an optional `contrastNote`. `usage` is
   the observed role ("full-bleed hero ground", "pill CTA fill"), not a guess.
+  **Order the array by descending prominence** — grounds first, then the colours
+  covering most of the image, accents last. The order is load-bearing: §12 tells a
+  consuming agent to work down the table assigning brand hues in that sequence,
+  and no area figures are published for it to rank by instead.
   `contrastNote` is the record that someone opened the image and checked. Usually
   it names a contrast failure the reference actually ships — what fails, against
   what, and by how much. It also covers the opposite finding: the verifier pairs
