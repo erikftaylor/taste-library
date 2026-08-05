@@ -92,8 +92,10 @@ measured contrast and text-safe grounds, the imagery rules, and the prescriptive
 layers — copy register, interaction states, motion, and how to adapt the style to
 an existing brand. A header at the top tells the receiving tool which layers to
 obey depending on whether you want a faithful recreation, a variation, or a brand
-adaptation. The aim is a *zero-decision* brief: a consuming agent should have
-nothing left to reconcile, sort, or invent.
+adaptation. The aim is a *zero-decision* brief — nothing left for a consuming agent
+to reconcile, sort or invent about the *style*. It will still have to write the new
+brand's own words; no brief can supply those, and one that tried would be making
+them up.
 
 [AGENTS.md](AGENTS.md) documents the data model and the invariants behind this.
 

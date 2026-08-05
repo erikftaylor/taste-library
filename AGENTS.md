@@ -83,12 +83,36 @@ category's, which is how you'd pin one entry to its own measured values.
 ### The zero-decision standard
 
 A brief passes when a fresh agent applying it to a *different brand's real content*
-makes no narrated judgment calls — nothing to reconcile, sort, or invent. Every
-"I'm adapting X because…" or "I'll interpret Y as…" in a consuming agent's response
-is a defect in the brief, not diligence in the agent. The 2026-08-03 field test of
-the Usman Group brief produced exactly two such decisions (sorting §1b into devices
-vs. content; reconciling CTA copy with a new subject) — the Carry/Rewrite split and
-§9 exist because of them. Concretely:
+has to make **no structural decisions**. Not no decisions at all — that target is
+unreachable, and chasing it wastes passes.
+
+Sort what the gate returns into two piles:
+
+- **Structural** — the brief contradicts itself, states a quantity two ways whose
+  arithmetic disagrees, specifies a component the wireframe never draws, locks a
+  rule that has no answer for a legitimate target, or leaves a procedure with no
+  data to run on. **Every one of these is a defect. The target is zero.**
+- **Content authoring** — the brief cannot supply this brand's headline, its
+  partners' names, its cultural referents, its testimonials, its nav labels. No
+  style brief ever could. These are the job, not a gap. **Do not count them, and
+  do not try to close them** — a brief that supplied them would be fabricating.
+
+Measured floor as of 2026-08-05, across five categories: **21–32 items per run,
+almost entirely content authoring.** Two rounds of structural fixes moved the
+totals not at all; what changed was their character, from open invention to
+parameter choices inside a defined procedure. When a round of fixes stops moving
+the structural count, the remaining items are the floor — stop.
+
+The count is also highly sensitive to how the gate is asked. Prompting an agent to
+be adversarial and to refuse reasonable defaults produced 257 across four
+categories; the neutral wording below produced 21–32 on the same briefs. Use the
+neutral wording, or the numbers compare to nothing.
+
+The 2026-08-03 field test of the Usman Group brief produced two decisions (sorting
+§1b into devices vs. content; reconciling CTA copy with a new subject) — the
+Carry/Rewrite split and §9 exist because of them. That figure came from a
+build-and-narrate test, not this enumeration gate, so it is not comparable to the
+numbers above. Concretely, structural defects the layers already close:
 
 - **Carry vs. Rewrite (§1b).** Carry lists structural mechanisms portable to any
   subject; Rewrite lists words, subjects and copy specific to the reference, each
@@ -109,11 +133,26 @@ vs. content; reconciling CTA copy with a new subject) — the Carry/Rewrite spli
 
 Dispatch a **fresh subagent** (clean context — no access to this conversation or the
 repo) with only (a) the generated brief and (b) a dummy brand: different palette,
-different sector, real content. Ask it to state, *before building anything*, every
-decision the brief leaves to it. Count the decisions. **Zero passes.** Each non-zero
-item gets folded back into the brief as a rule or an explicit default — usually into
-the category's `copyRegister`/`states`/`motion`/`adaptation` or the image's
-`signature.rewrite` — then re-run the gate.
+different sector, real content. Give it the brief as a file path and tell it to read
+that file and nothing else. Ask it, in plain wording, to state *before building
+anything* every decision the brief leaves to it, as a numbered list naming the
+section involved. Do not tell it to be adversarial — that changes the number by an
+order of magnitude and makes runs incomparable.
+
+Sort the result into structural and content-authoring. **Zero structural passes.**
+Each structural item folds back into the brief as a rule or an explicit default —
+usually into the category's `copyRegister`/`states`/`motion`/`adaptation`, its
+`system`/`wireframe`, or the image's `signature.rewrite` — then re-run.
+
+Pick the dummy brand to stress the category where it is weakest, not where it is
+comfortable: a physical product against a brief that assumes software, three
+partners against a row drawn for two, a two-hue brand against a five-role palette.
+A comfortable brand returns a clean run and teaches nothing.
+
+**Adding a drawn slot to a wireframe is not a free fix.** Every slot costs each
+target that lacks its content a decision about what to do with it. One such addition
+took a category from 26 to 32. A device belonging to one reference belongs in §6,
+which describes that page, not in §4, which prescribes the family.
 
 ## Data model
 
@@ -269,9 +308,10 @@ looking.
 6. `node --test` and `tests/palette_verification_test.sh`, then reload the page and
    open the modal.
 7. **Run the zero-decision gate** (see "The brief format"): hand the generated brief
-   plus a dummy brand to a fresh subagent and count the decisions it says the brief
-   leaves to it. Fold every one back into the data as a rule or default, and re-run
-   until the count is zero.
+   plus a dummy brand to a fresh subagent and sort what it returns into structural
+   and content-authoring. Fold every structural item back into the data as a rule or
+   default and re-run until none are left. Leave the content-authoring items alone —
+   they are the job, and a brief that closed them would be fabricating.
 
 `python3 scripts/sample-palette.py --verify [id ...]` runs the palette check alone
 and exits non-zero on failure, which is quicker while you are iterating on one entry.
