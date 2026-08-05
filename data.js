@@ -1237,6 +1237,551 @@
           '└───────────────────────────────────────────────┘',
           'The render is the argument. If a section can be carried by an image at impossible scale, do not write a paragraph for it.'
         ]
+      },
+      {
+        id: 'specimen-board-readout',
+        name: 'Specimen Board Readout',
+        description: 'A near-black board that documents a design system rather than selling anything. A narrow centred column runs top to bottom, cut into sections by full-width hairlines, each section opened by an em-dash glyph and a lowercase label. Values are always shown twice — the swatch and its hex, the specimen and its spec chips, the contrast pair and its measured ratio — so nothing on the board has to be taken on trust.',
+        vocabulary: [
+          'em-dash section label',
+          'tonal ramp strip',
+          'measured contrast pair',
+          'monospace spec chip',
+          'hex-printed swatch card',
+          'narrow centred column',
+          'hairline section divider',
+          'export format tab row'
+        ],
+        imageryTechnique: 'flat generated specimens — swatch blocks, type specimens, live component renders and framed preview cards, all sitting directly on the dark ground with no photographic treatment',
+        imageryExclusions: 'no photography as page furniture, no illustration, no gradients, no shadows other than a single documented elevation sample, no decorative imagery of any kind',
+        fonts: {
+          roles: [
+            ['Display, heads & body', 'Open Sans, Source Sans 3, or the documented brand face itself — the board sets its own copy in the system it documents wherever it can'],
+            ['Spec chips, hex values & code', 'JetBrains Mono, IBM Plex Mono, or SF Mono — every measured value is monospaced, and nothing measured is ever set in the proportional face']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face'
+        },
+        copyRegister: [
+          'Section labels: 1–3 words, lowercase or sentence case, never a sentence',
+          'Micro labels above a specimen: all-caps, tracked, 1–2 words',
+          'Measured values: numeral plus unit, never prose — write 4.7:1 and 300ms, not roughly five to one',
+          'Descriptive lines: one sentence, declarative, describing what the specimen is rather than praising it',
+          'Never write persuasive copy anywhere on the board — the board reports, it does not argue'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static capture, though the board itself documents a 300ms smooth easing as the system\'s value.',
+          'Default: static. If animating: sections fade in at 150ms ease-out as they enter; swatch and specimen cards never stagger, because a ramp read out of order misreports its own order.',
+          'Transform and opacity only. Never animate a swatch fill, a ramp cell or a contrast ratio — a value that moves reads as a value still being computed. Honour prefers-reduced-motion by dropping to opacity alone.'
+        ],
+        states: [
+          ['Format tab', 'resting: transparent, muted label; hover: 8% white fill; active: solid accent fill with white label; focus-visible: 2px accent outline, 2px offset'],
+          ['Toolbar button', 'resting: 1px border at 15% white; hover: border to 30%, 6% white fill; active: translateY(1px)'],
+          ['Swatch or ramp cell', 'hover: 1px white outline inset, hex value stays put; never lift, never scale — a swatch that moves misrepresents its own size'],
+          ['Comparison card', 'hover: 1px accent border, no fill change; focus-visible: 2px accent outline'],
+          ['Text link', 'resting: accent, no underline; hover: underline; focus-visible: 2px accent outline'],
+          ['Form input', 'resting: 1px underline at 30% of the ink role; hover: underline to 50%; focus-visible: underline to the accent at 2px plus a 2px accent outline offset 2px; invalid: underline takes the error role with its message beneath in micro-label type'],
+          ['Adjective pill', 'non-interactive by default; if made filterable, hover fills 8% ink and the active state fills the accent with the board ground as its label colour']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one near-black board ground, one slightly-tinted panel ground for code and preview frames, white at full and reduced strength for type, a four-to-six step neutral ramp for cell fills and borders, and one or two brand accents used only for interactive affordances and for the accent swatches being documented. The board must never colour itself in the brand it documents beyond those two accents — the brand is the subject, not the styling. The feedback triad is the one place a third hue is permitted: if the target supplies no error colour, derive one by rotating the warmer of its two accents toward red until it clears 4.5:1 on the card ground, and say in the chip that the value was derived rather than supplied.',
+          locked: [
+            'Every measured value is printed beside the thing it measures, in a monospaced face',
+            'Sections open with an em-dash glyph and a lowercase label, separated by full-width hairlines',
+            'A single narrow centred column, well under half the canvas width, holding every section',
+            'Contrast pairs state their ratio and their WCAG level as content, not as a badge to be passed over'
+          ],
+          register: 'technical and evidentiary — wrong for anything selling to a non-specialist audience, and wrong wherever the reader is meant to feel something rather than check something. The near-black ground and the very narrow column make it a poor fit for any board meant to be read on a phone.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop, board scrolling well past a single viewport',
+          grid: 'single centred column at 82u (656px at the reference canvas, ≈ 46% of its width), no multi-column page grid; sections divide internally',
+          rhythm: 'section 9u · label-to-content 3u · specimen row 2u · chip inline 1u',
+          typeScale: [
+            ['Wordmark specimen', 'sans, 700', '5u', 1.1],
+            ['Board heading', 'sans, 300', '3.5u', 1.3],
+            ['Section heading', 'sans, 400', '2.5u', 1.35],
+            ['Body', 'sans, 400, white at 75%', '2u', 1.6],
+            ['Section label', 'sans, 400, lowercase, preceded by an em-dash glyph', '1.5u', 1.4],
+            ['Micro label', 'sans, 500, uppercase, tracking +10%', '1.25u', 1.3],
+            ['Spec chip', 'mono, 400', '1.25u', 1.2]
+          ],
+          components: [
+            ['Swatch card', '2.5u × 2.5u block, 0.25u radius, hex in mono above the colour name and its rgb triplet'],
+            ['Tonal ramp strip', 'ten cells at steps 50, 100, 200, 300, 400, 500, 600, 700, 800 and 900 in one unbroken row, 4u tall, no gaps; each carries its step number above a six-character hex with the # dropped, set at 9px mono — at a 656px column a cell is 65px wide and holds no more than that'],
+            ['Contrast pair card', '5u tall, the two colours as ground and type, a level badge and the measured ratio, and a caption naming which role sits on which'],
+            ['Spec chip row', 'mono chips at 2u tall with 0.5u radius carrying the face name and role, followed by unstyled values inline'],
+            ['Hairline divider', '1px rule at 12% white, full column width, 9u clear above and below'],
+            ['Format tab row', '4u tall segmented control, active tab filled in the accent'],
+            ['Preview frame', '1px border at 15% white, 0.5u radius, the specimen centred inside and its pixel dimensions in a footer bar'],
+            ['Comparison card', 'white fill, 1u radius, logo centred above the name and domain'],
+            ['Adjective pill', '3u tall, 1.5u radius, 1px border at 25% of the ink role, transparent fill, micro-label type, 1.5u horizontal padding'],
+            ['Toolbar', '4u bar, navigation glyphs left and actions right; action buttons 3u tall with 1u gaps, exactly one filled in the accent and the rest outlined'],
+            ['Form input', '4u tall with no box — a 1px underline only, its label above in micro-label type, 1u inset padding'],
+            ['Feedback chip', '3u tall, 0.25u radius, a leading glyph then the state name then its hex in mono; one chip each for success, error and info']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  TOOLBAR — nav left, actions right       4u   │',
+          '├───────────────────────────────────────────────┤',
+          '│         ┌ 4–9 · the only column ┐             │',
+          '│         │ WORDMARK              │             │',
+          '│         │ heading · body · link │             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — brand identity      │             │',
+          '│         │ heading · ○○○○○ pills │             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — logos               │             │',
+          '│         │ [light]     [dark]    │             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — color palette       │             │',
+          '│         │ ▢ ▢ ▢ ▢ ▢  hex + rgb  │             │',
+          '│         │ BLACK  ▤▤▤▤▤▤▤▤▤▤ 50–900            │',
+          '│         │ BRAND  ▤▤▤▤▤▤▤▤▤▤ 50–900            │',
+          '│         │ ACCESSIBLE COMBINATIONS             │',
+          '│         │ [Aa 21.0:1] [Aa 4.7:1]│             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — typography          │             │',
+          '│         │ H1 specimen           │             │',
+          '│         │ ⟨mono⟩ 40px w300 ls0  │             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — components          │             │',
+          '│         │ live inputs · buttons │             │',
+          '│         ├───────── hairline ────┤             │',
+          '│         │ — compare             │             │',
+          '│         │ ▭ ▭ ▭  white cards    │             │',
+          '│         └───────────────────────┘             │',
+          '├───────────────────────────────────────────────┤',
+          '│  EXPORT — format tabs + code panel            │',
+          '└───────────────────────────────────────────────┘',
+          'Sections are added by appending another hairline and another em-dash label — the column never widens and never splits into two, however much is documented.'
+        ]
+      },
+      {
+        id: 'ridge-hero-variation-study',
+        name: 'Ridge Hero Variation Study',
+        description: 'One hero skeleton — letter-spaced wordmark, a two-weight display headline, a narrow body paragraph and a filled-plus-outlined CTA pair — rendered repeatedly with only the ground treatment changed. A single angular ridge motif is restated each time in a different medium: flat silhouette, stacked outline, halftone field, layered paper, or removed entirely. The layout is the constant and the technique is the variable, which is what makes the set legible as a study rather than as seven unrelated pages.',
+        vocabulary: [
+          'angular ridge motif',
+          'two-weight display split',
+          'letter-spaced wordmark',
+          'filled-plus-outlined CTA pair',
+          'narrow body measure',
+          'single-viewport hero',
+          'restated ground treatment',
+          'flat geometric horizon'
+        ],
+        imageryTechnique: 'a flat angular ridge profile with no photographic content, rendered in exactly one medium per variation — solid silhouette, repeated outline stroke, halftone dot field, or stacked flat-colour layers — and always bled to both edges of the viewport',
+        imageryExclusions: 'no photography, no texture or noise overlay, no three-dimensional shading, no drop shadows other than the flat offset a paper-layer treatment implies, and never two ridge techniques combined in one composition',
+        fonts: {
+          roles: [
+            ['Display headline', 'Poppins, Futura, Century Gothic or a geometric sans with a single-storey a and near-circular o — the split between weights carries the whole composition, so the family must hold at both 700 and 200'],
+            ['Body, nav & CTA labels', 'the same geometric sans at 400; do not introduce a second family anywhere in the hero'],
+            ['Wordmark', 'the display face at 700 with wide positive tracking, set in caps']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; any serif; any face lacking a true 200 or 300 weight, since the light line cannot be faked by reducing opacity'
+        },
+        copyRegister: [
+          'Display headline: two to four words, a noun then a prepositional phrase, ending in a full stop',
+          'Body: two to four sentences, second person, plain present tense, no more than four lines at the stated measure',
+          'Primary CTA: imperative, 3–4 words, sentence case, no terminal punctuation',
+          'Secondary CTA: imperative, 3–4 words, closed by a rightward arrow glyph',
+          'Nav links: single words, sentence case, never more than four'
+        ],
+        motion: [
+          'No motion was observed — every variation is a static capture.',
+          'Default: the ridge motif draws or rises once on load over 600ms ease-out and then holds; the headline and body fade in with a 12px rise, 200ms, staggered 60ms. Nothing loops, and the ridge never parallaxes on scroll.',
+          'Transform and opacity only. A stroke-based treatment may animate stroke-dashoffset once on first paint. Honour prefers-reduced-motion by rendering the ridge in its final state immediately.'
+        ],
+        states: [
+          ['Primary CTA', 'hover: fill darkens 8%; focus-visible: 2px outline in the fill colour, 2px offset; active: translateY(1px)'],
+          ['Secondary CTA', 'resting: 1px border, transparent fill; hover: border to full strength and 6% fill; focus-visible: 2px outline, 2px offset'],
+          ['Nav link', 'resting: 70% strength; hover: 100% with a 1px underline at 2px offset; focus-visible: 2px outline'],
+          ['Wordmark', 'non-interactive in the hero; if linked, hover raises opacity only, never tracking']
+        ],
+        adaptation: {
+          yields: 'Every hex yields to the target brand provided the role structure holds: one ground carrying at least 55% of the viewport, one to three stepped values of a single hue building the ridge, one type colour at full strength for the display line and a reduced strength for body, and one accent reserved exclusively for the primary CTA. The ridge hue and the CTA accent must not be the same value, or the composition loses its only focal point. Where §5 carries no accent row at all, that is because the reference\'s CTA sat below every sampler threshold and no hex could honestly be claimed for it — supply the accent from the target brand, chosen to clear 3:1 against the ground behind the button and to sit outside the ridge\'s hue.',
+          locked: [
+            'One angular ridge motif in exactly one medium, bled to both viewport edges',
+            'The display headline split across two weights of one geometric sans',
+            'A filled primary CTA paired with an outlined secondary carrying an arrow glyph',
+            'A body measure of roughly one third the viewport width, never centred'
+          ],
+          register: 'confident and design-led — wrong wherever the hero must carry proof, pricing or navigation depth, since the composition holds one idea and nothing else. The full-bleed ridge assumes a wide viewport and needs a different motif entirely below roughly 600px.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 800 desktop, a single viewport with no scroll implied',
+          grid: '12 columns, 24px gutter, 14u side margin',
+          rhythm: 'nav-to-display 9u · display-to-body 3u · body-to-CTA 4u',
+          typeScale: [
+            ['Display heavy', 'geometric sans, 700, tracking -2%', '12u', 0.95],
+            ['Display light', 'geometric sans, 200, tracking -1%', '12u', 1.05],
+            ['Body', 'geometric sans, 400, at 75–85% of type strength', '2u', 1.65],
+            ['Nav link', 'geometric sans, 400', '2u', 1.2],
+            ['Wordmark', 'geometric sans, 700, uppercase, tracking +18%', '1.75u', 1.2],
+            ['CTA label', 'geometric sans, 500', '1.75u', 1.2]
+          ],
+          components: [
+            ['Primary CTA', '7u tall, 0 radius, solid accent fill, 3u horizontal padding'],
+            ['Secondary CTA', '7u tall, 0 radius, 1px border, transparent fill, label closed by an arrow glyph'],
+            ['Nav bar', '9u tall, wordmark left and three links right, transparent over the ground'],
+            ['Body block', '60u measure (≈ one third of the canvas), left-aligned, never exceeding four lines'],
+            ['Ridge motif', 'full-bleed, occupying 30–45% of viewport height, anchored to the edge §1b names for this reference']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  WORDMARK              Approach Services About│',
+          '├───────────────────────────────────────────────┤',
+          '│  ┌ 1–7 ───────────────────┐                   │',
+          '│  │ Display heavy          │                   │',
+          '│  │ display light          │    (field left    │',
+          '│  └────────────────────────┘     deliberately  │',
+          '│  ┌ 1–5 ──────────┐               empty)       │',
+          '│  │ body, 4 lines │                            │',
+          '│  └───────────────┘                            │',
+          '│  [ filled CTA ] [ outlined CTA → ]            │',
+          '│                                               │',
+          '│  ▄▀▄▄▀▀▄▄▀▄▀▀▄▄▀▄▄▀▀▄▄▀▄▀▀▄▄▀▄▄▀▀▄  ridge     │',
+          '└───────────────────────────────────────────────┘',
+          'The ridge anchors to whichever edge §1b names for this reference — the bottom for most of the study, the top for the high-key treatment, which pushes the whole type stack down beneath it. That choice is the only structural variation the study permits; nothing else in the skeleton moves.'
+        ]
+      },
+      {
+        id: 'dark-navy-diagnostic-editorial',
+        name: 'Dark Navy Diagnostic Editorial',
+        description: 'A long dark-navy page that argues in prose rather than in cards. Headings are short declarative sentences closed by a full stop, body copy sits at a narrow measure in the left half with the right half deliberately empty, and one warm coral carries every label, numeral, bullet and link. Sections alternate between two near-identical navies, so the page divides without a single visible rule.',
+        vocabulary: [
+          'declarative heading with a full stop',
+          'coral micro label',
+          'left-half measure',
+          'alternating navy band',
+          'definition row with bold lead-in',
+          'coral step numeral',
+          'italic coral pull quote',
+          'credential trailer line'
+        ],
+        imageryTechnique: 'flat geometric illustration in stepped navy layers with small saturated peak accents, plus plain rectangular headshots at small scale, cropped square-ish and never masked into circles',
+        imageryExclusions: 'no stock photography, no icons, no gradients other than the flat steps of the illustration, no rounded media tiles, no logos other than as plain text credits',
+        fonts: {
+          roles: [
+            ['Headings & bold lead-ins', 'Poppins, Figtree or a geometric sans at 700 — the same family as body, distinguished only by weight'],
+            ['Body & labels', 'the same geometric sans at 400; micro labels take the uppercase with wide tracking rather than a different face'],
+            ['Pull quote', 'the same family at 400 italic — the only italic on the page']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; any serif; any monospace, since measured values are not part of this style'
+        },
+        copyRegister: [
+          'Headings: one short declarative sentence, sentence case, always closed by a full stop',
+          'Body: second person, present tense, 2–5 sentences, plain words over industry terms',
+          'Micro labels: all-caps, tracked, role or category, separated by a middle dot when compound',
+          'Definition rows: a bold clause naming the option, then the explanation continuing inline in body weight',
+          'Pull quote: first person plural, a commitment the reader can hold the writer to',
+          'CTA labels: imperative, 3–4 words; text links close with a rightward arrow'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static full-page capture.',
+          'Default: sections fade in with a 16px rise at 200ms ease-out as they enter, once only; step numerals and bullet markers do not animate independently of their block.',
+          'Transform and opacity only. The hero illustration must not parallax — its stepped layers read as a single flat plane and separating them on scroll breaks that. Honour prefers-reduced-motion by dropping to opacity alone.'
+        ],
+        states: [
+          ['Primary CTA', 'hover: fill darkens 8%; focus-visible: 2px outline in the accent, 2px offset; active: translateY(1px)'],
+          ['Text link', 'resting: accent with a 1px underline at 4px offset; hover: underline thickens to 2px; focus-visible: 2px outline'],
+          ['Nav link', 'resting: 70% white; hover: 100%; active section: 1px underline in white at 6px offset'],
+          ['Definition row', 'non-interactive; if made expandable, the hairline above brightens 20% on hover and nothing moves']
+        ],
+        adaptation: {
+          yields: 'Hexes may be re-derived from the target brand IF the role structure holds: two near-identical dark grounds one step apart for the alternating bands, off-white for headings, a desaturated cool grey for body, a hot accent used only for filled CTAs, and one warm accent doing every label, numeral, bullet, text link and pull quote. The two accents must be far enough apart in hue to read as different roles and never swap duties. The two grounds must stay close enough that the boundary reads as a shift rather than a rule; if the brand offers only one dark, derive the second by lightening it 4–6%.',
+          locked: [
+            'Two accents and no third — a hot accent used only for filled CTAs, and a warm accent carrying every label, numeral, bullet marker, text link and pull quote',
+            'Body copy held to the left half of the canvas with the right half left empty',
+            'Section division by a step between two near-identical grounds, never by a visible rule',
+            'Headings written as complete declarative sentences closed by a full stop'
+          ],
+          register: 'senior and plainspoken — wrong for anything that needs to look energetic or affordable, and wrong where the reader skims, since the page rewards reading and offers very few visual entry points. The empty right half reads as confidence at desktop width and as a bug on narrow viewports unless the measure is allowed to fill.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × long scroll; the reference runs about eleven viewport heights, which records its content volume and is not a length to pad toward',
+          grid: '12 columns, 24px gutter, 6u side margin; prose occupies columns 1–5 (≈ one third of the canvas) and the right half stays empty',
+          rhythm: 'section 14u · heading-to-body 2u · block 5u · definition row 2.5u',
+          typeScale: [
+            ['Display headline', 'geometric sans, 700 on the first line and 400 on the second, tracking -1%', '5u', 1.15],
+            ['Section heading', 'geometric sans, 700', '3.5u', 1.25],
+            ['Sub heading', 'geometric sans, 700', '2.25u', 1.35],
+            ['Body', 'geometric sans, 400, cool grey', '1.875u', 1.65],
+            ['Step numeral', 'geometric sans, 700, accent', '2.5u', 1.1],
+            ['Micro label', 'geometric sans, 500, uppercase, tracking +10%, accent', '1.25u', 1.3],
+            ['Pull quote', 'geometric sans, 400 italic, accent', '1.875u', 1.6]
+          ],
+          components: [
+            ['Definition row', 'bold lead-in clause then inline body, 1px hairline above, 2.5u vertical padding'],
+            ['Step block', 'accent numeral above a bold label above two lines of body, four across'],
+            ['Founder card', 'small rectangular headshot left, name and accent micro-role right, bio beneath, closing with a plain-text credentials line'],
+            ['Bullet list', 'small accent square marker, 2u indent, body copy hanging'],
+            ['Primary CTA', '5.5u tall, 0 radius, solid accent fill, 3u horizontal padding'],
+            ['Text link', 'accent label closed by an arrow glyph, 1px underline at 4px offset'],
+            ['Credential strip', 'five micro-labelled columns — two named people, then framework, investment and location — each a caps micro label above one or two lines of body'],
+            ['Pull quote', 'accent, 400 italic, no rule and no quotation marks, 60u measure, 5u clear above and below'],
+            ['Question pill row', 'a wrapping row of pills, each a 1u accent dot then a short question in body weight, 2u gaps, no borders']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  WORDMARK          Approach Services About [C]│',
+          '├───────────────────────────────────────────────┤',
+          '│  HERO ┌ 1–6 ──────────────┐                   │',
+          '│       │ display headline  │   (right half     │',
+          '│       │ body · [CTA] [→]  │    left empty)    │',
+          '│       └───────────────────┘                   │',
+          '│  ▄▀▄▄▀▀▄▄▀▄▀▀▄▄▀▄▄▀▀▄  stepped ridge          │',
+          '├───────────────────────────────────────────────┤',
+          '│  CREDENTIAL STRIP — 5 micro-labelled columns   │',
+          '├───────────────────────────────────────────────┤',
+          '│  ┌ 1–6 ──────────────┐   band steps one value │',
+          '│  │ Heading.          │   darker, no rule drawn │',
+          '│  │ body prose        │                        │',
+          '│  └───────────────────┘                        │',
+          '├───────────────────────────────────────────────┤',
+          '│  FOUNDERS ┌ 1–3 ┐ ┌ 4–6 ┐                     │',
+          '│           │ ▣ bio│ │ ▣ bio│                    │',
+          '│           └──────┘ └──────┘                    │',
+          '├───────────────────────────────────────────────┤',
+          '│  STEPS  01        02        03        04       │',
+          '│         label     label     label     label    │',
+          '├───────────────────────────────────────────────┤',
+          '│  DEFINITION ROWS — bold lead-in, hairline above│',
+          '│  ─────────────────────────────────────────     │',
+          '├───────────────────────────────────────────────┤',
+          '│  FOOTER                                        │',
+          '└───────────────────────────────────────────────┘',
+          'Add sections by alternating the two grounds again — the page never introduces a third value, and never draws a rule to divide a section from the next. The founder row takes as many cards as there are people, splitting the prose columns evenly between them; it is not fixed at two.'
+        ]
+      },
+      {
+        id: 'concept-comparison-cards',
+        name: 'Concept Comparison Cards',
+        description: 'A dark comparator that puts two or more design directions side by side and makes each one argue for itself in a fixed order: a full-bleed mockup, then a monospaced descriptor of what the mockup is, a short title, a one-line premise, the materials it is made of, the risk of choosing it, and a commit button. Every card carries the same fields in the same sequence, so the reader compares like against like rather than reading each concept on its own terms.',
+        vocabulary: [
+          'full-bleed concept preview',
+          'monospaced descriptor line',
+          'material chip',
+          'swatch dot row',
+          'stated risk line',
+          'commit button',
+          'fixed field order',
+          'side-by-side comparator'
+        ],
+        imageryTechnique: 'each card leads with a complete rendered mockup of the concept it proposes, shown full-bleed to the card edges at the top, never cropped to a detail and never abstracted into a thumbnail or icon',
+        imageryExclusions: 'no stock imagery, no illustration standing in for the concept, no partial crops that hide the concept\'s layout, and no card without a preview',
+        fonts: {
+          roles: [
+            ['Card title & premise', 'Söhne, Suisse Int\'l or Public Sans at 400–500 — a neutral face, because the card chrome must not compete with the mockups it frames'],
+            ['Descriptor, chips & risk label', 'JetBrains Mono, IBM Plex Mono or SF Mono in uppercase with wide tracking — the machine-written fields are monospaced and the human-readable ones are not']
+          ],
+          never: 'any display or decorative face in the card chrome, since each preview brings its own typography and a third voice makes the comparison unreadable'
+        },
+        copyRegister: [
+          'Descriptor: one sentence, no verb required, naming the concrete referent and its two or three defining details, all caps',
+          'Title: 2–3 words naming the device, not the feeling',
+          'Premise: one sentence stating what the concept does for the reader, never what it looks like',
+          'Material chips: 2–3 words, all caps, each naming a physical or graphic material rather than a style adjective',
+          'Risk: one sentence stating the strongest honest argument against choosing this concept, never hedged',
+          'Commit button: two words, imperative'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static capture of a comparator.',
+          'Default: cards do not animate on entry, because a stagger implies a ranking the comparator is not making. Advancing to the next pair slides horizontally at 240ms ease-in-out.',
+          'Transform and opacity only. Never animate a preview thumbnail on hover — the preview is evidence and motion makes it look like a promotion. Honour prefers-reduced-motion by cross-fading between pairs instead of sliding.'
+        ],
+        states: [
+          ['Commit button', 'hover: fill lightens 8%; focus-visible: 2px outline in the fill colour, 2px offset; active: translateY(1px)'],
+          ['Card', 'resting: no border; hover: 1px border at 20% white; never lift or scale, since size difference reads as preference'],
+          ['Preview overlay control', 'resting: 60% opacity over the mockup; hover: 100%, applied instantly with no transition, because §11 forbids animating anything sitting over a preview; focus-visible: 2px outline'],
+          ['Pair advance control', 'resting: 1px accent ring, transparent fill; hover: accent fill with dark glyph; focus-visible: 2px outline, 2px offset']
+        ],
+        adaptation: {
+          yields: 'Hexes may be re-derived from the target brand IF the role structure holds: a near-black comparator ground darker than any preview it frames, a one-step-lighter card ground, white at full and reduced strength for title and premise, and exactly one high-chroma accent reserved for the commit button and the advance control. The accent must not appear inside any preview, or the eye reads it as part of the concept rather than part of the chrome.',
+          locked: [
+            'Every card carries the same fields in the same order, with no field omitted for any card',
+            'A full-bleed rendered preview leads each card, never a crop or an abstraction',
+            'A stated risk sits directly above the commit button, so the argument against is read last',
+            'The comparator ground is darker than every preview it frames'
+          ],
+          register: 'candid and decision-oriented — wrong wherever the concepts must be sold rather than weighed, since the risk field actively argues against each option. It also assumes the reader has authority to choose; without that, the commit button is a dead end.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop, two cards visible with the next pair one control away',
+          grid: '2–3 columns of equal width, 4u gutter, 3u outer margin; every column identical whatever the count',
+          rhythm: 'card padding 3u · field 2u · preview-to-descriptor 3u',
+          typeScale: [
+            ['Card title', 'sans, 500', '3u', 1.25],
+            ['Premise', 'sans, 400', '2.5u', 1.45],
+            ['Descriptor', 'mono, 400, uppercase, tracking +8%', '1.5u', 1.7],
+            ['Chip label', 'mono, 400, uppercase, tracking +8%', '1.375u', 1.2],
+            ['Risk body', 'sans, 400, white at 70%', '2u', 1.5],
+            ['Commit label', 'sans, 500', '2.25u', 1.2]
+          ],
+          components: [
+            ['Concept card', 'card ground one step lighter than the comparator, 0.5u radius, 3u padding, preview bled to the top three edges'],
+            ['Preview frame', 'full card width, roughly 45% of card height, the mockup rendered complete inside it'],
+            ['Descriptor block', 'monospaced uppercase, 2–3 lines, sitting directly beneath the preview'],
+            ['Swatch dot row', '2u squares with 0.25u radius in a tight row, one per palette entry, no labels'],
+            ['Material chip', '1px border at 25% white, 0.25u radius, 2.5u tall, monospaced uppercase label'],
+            ['Risk line', 'a monospaced uppercase RISK label followed inline by body-weight prose'],
+            ['Commit button', '5u tall, 0.5u radius, solid accent fill, dark label'],
+            ['Pair advance control', '5u circular ring in the accent, centred on the gutter at the card midline — present only when more concepts exist than the viewport shows, and omitted entirely when they all fit'],
+            ['Preview overlay control', '3u square glyph button over the preview\'s lower right at 60% opacity, expanding the mockup to full size when activated']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ─────────────────┐ ┌─ 2 ─────────────────┐',
+          '│ ┌─────────────────┐ │ │ ┌─────────────────┐ │',
+          '│ │ FULL-BLEED      │ │ │ │ FULL-BLEED      │ │',
+          '│ │ CONCEPT PREVIEW │ │ │ │ CONCEPT PREVIEW │ │',
+          '│ └─────────────────┘ │ │ └─────────────────┘ │',
+          '│ MONO DESCRIPTOR OF  │ │ MONO DESCRIPTOR OF  │',
+          '│ WHAT THE MOCKUP IS  │ │ WHAT THE MOCKUP IS  │',
+          '│                     │ │                     │',
+          '│ Title               │ │ Title               │',
+          '│ One-line premise.   │ │ One-line premise.   │',
+          '│ ▪▪▪▪ [CHIP] [CHIP]  │ │ ▪▪▪▪ [CHIP] [CHIP]  │',
+          '│ [CHIP]              │ │ [CHIP]              │',
+          '│ RISK the honest     │ │ RISK the honest     │',
+          '│      argument against│ │      argument against│',
+          '│ ┌───────────────┐   │ │ ┌───────────────┐   │',
+          '│ │  Commit       │   │ │ │  Commit       │   │',
+          '│ └───────────────┘   │ │ └───────────────┘   │',
+          '└─────────────────────┘ └─────────────────────┘',
+          'Adding a third concept adds a third column of identical structure, never a differently-shaped hero card — the moment one card is bigger, the comparator has made the choice for the reader.'
+        ]
+      },
+      {
+        id: 'storybook-serif-product',
+        name: 'Storybook Serif Product',
+        description: 'A warm bone canvas carrying a high-contrast serif at display size, where exactly one saturated red does every job the brand colour is allowed to do — pill buttons, step numerals, attributions, and the full stop closing each display line. A painted illustration opens the page in a register the rest of it never repeats, and product interface is then shown as flat mockup cards rather than described. The combination reads as a storybook that happens to be selling software.',
+        vocabulary: [
+          'red terminal full stop',
+          'high-contrast serif display',
+          'single saturated accent',
+          'painted illustration hero',
+          'knockout wordmark on the horizon',
+          'flat product mockup card',
+          'numbered step spine',
+          'arced capital ticker'
+        ],
+        imageryTechnique: 'one painted or rendered scene at the top of the page, warm and atmospheric with real depth of field, used once and never repeated; everything below it is flat — product interface captured as-is on a plain card, plus line-drawn glyphs and one photograph of the team',
+        imageryExclusions: 'no stock photography, no gradient meshes, no drop shadows on flat elements, no illustration style below the hero that competes with the painted scene, and never a second painterly image once the first has been spent',
+        fonts: {
+          roles: [
+            ['Display serif', 'Canela, Editorial New, Freight Display or a high-contrast transitional serif with a true hairline thin — the stroke contrast is the whole effect and a low-contrast serif will not carry it'],
+            ['Body, labels & interface', 'Aeonik, Basis Grotesque or a neutral geometric sans at 400 — it must recede completely behind the serif and is never used above 2.5u'],
+            ['Wordmark', 'a heavy rounded-terminal display sans, set in caps and knocked out of the illustration']
+          ],
+          never: 'Inter, Roboto, Arial or system-ui as a display face; any slab serif; any second serif anywhere on the page'
+        },
+        copyRegister: [
+          'Display lines: 2–5 words, sentence case, always closed by a full stop that takes the accent colour',
+          'Step headings: second person, present tense, 3–5 words, no terminal punctuation',
+          'Step body: 2–3 sentences explaining what happens, never what it feels like',
+          'Step numerals: two digits with a leading zero, in the accent',
+          'CTA labels: 2–4 words, imperative or invitational, sentence case',
+          'Micro labels: all-caps, tracked, naming the mockup a card is showing',
+          'Ticker: first-person questions a user of the product would actually ask, unanswered and unpunctuated by any product claim'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static full-page capture, though the arced ticker and the step spine both imply travel.',
+          'Default: the ticker translates horizontally at a constant slow rate, looping seamlessly and pausing on hover. The step spine draws downward as its section enters, once, over 800ms ease-out. Display lines fade in with a 12px rise at 200ms; the accent full stop arrives 120ms after the words it closes.',
+          'Transform and opacity only. The painted hero never parallaxes and never zooms — it is a picture, not a stage. Honour prefers-reduced-motion by halting the ticker, drawing the spine instantly, and dropping all entrances to opacity.'
+        ],
+        states: [
+          ['Accent pill CTA', 'hover: fill darkens 8%; focus-visible: 2px outline in the accent, 3px offset; active: translateY(1px)'],
+          ['Dark pill CTA', 'hover: fill lifts 10% toward the page ground; focus-visible: 2px accent outline, 3px offset; active: translateY(1px)'],
+          ['Selectable chip', 'resting: 1px border, white fill; hover: border to full ink; selected: accent fill with a white label and its glyph knocked out; focus-visible: 2px accent outline'],
+          ['Form field', 'resting: filled, no border, placeholder at 55% ink; focus-visible: 2px accent outline, 2px offset; invalid: 1px accent border with the message beneath in micro-label type'],
+          ['Testimonial scroller', 'the row scrolls horizontally; hover pauses any auto-advance, and the track must remain keyboard-reachable with visible focus on each card'],
+          ['Disclosure row', 'resting: circular accent glyph button at rest; hover: fill darkens 8%; expanded: glyph rotates 180 degrees, panel height animates, content fades in after']
+        ],
+        adaptation: {
+          yields: 'Hexes may be re-derived from the target brand IF the role structure holds: one warm off-white page ground carrying at least half the scroll, one near-black for full-bleed dark sections, one deep saturated ground for the illustrated opening, white for knockouts and card fills, one desaturated tint of the accent for the step spine, and exactly one saturated accent doing pill fills, numerals, attributions and the terminal full stop. If the brand runs more than one saturated hue, promote one and let the others live only inside the painted hero, where they read as scene rather than system.',
+          locked: [
+            'Exactly one saturated accent, and the full stop closing every display line is set in it',
+            'A high-contrast serif at display size against a neutral sans everywhere else',
+            'One painted scene at the top of the page and flat treatment for everything below it',
+            'Product interface shown as captured mockups on plain cards, never described in prose alone'
+          ],
+          register: 'warm and confident, with a wonder register that is easy to get wrong — it reads as condescending on anything sold to professionals, and the painted hero is expensive enough that a weak one sinks the whole page. Wrong wherever the product must look neutral or institutional.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × long scroll, roughly fourteen viewport heights at the reference capture',
+          grid: '12 columns, 24px gutter, 10u side margin; step content occupies columns 5–9 (≈ 38% of the canvas) and display lines centre across columns 3–10',
+          rhythm: 'section 16u · display-to-body 3u · step 10u · card-to-caption 2u',
+          typeScale: [
+            ['Display serif', 'serif, 400, tracking -1%', '15u', 1.05],
+            ['Section serif', 'serif, 400', '7u', 1.1],
+            ['Step heading', 'sans, 500', '2.75u', 1.3],
+            ['Body', 'sans, 400', '1.75u', 1.6],
+            ['Ticker', 'serif, 400, uppercase, set on an arc', '4u', 1],
+            ['Micro label', 'sans, 500, uppercase, tracking +8%', '1.25u', 1.3],
+            ['Step numeral', 'sans, 500, accent', '1.25u', 1.2]
+          ],
+          components: [
+            ['Accent pill CTA', '5.5u tall, fully rounded, saturated accent fill, white label, 3u horizontal padding'],
+            ['Dark pill CTA', '5.5u tall, fully rounded, near-black fill, white label'],
+            ['Selectable chip', '4u tall, fully rounded, white fill, 1px border, a small glyph before the label'],
+            ['Step spine', '2u wide path in a desaturated tint of the accent, running the full height of the left margin, with 2.5u white circular nodes and a solid accent segment entering each node'],
+            ['Mockup card', 'white fill, 1u radius, 1px border, a micro label at the top and captured interface beneath, filling the step column'],
+            ['Testimonial card', '1px border, 2.5u padding, quote in body then an accent attribution line naming the speaker and their relationship'],
+            ['Icon circle', '5u outlined circle holding a line glyph, a serif label beneath and two lines of body under that'],
+            ['Rounded section panel', 'the bone panel overlaps the section above it with a 4u top radius on both corners, and no rule between them'],
+            ['Inline signup form', 'two filled fields and an accent pill CTA on a single row, all 5.5u tall, set directly in the illustrated hero'],
+            ['Arced ticker', 'a single line of accent capitals set on a shallow arc, bleeding past both edges of the viewport']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ────────────────────────────────────── 12 ─┐',
+          '│  PAINTED HERO — full bleed                    │',
+          '│      █▀▀█ WORDMARK knocked out of the sky     │',
+          '│      one-line promise                         │',
+          '│      [ field ][ field ][ accent pill ]        │',
+          '├───────────────────────────────────────────────┤',
+          '│  DARK — deep ground                            │',
+          '│      Display serif line.                       │',
+          '│      Display serif line●   ← accent full stop  │',
+          '│      body · credibility wall                   │',
+          '├──╮ rounded top corners overlap the dark ╭──────┤',
+          '│  │ BONE PANEL                           │      │',
+          '│ ┃│         Welcome line●                │      │',
+          '│ ●│ ┌ 5–9 ─────────────┐                 │      │',
+          '│ ┃│ │ 01 step heading  │                 │      │',
+          '│ ┃│ │ body             │                 │      │',
+          '│ ●│ │ ▭ mockup card    │                 │      │',
+          '│ ┃│ │ 02 step heading  │                 │      │',
+          '│ ●│ │ ▭ mockup card    │   spine runs    │      │',
+          '│ ┃│ └──────────────────┘   the margin    │      │',
+          '├───────────────────────────────────────────────┤',
+          '│  Display serif line●                           │',
+          '│  ( chip )( chip )( chip )( chip )              │',
+          '│         ▭ device mockup                        │',
+          '├───────────────────────────────────────────────┤',
+          '│  ╭─ ARCED TICKER IN ACCENT CAPITALS ─╮         │',
+          '├───────────────────────────────────────────────┤',
+          '│  TESTIMONIALS — bordered cards, scrolls right  │',
+          '│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────              │',
+          '├───────────────────────────────────────────────┤',
+          '│  DARK — Display serif line●                    │',
+          '│      ◯ icon   ◯ icon   ◯ icon                  │',
+          '├───────────────────────────────────────────────┤',
+          '│  PRINCIPLES — 4 bordered cards                 │',
+          '│  JOIN — glyph, form, mascot                    │',
+          '│  FOOTER — near-black, links left, wordmark     │',
+          '└───────────────────────────────────────────────┘',
+          'The painted hero is spent once and never reprised; every later image is flat. Sections alternate bone against a dark ground, and a bone panel may overlap the dark section above it with rounded top corners, which is the only place the page draws a curve at section scale.'
+        ]
       }
     ],
     images: [
@@ -2788,6 +3333,429 @@
           rewrite: [
             'The Apple glyph and app icons are platform marks — use the real marks of the target\'s platform',
             'Feature captions and FAQ copy are reference product facts — write the target\'s own'
+          ]
+        }
+      },
+      {
+        id: 'deloitte-brand-book',
+        file: 'images/deloitte-brand-book-unbrand-my.png',
+        thumb: 'images/thumbs/deloitte-brand-book-unbrand-my.webp',
+        display: 'images/display/deloitte-brand-book-unbrand-my.webp',
+        categoryId: 'specimen-board-readout',
+        title: 'Deloitte Brand Book — unbrand.my Readout',
+        descriptor: 'A near-black board that documents a brand rather than selling it, printing the measured value beside every swatch, specimen and contrast pair.',
+        keywords: [
+          'em-dash section label',
+          'ten-step tonal ramp',
+          'contrast ratio as content',
+          'monospace spec chip',
+          'hex and rgb swatch card',
+          'narrow centred column',
+          'export format tab',
+          'syntax-highlighted code panel'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#090909', usage: 'board ground, running behind every section from the toolbar to the footer' },
+          { name: 'Blue-black', hex: '#091B2D', usage: 'export code panel ground and the tinted fills behind the monospace spec chips' },
+          { name: 'White', hex: '#FFFFFF', usage: 'wordmark, headings, the light logo plate and the three comparison card fills' },
+          { name: 'Light grey', hex: '#CFCFCF', usage: 'body copy, section descriptions, and the documented light-grey swatch' },
+          { name: 'Mid grey', hex: '#757575', usage: 'caption and spec-value text set beneath each specimen', contrastNote: '4.32:1 on the near-black board ground, short of the 4.5:1 this size needs. The board documents accessible combinations elsewhere on the page while its own captions fail; lighten to at least #7A7A7A when rebuilding.' },
+          { name: 'Charcoal', hex: '#3F3F3F', usage: 'neutral ramp cells, swatch card borders and hairline section dividers' },
+          { name: 'Slate grey', hex: '#636363', usage: 'upper steps of the black and white ramps, and the muted button specimen fill' },
+          { name: 'Brand blue', hex: '#0975AB', usage: 'active toolbar button, the filled CTA specimen and the active export format tab' },
+          { name: 'Light blue', hex: '#1B87BD', usage: 'text links, the info feedback chip, and the highlighted keys in the export panel' },
+          { name: 'Brand green', hex: '#87BD2D', usage: 'the accent dot closing the wordmark, the brand green swatch, and the success chip' },
+          { name: 'Deep green', hex: '#63991B', usage: 'lower steps of the brand green tonal ramp' }
+        ],
+        typography: 'A single humanist sans throughout — the board sets itself in the face it documents. Wordmark specimen at roughly 44px/700; the board heading at 30px/300, markedly lighter than anything below it; section headings at 20px/400; body at 16px/400 in light grey; section labels at 13px lowercase, each preceded by a short em-dash glyph; micro labels at 11px uppercase tracked wide above the ramps and feedback rows; every measured value — hex, rgb triplet, ratio, size, duration — set in a monospace at 12px, never in the proportional face.',
+        layoutNotes: 'A dark toolbar spans the full width, navigation left and actions right, with one filled blue button among outlined ones. Everything below runs in a single centred column occupying under half the canvas, leaving the near-black as deep margin on both sides for the entire scroll. Sections are separated by full-width hairlines and opened by an em-dash glyph beside a lowercase label. The palette section stacks three readings of the same colours: swatch cards printing hex above name above rgb, then five ten-cell tonal ramps with the step number and hex inside each cell and no gaps between them, then contrast pair cards showing large sample letterforms with a level badge, the ratio to one decimal, and a caption naming which role sits on which. Typography pairs each specimen with a chip row. Components render live inputs and buttons in their default and focused states. Three white cards close the body with competitor logos, and a full-width export panel with format tabs and a syntax-highlighted code block sits beneath the column.',
+        imagerySubject: 'flat generated specimens — swatch blocks, tonal ramps, type specimens and live component renders — plus three small thumbnails of the documented brand\'s own photography and a framed social-share preview',
+        mood: ['evidentiary', 'technical', 'systematic', 'neutral'],
+        signature: {
+          carry: [
+            'Every colour is read out three times over — as a swatch card printing its hex above its rgb triplet, as the head of a ten-step tonal ramp, and again inside a contrast pair',
+            'Contrast pairs are page content rather than a compliance badge: each renders the two colours as ground and type, states the WCAG level, and prints the ratio to one decimal place',
+            'Each type specimen is followed by a row of monospaced chips naming the face and the role, then the size, weight, line height and letter spacing as unstyled values inline',
+            'The entire board runs in one centred column under half the canvas width, so the ground reads as deep margin on both sides for the whole scroll',
+            'The board closes on an export panel whose format tabs switch a syntax-highlighted code block, making the documented system copyable rather than merely visible'
+          ],
+          rewrite: [
+            'The documented brand is the reference\'s subject — the wordmark, the positioning line, the five adjective pills and the closing descriptive paragraph all belong to it; substitute the target\'s own mark, its own positioning line, and adjectives taken from its actual voice rather than carried across',
+            'The three comparison cards name real competitors in the reference\'s sector; populate them from the target\'s genuine peer set, and drop the section rather than invent peers',
+            'The toolbar actions and the footer credit the tool that generated the board; replace them with the target\'s own attribution, or remove both bars if the board is not a product surface'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-a-high-key',
+        file: 'images/ridgeframe-hero-a-high-key.png',
+        thumb: 'images/thumbs/ridgeframe-hero-a-high-key.webp',
+        display: 'images/display/ridgeframe-hero-a-high-key.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — A · High Key',
+        descriptor: 'The ridge hangs from the top of the viewport in three flat teal bands, leaving the type to sit in open bone below it.',
+        keywords: ['bone ground', 'inverted ridge anchor', 'stacked teal band', 'flat silhouette', 'open lower field', 'symmetric peak pitch', 'nav above illustration', 'high-key contrast'],
+        colors: [
+          { name: 'Bone', hex: '#F3F3E1', usage: 'page ground, above and below the ridge' },
+          { name: 'Mid teal', hex: '#3F6363', usage: 'the largest and lowest of the three stacked ridge bands' },
+          { name: 'Deep teal', hex: '#2D5151', usage: 'the middle ridge band' },
+          { name: 'Darkest teal', hex: '#1B2D2D', usage: 'the topmost ridge band, meeting the nav' },
+          { name: 'Ink green', hex: '#091B1B', usage: 'display headline and wordmark' },
+          { name: 'Grey green', hex: '#758775', usage: 'body copy on the bone ground', contrastNote: '3.42:1 on the bone ground, well short of 4.5:1. This is the hero paragraph, so the failure is on the primary reading path; darken toward #5C6B5C before shipping this treatment.' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 with the second line at the same size in a 200 weight; body at 17px/400 across four lines at a third of the viewport measure; nav links at 17px/400; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'The nav sits on bone at the very top, wordmark left and three links right. Directly beneath it the ridge enters as three flat teal bands, darkest at the top and lightest at the bottom, filling roughly the upper third and bleeding to both edges. The type stack begins well below the ridge in open bone: heavy display word, light display phrase, then a narrow body paragraph and the CTA pair.',
+        imagerySubject: 'a flat angular ridge profile in three stacked teal bands, bled to both edges, with no shading or texture',
+        mood: ['calm', 'airy', 'composed', 'editorial'],
+        signature: {
+          carry: [
+            'The ridge hangs from the top edge like a ceiling rather than rising from the floor, so the type stack sits in open ground beneath it',
+            'Three flat bands stack with the darkest at the very top, reversing the aerial-perspective convention in which distant layers go paler',
+            'The nav sits on the page ground above the ridge, so the illustration begins below the navigation rather than running behind it',
+            'Peaks are symmetric and sharply angled, every vertex meeting at a consistent pitch across the full width'
+          ],
+          rewrite: [
+            'The wordmark, the three nav labels and both CTA labels belong to the reference consultancy; replace them with the target\'s own, keeping the primary CTA an invitation to talk rather than a transaction'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-b-ridgeline',
+        file: 'images/ridgeframe-hero-b-ridgeline.png',
+        thumb: 'images/thumbs/ridgeframe-hero-b-ridgeline.webp',
+        display: 'images/display/ridgeframe-hero-b-ridgeline.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — B · Ridgeline',
+        descriptor: 'The ridge becomes twenty stacked outline strokes on near-black, fading as they descend, with a single mint fill for the CTA.',
+        keywords: ['near-black ground', 'repeated outline stroke', 'stroke decay', 'no fill', 'mint accent', 'line density as depth', 'strokes behind copy', 'linear field'],
+        colors: [
+          { name: 'Near-black navy', hex: '#09091B', usage: 'page ground behind the entire composition' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: 'display headline' },
+          { name: 'Mint stroke', hex: '#3F5151', usage: 'the brightest contour strokes at the top of the stack' },
+          { name: 'Dim mint', hex: '#2D3F3F', usage: 'strokes through the middle of the stack' },
+          { name: 'Faint mint', hex: '#1B2D2D', usage: 'the crowded strokes at the base, where the stack is densest' },
+          { name: 'Grey', hex: '#878787', usage: 'body copy' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 over a 200-weight second line at the same size; body at 17px/400 in grey across four lines; nav at 17px/400 at reduced strength; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'Near-black fills the viewport. Roughly twenty thin zigzag strokes repeat down the lower two thirds, each offset slightly from the one above, unfilled and progressively dimmer toward the bottom. The type stack sits at the left over the strokes, and the filled CTA is the only solid area anywhere in the frame.',
+        imagerySubject: 'a repeated angular ridge outline, stroked roughly twenty times down the viewport with no fill between the lines',
+        mood: ['technical', 'quiet', 'precise', 'nocturnal'],
+        signature: {
+          carry: [
+            'The ridge is drawn as roughly twenty repeated outline strokes stacked down the viewport, with no fill anywhere between them',
+            'Stroke brightness decays toward the base of the stack, so density alone reads as depth without any change in hue',
+            'The stroke stack begins level with the body paragraph, so the lines run behind live copy rather than clearing it',
+            'The primary CTA is the only filled area in the composition, leaving it the single non-linear element on the page'
+          ],
+          rewrite: [
+            'The headline pairs an abstract quality against a process noun; write the target\'s own pairing, keeping the second line lighter in weight and longer in measure than the first'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-c-monolith',
+        file: 'images/ridgeframe-hero-c-monolith.png',
+        thumb: 'images/thumbs/ridgeframe-hero-c-monolith.webp',
+        display: 'images/display/ridgeframe-hero-c-monolith.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — C · Monolith',
+        descriptor: 'Amber sky against a black mass that overruns the headline, with one peak carrying a lit rust face.',
+        keywords: ['amber ground', 'figure-ground inversion', 'occluded headline', 'lit peak face', 'flat silhouette', 'rust accent', 'copy crossing a boundary', 'poster contrast'],
+        colors: [
+          { name: 'Amber', hex: '#E1BD51', usage: 'page ground, the sky the silhouette is cut against' },
+          { name: 'Near-black navy', hex: '#09091B', usage: 'the silhouette mass and the display headline' },
+          { name: 'Rust', hex: '#BD3F2D', usage: 'the lit face of the tallest peak and the primary CTA fill' },
+          { name: 'Pale amber', hex: '#F3CF63', usage: 'the lighter band along the very top edge of the ground' },
+          { name: 'Deep rust', hex: '#AB2D1B', usage: 'the shaded lower edge of the lit peak face' },
+          { name: 'Olive', hex: '#63512D', usage: 'body copy where it crosses from the amber onto the silhouette', contrastNote: '4.23:1 against the amber ground and 2.57:1 against the black silhouette the same paragraph runs onto. Both fail. The occlusion is the composition, so the fix is to move the copy clear of the silhouette rather than to recolour it.' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 with the light second and third lines at the same size in 200; body at 17px/400 across four lines at a narrower measure than the other variations, because the silhouette takes the right of the block; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'Amber fills the frame. A single black mass rises from the bottom edge across the full width, its tallest peak reaching more than half the viewport height and cutting across the display headline so the closing word disappears behind it. One peak face is filled rust rather than black. The type stack sits left; the body paragraph runs across the amber-to-black boundary, and the primary CTA sits on the black mass.',
+        imagerySubject: 'a single flat black mountain silhouette rising past the midpoint of the viewport, one face filled in rust',
+        mood: ['bold', 'graphic', 'poster-like', 'assertive'],
+        signature: {
+          carry: [
+            'The silhouette occludes the display headline, cutting the closing word mid-letterform rather than clearing space around it',
+            'Figure and ground invert against the rest of the study: the light value is the sky and the dark mass is the subject',
+            'Exactly one peak carries a contrasting lit face, implying a light source nothing else in the composition acknowledges',
+            'The body paragraph crosses the boundary between the two masses, so its last lines lose contrast where they pass onto the dark'
+          ],
+          rewrite: [
+            'The body paragraph addresses an owner who already has a product; rewrite it for the target\'s actual reader and shorten it, because at this variation\'s occlusion the fourth line is effectively unreadable'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-d-split-field',
+        file: 'images/ridgeframe-hero-d-split-field.png',
+        thumb: 'images/thumbs/ridgeframe-hero-d-split-field.webp',
+        display: 'images/display/ridgeframe-hero-d-split-field.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — D · Split Field',
+        descriptor: 'The ridge is removed entirely and the headline breaks across three lines into an almost empty bone field.',
+        keywords: ['bone ground', 'no illustration', 'three-line break', 'type-only composition', 'faint tonal band', 'maroon CTA', 'generous void', 'dropped final word'],
+        colors: [
+          { name: 'Bone', hex: '#F3F3E1', usage: 'page ground across almost the whole viewport' },
+          { name: 'Ink', hex: '#1B1B1B', usage: 'display headline and wordmark' },
+          { name: 'Grey', hex: '#636363', usage: 'body copy and nav links' },
+          { name: 'Warm bone shade', hex: '#E1E1CF', usage: 'the faint tonal band dividing the lower field' },
+          { name: 'Pale warm grey', hex: '#CFCFBD', usage: 'the outlined secondary CTA border' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 on the first line, then two 200-weight lines at the same size; body at 17px/400 across four lines; nav at 17px/400; wordmark at 15px/700 uppercase, tracked wide. The three-line break makes this the tallest type stack in the study.',
+        layoutNotes: 'Bone fills the viewport with no illustration of any kind. The headline breaks across three lines rather than two, dropping the closing word onto its own line at the light weight, which pushes the body and CTA pair well down the frame. A barely perceptible warmer band sits across the lower field. The primary CTA is a deep maroon block, the only saturated element present; its fill fell below every sampler threshold, so no hex is claimed for it here.',
+        imagerySubject: 'none — the field is empty, and the composition is carried by type and void alone',
+        mood: ['restrained', 'confident', 'spacious', 'literary'],
+        signature: {
+          carry: [
+            'The ridge motif is absent entirely, leaving the composition to be carried by type and void alone',
+            'The display headline breaks across three lines instead of two, dropping the closing word to its own line at the light weight',
+            'A single barely-there tonal band is the only division in the field, sitting well below the type stack',
+            'The primary CTA is the sole saturated element on a near-white page, so it carries all of the composition\'s contrast by itself'
+          ],
+          rewrite: [
+            'The three-line break depends on the closing word being long enough to hold a line of its own; if the target\'s closing word is short, break after the first word instead and keep the stack at three lines'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-e-contour',
+        file: 'images/ridgeframe-hero-e-contour.png',
+        thumb: 'images/thumbs/ridgeframe-hero-e-contour.webp',
+        display: 'images/display/ridgeframe-hero-e-contour.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — E · Contour',
+        descriptor: 'Nested topographic contours run a hue gradient from amber at the crest to violet at the base.',
+        keywords: ['near-black ground', 'nested contour line', 'hue gradient by elevation', 'continuous path', 'topographic reading', 'line over copy', 'amber to violet', 'cartographic field'],
+        colors: [
+          { name: 'Near-black navy', hex: '#09091B', usage: 'page ground behind the contour field' },
+          { name: 'Bone', hex: '#F3F3E1', usage: 'display headline' },
+          { name: 'Amber stroke', hex: '#AB753F', usage: 'the contour strokes crossing the upper third of the stack' },
+          { name: 'Rose brown stroke', hex: '#633F3F', usage: 'the contour strokes through the middle of the stack' },
+          { name: 'Violet stroke', hex: '#3F2D51', usage: 'the contour strokes at the base of the stack' },
+          { name: 'Deep navy', hex: '#1B1B2D', usage: 'the slightly lifted ground between the densest lower contours' },
+          { name: 'Grey', hex: '#878787', usage: 'body copy' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 over a 200-weight second line at the same size; body at 17px/400 across four lines in grey; nav at 17px/400; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'Near-black fills the viewport. Nested contour lines run edge to edge across the lower two thirds, each an unbroken continuous path, shifting hue as the stack descends from amber through rose-brown to violet. The uppermost contour crosses the body paragraph. The type stack sits at the left, and the primary CTA is an amber-filled block whose fill fell below every sampler threshold, so no hex is claimed for it here.',
+        imagerySubject: 'nested topographic contour lines spanning the viewport, each a single continuous unbroken path',
+        mood: ['cartographic', 'analytical', 'atmospheric', 'layered'],
+        signature: {
+          carry: [
+            'The ridge is nested topographic contours, each line a continuous unbroken path from edge to edge',
+            'The contour stack runs a hue gradient from amber at the crest through rose to violet at the base, encoding elevation as colour',
+            'The uppermost contour passes directly through the body paragraph, placing line work on top of running copy'
+          ],
+          rewrite: [
+            'The nav names three sections specific to the reference\'s own site; use the target\'s real sections and keep the count at three, so the right side of the bar stays visually lighter than the wordmark'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-f-halftone',
+        file: 'images/ridgeframe-hero-f-halftone.png',
+        thumb: 'images/thumbs/ridgeframe-hero-f-halftone.webp',
+        display: 'images/display/ridgeframe-hero-f-halftone.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — F · Halftone',
+        descriptor: 'The ridge is a halftone dot field whose upper boundary alone describes the profile, with no drawn edge at all.',
+        keywords: ['near-black ground', 'halftone dot field', 'implied edge', 'growing dot diameter', 'achromatic treatment', 'print reference', 'no outline', 'mass by density'],
+        colors: [
+          { name: 'Near-black navy', hex: '#09091B', usage: 'page ground behind the dot field' },
+          { name: 'Bone', hex: '#F3F3E1', usage: 'display headline and the halftone dots at their largest' },
+          { name: 'Dim navy', hex: '#3F3F51', usage: 'the sparse small dots along the upper edge of the field' },
+          { name: 'Mid navy', hex: '#2D2D3F', usage: 'the mid-density zone of the dot field' },
+          { name: 'Deep navy', hex: '#1B1B2D', usage: 'the ground showing between dots where the field is densest' },
+          { name: 'Grey', hex: '#878787', usage: 'body copy' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 over a 200-weight second line at the same size; body at 17px/400 across four lines in grey; nav at 17px/400; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'Near-black fills the viewport. A regular grid of pale dots occupies the lower half, their diameter increasing steadily toward the bottom edge so the field gains weight as it descends. The ridge profile exists only as the upper boundary of the dot field — no line is drawn. The type stack sits at the left, and the primary CTA is a warm filled block whose fill fell below every sampler threshold, so no hex is claimed for it here.',
+        imagerySubject: 'a regular halftone dot field with dot diameter growing toward the bottom edge, its upper boundary forming the ridge',
+        mood: ['printerly', 'restrained', 'tactile', 'nocturnal'],
+        signature: {
+          carry: [
+            'The ridge is a halftone dot field whose upper boundary alone describes the profile — no edge is drawn anywhere',
+            'Dot diameter grows steadily toward the bottom of the viewport, so the field reads as gaining mass as it descends',
+            'The dot field is a single achromatic value, making this the one variation whose ground treatment introduces no hue at all'
+          ],
+          rewrite: [
+            'The secondary CTA promises a process explainer; name whatever the target actually links to, and keep the arrow glyph as its only punctuation'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-hero-i-cut-paper',
+        file: 'images/ridgeframe-hero-i-cut-paper.png',
+        thumb: 'images/thumbs/ridgeframe-hero-i-cut-paper.webp',
+        display: 'images/display/ridgeframe-hero-i-cut-paper.webp',
+        categoryId: 'ridge-hero-variation-study',
+        title: 'Ridge Hero — I · Cut Paper',
+        descriptor: 'Stacked sand-coloured paper layers cast hard offset shadows onto each other over a dark teal ground.',
+        keywords: ['dark teal ground', 'cut paper layer', 'hard offset shadow', 'warming layer stack', 'rust CTA', 'layer over type', 'craft reference', 'flat colour collage'],
+        colors: [
+          { name: 'Dark teal', hex: '#1B3F3F', usage: 'page ground above the paper stack' },
+          { name: 'Pale sand', hex: '#F3E1AB', usage: 'the topmost and largest paper layer' },
+          { name: 'Ochre sand', hex: '#E1BD75', usage: 'the second paper layer beneath it' },
+          { name: 'Rust', hex: '#BD513F', usage: 'the primary CTA fill' },
+          { name: 'Shadow teal', hex: '#092D2D', usage: 'the hard shadow each paper layer casts onto the one below' },
+          { name: 'Bone', hex: '#F3F3E1', usage: 'display headline and wordmark' }
+        ],
+        typography: 'Geometric sans throughout. Display heavy at roughly 96px/700 over a 200-weight second line at the same size; body at 17px/400 across four lines; nav at 17px/400; wordmark at 15px/700 uppercase, tracked wide.',
+        layoutNotes: 'A dark teal ground carries the nav and the full type stack. Angular paper layers rise from the bottom edge, the palest and largest in front, each cut at a different peak rhythm and each casting a hard offset shadow onto the layer behind. The stack warms as it descends. The paper overlaps the bottom of the type block, so the primary CTA sits partly on the ground and partly on a layer, and the outlined secondary CTA falls wholly within one.',
+        imagerySubject: 'angular flat-colour paper layers stacked front to back, each casting a hard offset shadow onto the next',
+        mood: ['warm', 'crafted', 'tactile', 'optimistic'],
+        signature: {
+          carry: [
+            'The ridge is built from stacked flat-colour layers, each casting a hard offset shadow onto the layer behind it',
+            'The paper layers overlap the type block, so the primary CTA sits partly on the ground and partly on a layer',
+            'The layer stack warms as it descends, moving from pale sand through deeper ochre without ever repeating a value',
+            'The outlined secondary CTA falls entirely within a sand layer, dropping its border to near-invisibility against it'
+          ],
+          rewrite: [
+            'The reference sets a consultancy\'s positioning line; write the target\'s own, then check it against the layer edges — copy that overlaps a layer boundary must be moved, never merely recoloured'
+          ]
+        }
+      },
+      {
+        id: 'ridgeframe-clarity-full-page',
+        file: 'images/ridgeframe-clarity-full-page.png',
+        thumb: 'images/thumbs/ridgeframe-clarity-full-page.webp',
+        display: 'images/display/ridgeframe-clarity-full-page.webp',
+        categoryId: 'dark-navy-diagnostic-editorial',
+        title: 'Ridgeframe Strategies — Clarity Before Execution',
+        descriptor: 'Eleven viewports of dark navy prose where one coral carries every label, numeral and link, and the right half of the page is left empty throughout.',
+        keywords: [
+          'alternating navy band',
+          'coral micro label',
+          'left-half measure',
+          'coral step numeral',
+          'definition row with hairline',
+          'italic coral pull quote',
+          'credential trailer',
+          'stepped ridge illustration'
+        ],
+        colors: [
+          { name: 'Navy', hex: '#1B1B2D', usage: 'page ground for the majority of sections' },
+          { name: 'Deep navy', hex: '#09091B', usage: 'the alternating darker section bands' },
+          { name: 'Off-white', hex: '#FFFFF3', usage: 'section headings and the bold lead-in clauses' },
+          { name: 'Grey lavender', hex: '#636375', usage: 'body copy throughout', contrastNote: '2.88:1 on the navy ground — a substantial failure on every paragraph of an eleven-viewport page. Needs roughly #8A8A9E to clear 4.5:1.' },
+          { name: 'Hot pink', hex: '#F33F75', usage: 'primary CTA fill in the hero and mid-page' },
+          { name: 'Coral', hex: '#FF8763', usage: 'micro labels, step numerals, bullet markers, the pull quote and text links' },
+          { name: 'Slate', hex: '#3F3F51', usage: 'hairline rules above each definition row' },
+          { name: 'Raised navy', hex: '#2D2D3F', usage: 'the upper bands of the stepped hero ridge' },
+          { name: 'Muted coral', hex: '#AB6351', usage: 'the small flag accents on the hero ridge peaks' }
+        ],
+        typography: 'A single geometric sans in two weights. Section headings at roughly 28px/700 in off-white, written as complete sentences with a full stop; sub-heads at 18px/700; body at 15px/400 in grey lavender at a measure of roughly a third the canvas; step numerals at 20px/700 in coral; micro labels at 10px/500 uppercase tracked wide in coral, separated by a middle dot; one italic pull quote at 15px/400 in coral, the only italic on the page.',
+        layoutNotes: 'A transparent nav over the hero carries the wordmark left, three links and a filled contact button right. The hero sets the two-weight display headline, a four-line paragraph and a CTA pair over a stepped navy ridge illustration whose peaks carry small coral flags. A credential strip of five micro-labelled columns follows. From there the page alternates between two near-identical navies, the boundary visible only as a step in value with no rule drawn. Every prose block sits in the left half and the right half stays empty for the whole scroll. Founder cards pair a small rectangular headshot with a name, a coral micro-role, a bio and a plain-text credentials trailer. Four numbered steps run across in coral. Later sections use definition rows — a bold lead-in clause continuing inline into body weight, each with a hairline above — and a row of coral-dotted pills stating the four questions the engagement must leave answerable.',
+        imagerySubject: 'a stepped flat-colour ridge in near-navy layers with small coral peak flags, and two small rectangular founder headshots',
+        mood: ['senior', 'plainspoken', 'accountable', 'unhurried'],
+        signature: {
+          carry: [
+            'Sections divide by stepping between two near-identical navies, so the page changes ground without ever drawing a rule',
+            'One warm coral carries every label, numeral, bullet marker, link and pull quote, and no second accent appears anywhere on the page',
+            'Prose is held to the left half for the entire scroll, leaving the right half empty rather than filling it with media',
+            'Engagement outcomes are set as definition rows — a bold clause naming the path, continuing inline into body weight under a hairline',
+            'Founder bios close with a plain-text trailer of prior employers, set smaller than body and never styled as logos'
+          ],
+          rewrite: [
+            'Both founders are named with their real employment histories and specialisms; substitute the target\'s own people, and drop the section entirely rather than fabricating credentials for it',
+            'Headings are written as the reference consultancy\'s own commitments — each is a claim the business can be held to; write the target\'s equivalents as complete sentences closed by a full stop, never as noun phrases'
+          ]
+        }
+      },
+      {
+        id: 'impeccable-concept-cards',
+        file: 'images/impeccable-concept-cards.png',
+        thumb: 'images/thumbs/impeccable-concept-cards.webp',
+        display: 'images/display/impeccable-concept-cards.webp',
+        categoryId: 'concept-comparison-cards',
+        title: 'Concept Comparator — Two Directions Side by Side',
+        descriptor: 'Two design directions argued in an identical field order, each closing on the honest case against it before the commit button.',
+        keywords: [
+          'near-black comparator ground',
+          'full-bleed concept preview',
+          'monospaced descriptor',
+          'material chip',
+          'swatch dot row',
+          'stated risk',
+          'amber commit button',
+          'identical field order'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#090909', usage: 'comparator ground behind and between the cards' },
+          { name: 'Card black', hex: '#1B1B1B', usage: 'card ground beneath the preview, one step lighter than the comparator' },
+          { name: 'Charcoal', hex: '#2D2D2D', usage: 'material chip borders and the swatch dot outlines' },
+          { name: 'Slate', hex: '#3F3F3F', usage: 'the muted swatch dot and the risk label', contrastNote: '1.89:1 on the comparator ground. The risk label names the field carrying the argument against each concept, so this is the least legible element in a component whose whole purpose is candour.' },
+          { name: 'Mid grey', hex: '#636363', usage: 'descriptor and risk body copy', contrastNote: '3.31:1 on the comparator ground, short of 4.5:1 for text at this size. Lighten toward #8C8C8C; the descriptor is the field a reader compares cards on.' },
+          { name: 'Amber', hex: '#FFBD2D', usage: 'the commit button fill on both cards and the pair-advance ring' },
+          { name: 'Rust', hex: '#BD3F2D', usage: 'the red swatch dot and the warm mass inside both previews' },
+          { name: 'Ochre', hex: '#CFAB3F', usage: 'the yellow swatch dot and the lit keys inside the right-hand preview' },
+          { name: 'Brown', hex: '#752D1B', usage: 'the shadowed zones of the left-hand preview mockup' }
+        ],
+        typography: 'Card chrome in a neutral sans: titles at roughly 30px/500, premise at 24px/400, risk body at 20px/400 at reduced strength. Every machine-written field is monospaced uppercase and tracked wide — the descriptor at 15px across two to three lines, the material chips at 14px, and the RISK label at 14px sitting inline before its prose. The previews carry their own unrelated typography, which the chrome deliberately does not echo.',
+        layoutNotes: 'Two equal cards sit side by side on a near-black ground, the right one partly clipped by the viewport with a circular amber advance control on the gutter between them. Each card leads with a complete rendered mockup bled to its top three edges, filling roughly the upper half. Beneath it every card repeats the same fields in the same order: a monospaced uppercase descriptor naming what the mockup is, a short title, a one-sentence premise, a tight row of square swatch dots followed by bordered material chips, a RISK label with its prose running inline, and an amber commit button spanning most of the card width.',
+        imagerySubject: 'two complete rendered page mockups — a video-rental storefront and a rhythm-machine product page — each shown whole rather than cropped to a detail',
+        mood: ['candid', 'comparative', 'decisive', 'workmanlike'],
+        signature: {
+          carry: [
+            'Both cards repeat an identical field order, so the reader compares like against like rather than reading each concept on its own terms',
+            'A stated risk sits directly above the commit button, placing the argument against the concept last before the decision',
+            'The comparator ground is darker than either preview, so the mockups read as lit objects on a neutral surface',
+            'Palette is declared as a bare row of square swatch dots with no labels or hex values, immediately beside the named materials',
+            'Each preview is rendered complete rather than cropped to a detail, so the concept is judged as a whole composition'
+          ],
+          rewrite: [
+            'Both descriptors name a specific cultural referent and its physical details; write the target\'s own referents, keeping the descriptor concrete — a named object with two or three details, never an adjective',
+            'The risk lines argue against these two concepts specifically, one on tone and one on adjacency to a rejected direction; write the genuine strongest objection to each concept offered, and never soften it into a caveat'
+          ]
+        }
+      },
+      {
+        id: 'marble-learning-world',
+        file: 'images/marble-learning-world.png',
+        thumb: 'images/thumbs/marble-learning-world.webp',
+        display: 'images/display/marble-learning-world.webp',
+        categoryId: 'storybook-serif-product',
+        title: 'Marble — Interactive Learning World for Curious Kids',
+        descriptor: 'A painted island opens the page, then a marble-run track threads the whole scroll while one red does every accent job there is.',
+        keywords: [
+          'red terminal full stop',
+          'marble-run spine',
+          'knockout wordmark on the horizon',
+          'painted island hero',
+          'inline hero signup',
+          'arced question ticker',
+          'flat product mockup card',
+          'rounded panel overlap'
+        ],
+        colors: [
+          { name: 'Bone', hex: '#F3F3E1', usage: 'page ground for every light section, and the rounded panel that overlaps the dark' },
+          { name: 'Ink black', hex: '#1B1B1B', usage: 'the full-bleed dark section behind the pioneers block, and the dark pill CTA fills' },
+          { name: 'Deep navy', hex: '#091B3F', usage: 'the ocean beneath the hero illustration, continuing into the section below it' },
+          { name: 'Near-black', hex: '#090909', usage: 'footer ground and the device mockup bezel' },
+          { name: 'White', hex: '#FFFFFF', usage: 'the wordmark knocked out of the sky, mockup card fills, and the circular nodes on the spine', contrastNote: 'Checked and clear. The verifier pairs this against the bone page ground, where it measures 1.12:1, but the wordmark never touches bone — it is knocked out of the illustration, reaching 5.95:1 on the sky blue and 10.61:1 on the mid ocean. Both pass the 3:1 its size needs. Keep the knockout on the painted scene; it cannot survive a move onto the bone ground.' },
+          { name: 'Pale pink', hex: '#F3CFCF', usage: 'the marble-run track running the full height of the left margin' },
+          { name: 'Red', hex: '#F3091B', usage: 'pill CTA fills, the full stop closing each display line, step numerals, quote attributions and the arced ticker', contrastNote: '3.85:1 against the bone ground, so the step numerals and quote attributions set in it are below the 4.5:1 their size needs; white labels on the red pill fills reach only 4.32:1, also short. The display full stops and the arced ticker are large enough to pass at 3:1. Darken the accent for small type, or set attributions in the ink instead — this hex is doing both fill and type work and cannot serve both at once.' },
+          { name: 'Blueprint blue', hex: '#093F99', usage: 'the gridded workspace ground inside the device mockup' },
+          { name: 'Mid ocean', hex: '#093F75', usage: 'the mid-depth water band across the hero illustration' },
+          { name: 'Sky blue', hex: '#0963BD', usage: 'the upper sky behind the wordmark in the hero illustration' },
+          { name: 'Warm grey', hex: '#999999', usage: 'secondary body copy beneath each step heading and the micro labels above each mockup', contrastNote: '2.54:1 on the bone ground, well short of the 4.5:1 this size needs. It carries the step explanations — the copy doing the actual selling — so the failure sits on the primary reading path; darken toward #6E6E6E before shipping.' }
+        ],
+        typography: 'A high-contrast transitional serif carries every display line at roughly 120px/400 with a hairline thin stroke, dropping to 56px for section lines; each one closes on a full stop set in the red. A neutral geometric sans handles everything else — step headings at 22px/500, body at 14px/400, micro labels at 10px/500 uppercase tracked wide above each mockup, and two-digit step numerals at 10px in red. The ticker is the serif again at 32px, uppercase and set on a shallow arc. The wordmark is a separate heavy rounded-terminal display sans, used only in the hero and the footer.',
+        layoutNotes: 'A full-bleed painted island scene opens the page with the wordmark knocked out across the horizon so its letterforms straddle sky and sea, and a signup row of two fields and a red pill sits directly in the illustration. The ocean darkens into a navy section carrying a centred serif display line and a muted advisor logo wall. A bone panel then overlaps that section with rounded top corners, and from there a pale pink marble-run track runs the full height of the left margin, its solid red segments feeding white circular nodes that mark each of four numbered steps. Each step pairs a red two-digit numeral, a sans heading and body with a bordered white card holding captured interface. Below, a chip row and a device mockup sit under a centred display line, then a single arc of red capitals bleeds past both edges carrying children\'s questions. A skill-tree diagram with a three-state legend precedes a horizontally scrolling row of bordered testimonials. A near-black section carries another display line over three outlined icon circles, and the page closes on four bordered principle cards, a signup form, a small mascot and a near-black footer.',
+        imagerySubject: 'a painted island with a lighthouse under towering cumulus, seen past a child paddling a kayak, with flat captured product interface and one team photograph everywhere below it',
+        mood: ['wondrous', 'warm', 'confident', 'crafted'],
+        signature: {
+          carry: [
+            'A pale marble-run track runs the full height of the left margin, its solid accent segments feeding white circular nodes that mark each numbered step as the page descends',
+            'Every display line closes on a full stop set in the accent, making punctuation the only place the brand colour touches the typography',
+            'The wordmark is knocked out of the painted hero across the horizon line, so its letterforms are split between sky and sea',
+            'The signup form sits inline in the illustration itself — two fields and a pill on one row — rather than being deferred to a section below',
+            'A single arc of accent capitals bleeds past both edges between sections, carrying questions a child would ask and no product claim at all'
+          ],
+          rewrite: [
+            'The product name appears inside display lines, section headings and the mockup copy; substitute the target\'s name everywhere and re-check the breaks, because the display face is set tight enough that a longer name reflows the whole stack',
+            'The advisor wall names four real institutions and the testimonials name real parents and children with their ages; carry neither — use only endorsements the target genuinely holds, and drop the section rather than filling it with placeholders',
+            'The ticker is a run of questions specific to this product\'s subject matter; write questions from the target\'s own domain, keeping them first-person and leaving them unanswered'
           ]
         }
       }
