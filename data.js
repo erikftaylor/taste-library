@@ -1309,7 +1309,7 @@
           components: [
             ['Swatch card', '2.5u × 2.5u block, 0.25u radius, hex in mono above the colour name and its rgb triplet'],
             ['Tonal ramp strip', 'ten cells at steps 50, 100, 200, 300, 400, 500, 600, 700, 800 and 900 in one unbroken row, 4u tall, no gaps; each carries its step number above a six-character hex with the # dropped, set at 9px mono — at a 656px column a cell is 65px wide and holds no more than that'],
-            ['Contrast pair card', '5u tall, the two colours as ground and type, a level badge and the measured ratio, and a caption naming which role sits on which'],
+            ['Contrast pair card', '5u tall, the two colours as ground and type, a level badge and the measured ratio, and a caption naming which role sits on which. One card per pairing the documented system actually uses for text — not every combination, and never fewer than the roles that carry body copy'],
             ['Spec chip row', 'mono chips at 2u tall with 0.5u radius carrying the face name and role, followed by unstyled values inline'],
             ['Hairline divider', '1px rule at 12% white, full column width, 9u clear above and below'],
             ['Format tab row', '4u tall segmented control, active tab filled in the accent'],
@@ -1337,8 +1337,9 @@
           '│         ├───────── hairline ────┤             │',
           '│         │ — color palette       │             │',
           '│         │ ▢ ▢ ▢ ▢ ▢  hex + rgb  │             │',
-          '│         │ BLACK  ▤▤▤▤▤▤▤▤▤▤ 50–900            │',
-          '│         │ BRAND  ▤▤▤▤▤▤▤▤▤▤ 50–900            │',
+          '│         │ ▤▤▤▤▤▤▤▤▤▤ 50–900  one ramp per        │',
+          '│         │ ▤▤▤▤▤▤▤▤▤▤ 50–900  documented colour, │',
+          '│         │ ▤▤▤▤▤▤▤▤▤▤ 50–900  however many       │',
           '│         │ ACCESSIBLE COMBINATIONS             │',
           '│         │ [Aa 21.0:1] [Aa 4.7:1]│             │',
           '│         ├───────── hairline ────┤             │',
@@ -1603,7 +1604,7 @@
           ['Pair advance control', 'resting: 1px accent ring, transparent fill; hover: accent fill with dark glyph; focus-visible: 2px outline, 2px offset']
         ],
         adaptation: {
-          yields: 'Hexes may be re-derived from the target brand IF the role structure holds: a near-black comparator ground darker than any preview it frames, a one-step-lighter card ground, white at full and reduced strength for title and premise, and exactly one high-chroma accent reserved for the commit button and the advance control. The accent must not appear inside any preview, or the eye reads it as part of the concept rather than part of the chrome.',
+          yields: 'Hexes may be re-derived from the target brand IF the role structure holds: a near-black comparator ground darker than any preview it frames, a one-step-lighter card ground, white at full and reduced strength for title and premise, and exactly one high-chroma accent reserved for the commit button and the advance control. The accent must not appear inside any preview, or the eye reads it as part of the concept rather than part of the chrome. Where the previews are concepts for the same brand that owns the accent — the usual case — the rule still holds and it is the chrome that yields: pick the accent from the brand hue the concepts use least, and if every hue is spoken for, derive the chrome accent as a lightness step far enough from all of them to read as a different thing. Never solve it by letting the accent into a preview.',
           locked: [
             'Every card carries the same fields in the same order, with no field omitted for any card',
             'A full-bleed rendered preview leads each card, never a crop or an abstraction',
@@ -1673,7 +1674,7 @@
           'numbered step spine',
           'arced capital ticker'
         ],
-        imageryTechnique: 'one painted or rendered scene at the top of the page, warm and atmospheric with real depth of field, used once and never repeated; everything below it is flat — product interface captured as-is on a plain card, plus line-drawn glyphs and one photograph of the team',
+        imageryTechnique: 'one painted or rendered scene at the top of the page, warm and atmospheric with real depth of field, used once and never repeated; everything below it is flat — the product itself captured as-is on a plain card, plus line-drawn glyphs and one photograph of the team. For software that means interface screenshots; for a physical product it means the artefact the buyer would actually be shown before committing — a fitting sheet, a spec drawing, a finished piece against a plain ground — never a lifestyle photograph and never a rendering that flatters what a screenshot would not',
         imageryExclusions: 'no stock photography, no gradient meshes, no drop shadows on flat elements, no illustration style below the hero that competes with the painted scene, and never a second painterly image once the first has been spent',
         fonts: {
           roles: [
@@ -1739,7 +1740,8 @@
             ['Icon circle', '5u outlined circle holding a line glyph, a serif label beneath and two lines of body under that'],
             ['Rounded section panel', 'the bone panel overlaps the section above it with a 4u top radius on both corners, and no rule between them'],
             ['Inline signup form', 'two filled fields and an accent pill CTA on a single row, all 5.5u tall, set directly in the illustrated hero'],
-            ['Arced ticker', 'a single line of accent capitals set on a shallow arc, bleeding past both edges of the viewport']
+            ['Arced ticker', 'a single line of accent capitals set on a shallow arc, bleeding past both edges of the viewport'],
+            ['Evidence diagram', 'a node graph on a plain card with a three-state legend beneath — one state filled in the ink, one outlined in the accent, one outlined in the ground; omit the whole card where the target has nothing genuine to map']
           ]
         },
         wireframe: [
@@ -1769,6 +1771,11 @@
           '│         ▭ device mockup                        │',
           '├───────────────────────────────────────────────┤',
           '│  ╭─ ARCED TICKER IN ACCENT CAPITALS ─╮         │',
+          '├───────────────────────────────────────────────┤',
+          '│  EVIDENCE DIAGRAM — nodes + a state legend     │',
+          '│  ┌ 3–10 ─────────────────────────────────┐     │',
+          '│  │ ◦──◦──◦   ▪ got it ▫ starts ○ coming  │     │',
+          '│  └───────────────────────────────────────┘     │',
           '├───────────────────────────────────────────────┤',
           '│  TESTIMONIALS — bordered cards, scrolls right  │',
           '│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────              │',
