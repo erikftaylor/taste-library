@@ -28,7 +28,24 @@ body {
   margin-bottom: 24px;
 }
 
-.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+/* Sticky: at 16 categories the bar wraps to three rows, so scrolling the grid
+   would otherwise lose the filter you are working in. Pulled out to the body's
+   horizontal padding so nothing scrolls through the gutters behind it, and held
+   below .modal-overlay's z-index 50. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  margin: 0 -40px 32px;
+  padding: 16px 40px;
+  border-bottom: 1px solid var(--border);
+  max-height: 40vh;
+  overflow-y: auto;
+}
 .chip {
   border: 1px solid var(--border);
   padding: 8px 14px;
