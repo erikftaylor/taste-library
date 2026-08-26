@@ -677,17 +677,28 @@ function setImportBusy(busy) {
   });
 }
 
-function pollJob(jobId, onDone) {
+function pollJob(jobId, onDone, failures) {
+  failures = failures || 0;
   fetch('/api/job?id=' + encodeURIComponent(jobId)).then(function (r) { return r.json(); })
     .then(function (job) {
       if (job.log && job.log.length) importLog(job.log.join('\n'));
+      if (failures) importNote('Reconnected — still working…');
       if (!job.done) {
-        setTimeout(function () { pollJob(jobId, onDone); }, 700);
+        setTimeout(function () { pollJob(jobId, onDone, 0); }, 700);
         return;
       }
       setImportBusy(false);
       onDone(job);
     }).catch(function () {
+      /* The server-side job may still be running (and writing data.js) even
+         when a poll fails, so keep the busy flag held and retry a few times
+         before conceding — releasing it early would let a second import race
+         the live job. */
+      if (failures + 1 < 3) {
+        importNote('Poll failed — retrying…');
+        setTimeout(function () { pollJob(jobId, onDone, failures + 1); }, 1600);
+        return;
+      }
       setImportBusy(false);
       importNote('Lost contact with the server — is it still running?', 'failed');
     });
