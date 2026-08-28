@@ -1783,6 +1783,368 @@
           '└───────────────────────────────────────────────┘',
           'The painted hero is spent once and never reprised; every later image is flat. Sections alternate bone against a dark ground, and a bone panel may overlap the dark section above it with rounded top corners, which is the only place the page draws a curve at section scale.'
         ]
+      },
+      {
+        id: 'amber-terminal-docs',
+        name: 'Amber Terminal Docs',
+        description: 'A near-black documentation shell where a single warm amber marks everything actionable — the primary button fill, the active nav tab, every inline link — against three flat greys of panel depth and a dark forest-green tip callout. Code and install commands run in monospace inside bordered dark panels; a dense two-column table of icon-plus-label rows serves as the page\'s real table of contents. Reads as developer-facing and utilitarian — a project that expects to be read in a terminal as much as a browser.',
+        vocabulary: [
+          'amber CTA button',
+          'active-tab amber underline',
+          'bordered ghost button',
+          'forest-green tip callout',
+          'monospace install command',
+          'icon-plus-label quick-link row',
+          'collapsible sidebar chevron',
+          'numbered bullet feature list'
+        ],
+        imageryTechnique: 'no photographic or illustrated imagery — the page is built entirely from a small circular avatar mark, line icons and typography',
+        imageryExclusions: 'no photography, no illustration, no gradients, no mockups',
+        fonts: {
+          roles: [
+            ['Display, headings, nav & body', 'Inter, IBM Plex Sans or Söhne — a neutral grotesk sized for dense technical reading'],
+            ['Code, commands & inline tokens', 'IBM Plex Mono, JetBrains Mono or Berkeley Mono — a monospace face with a distinct zero']
+          ],
+          never: 'a display serif anywhere; a script or condensed face for headings'
+        },
+        copyRegister: [
+          'CTA labels: imperative, 1–3 words',
+          'Quick-link table titles: short noun phrases naming the doc section, each paired with a one-line description in sentence case stating what it covers',
+          'Callout labels: all-caps declarative claim',
+          'Body: second person, direct instruction; code and flags stay in monospace inline, never prose-quoted'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: sidebar chevrons rotate 90° on expand over 120ms ease; the tip callout may fade in 150ms on first paint; nothing else moves.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Amber CTA button', 'hover: fill lightens 8%; focus-visible: 2px amber outline, 2px offset; active: translateY(1px); disabled: 40% opacity'],
+          ['Bordered ghost button', 'hover: border brightens to full white, fill gains a 6% white wash; focus-visible: 2px amber outline, 2px offset; active: translateY(1px)'],
+          ['Sidebar nav item', 'resting: muted grey label; hover: label brightens to white; current section: amber label, no background or border change; focus-visible: 2px amber outline'],
+          ['Inline text link', 'resting: amber, no underline; hover: underline appears; focus-visible: 2px amber outline, 2px offset'],
+          ['Quick-link table row', 'hover: row fill lightens one step; focus-visible: 2px amber outline around the row']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one near-black page ground, one step-lighter panel/table fill, one darker nav-bar tone, one saturated brand hue carrying every CTA/active-state/link, plus white for headings and body. The tip-callout ground may be re-derived as a low-saturation dark tint of a second brand hue if the target has one, or dropped entirely if it does not — it is not required to exist. Fill the roles ground first, panel fill second, then the single accent last; there is no second accent to place.',
+          locked: [
+            'A single accent hue carrying every CTA, active state and link, with no second accent anywhere',
+            'The two-column icon-plus-label quick-link table used as an in-page table of contents',
+            'A tinted callout box breaking the panel rhythm to flag one path as fastest or recommended'
+          ],
+          register: 'developer-facing and utilitarian. Wrong for a consumer product, a luxury brand or anything selling on emotion rather than capability — a page in this style reads as instructions to follow, not a feeling to have.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns · fixed 280px sidebar + fluid content, 64px content margin',
+          rhythm: 'section 6u · row 3u · inline 1.5u',
+          typeScale: [
+            ['H1', 'grotesk, 700', '5u', 1.15],
+            ['H2', 'grotesk, 700', '3.25u', 1.2],
+            ['Body', 'grotesk, 400', '2u', 1.6],
+            ['Nav / label', 'grotesk, 500', '1.75u', 1.4],
+            ['Code', 'monospace, 400', '1.75u', 1.5]
+          ],
+          components: [
+            ['Amber CTA button', 'square corners, 1.5u × 3u padding, solid amber fill, near-black label'],
+            ['Bordered ghost button', 'square corners, 1.5u × 3u padding, 1px muted border, white label'],
+            ['Tip callout', 'full-width panel, 2u padding, forest-green fill, 1px lighter-green left rule, monospace command highlighted inside'],
+            ['Quick-link row', 'icon left at 2.5u, title + one-line description stacked right, row fill alternates one step lighter every other row'],
+            ['Sidebar', 'fixed 280px, section labels in caps, chevron-expandable groups, active item in amber with no background change']
+          ]
+        },
+        wireframe: [
+          '┌ SIDEBAR 280px ┬─ 1 ──────────────────────────────── 12 ─┐',
+          '│ logo + nav     │  TOP NAV — wordmark left, links right   4u │',
+          '│ grouped links  ├──────────────────────────────────────────┤',
+          '│ chevron groups │  H1 + intro paragraph                     │',
+          '│                │  [amber CTA] [ghost] [ghost] [ghost]       │',
+          '│                │  H2 Install                                │',
+          '│                │  H3 + prose + monospace command block      │',
+          '│                │  ┌ tip callout — full width ─────────────┐ │',
+          '│                │  │ green fill, command highlighted        │ │',
+          '│                │  └─────────────────────────────────────────┘',
+          '│                │  H2 Quick Links                            │',
+          '│                │  ┌ icon · title ─────┬ description ───────┐│',
+          '│                │  │ row               │ row                ││',
+          '│                │  │ row (alt fill)    │ row                ││',
+          '│                │  └────────────────────┴────────────────────┘',
+          '│                │  H2 Key Features — bulleted list           │',
+          '│                │  footer — three link columns                │',
+          '└────────────────┴─────────────────────────────────────────────┘',
+          'The sidebar never scrolls with the content column; it holds its own scroll and stays fixed to viewport height. Quick-link rows extend downward for as many doc sections as exist, alternating fill every row. The tip callout is optional per page — include zero or one, never stacked.'
+        ]
+      },
+      {
+        id: 'engraved-ultramarine-hero',
+        name: 'Engraved Ultramarine Hero',
+        description: 'A single saturated ultramarine blue fills the entire canvas, carrying a white steel-engraving illustration of a many-armed mythological figure radiating hairline sunburst strokes behind a tracked serif wordmark. Monospace eyebrows and nav labels sit in all-caps beside a display serif set in full capitals, and every button is a stark white pill against the blue. A closing band repeats the same blue at a duotone product-photography scale before handing off to an oversized cross-promotional wordmark. Reads as mythic and premium rather than technical — a native-app landing built to feel like an art print.',
+        vocabulary: [
+          'full-bleed ultramarine ground',
+          'radiating hairline sunburst',
+          'steel-engraving figure illustration',
+          'tracked all-caps serif wordmark',
+          'monospace eyebrow label',
+          'white pill download button',
+          'grainy duotone product photography',
+          'oversized cross-promo watermark'
+        ],
+        imageryTechnique: 'monochrome steel-engraving line illustration in white on the ultramarine ground, built from dense parallel hairline hatching and radiating sunburst strokes, no fill and no photographic texture within the illustration itself',
+        imageryExclusions: 'no colour within the illustration beyond the single ground blue and white, no flat vector icons inside the artwork, no photographic imagery in the hero',
+        fonts: {
+          roles: [
+            ['Display & wordmark', 'a high-contrast serif in full capitals — Canela, GT Sectra or Freight Display — tracked wide at display size'],
+            ['Nav, eyebrows, labels & buttons', 'a monospace face — IBM Plex Mono, JetBrains Mono or Berkeley Mono — set in tracked all-caps throughout']
+          ],
+          never: 'a grotesk or humanist sans as the display face; lowercase in any nav, eyebrow or button label'
+        },
+        copyRegister: [
+          'Eyebrows: 1–2 words, all-caps, tracked wide',
+          'Display headline: the product name only, in full caps, two words maximum',
+          'Body: one short paragraph, sentence case, stating platform and category plainly',
+          'Button labels: imperative + platform noun, all-caps',
+          'FAQ questions: direct, sentence case, ending in a question mark; answers stay under two sentences'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: sunburst hairlines may extend from the centre outward via stroke-dashoffset on load, 400ms ease-out; the wordmark and body fade up 12px, 200ms ease-out, staggered 80ms after the illustration.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['White pill download button', 'hover: fill dims 6% toward the ground blue; focus-visible: 2px white outline, 2px offset; active: translateY(1px); disabled: 40% opacity'],
+          ['Platform card', 'hover: 1px border brightens from translucent white to full white; focus-visible: 2px white outline; active: translateY(1px)'],
+          ['Nav link', 'resting: white monospace caps; hover: an underline appears at 60% opacity; focus-visible: 2px white outline, 2px offset'],
+          ['FAQ row', 'resting: closed; hover: question brightens to full white; focus-visible: 2px white outline around the row']
+        ],
+        adaptation: {
+          yields: 'The single ultramarine ground may be re-derived as the target\'s own saturated primary IF it stays fully saturated and dark enough to carry white at AA — this style tolerates no pastel or tinted substitute. White stays white; there is no second hue anywhere in the hero. The engraving illustration\'s subject may change, but its technique — white hairline hatching, a radiating sunburst, no fill — must not loosen into flat vector art or photography.',
+          locked: [
+            'Full-bleed single-hue ground with no gradient and no second colour',
+            'A white steel-engraving illustration built from hairline hatching and a radiating sunburst',
+            'Tracked all-caps serif wordmark paired with monospace everywhere else',
+            'White pill buttons as the only button treatment on the ground'
+          ],
+          register: 'mythic and premium. Wrong for a page that needs to look approachable, fast or budget — the engraving technique and the single saturated hue read as expensive and considered, not casual.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 96px side margin',
+          rhythm: 'section 14u · block 7u · inline 2u',
+          typeScale: [
+            ['Display wordmark', 'serif, full caps, tracking +2%', '10u', 0.95],
+            ['Section head', 'serif, full caps, tracking +4%', '4u', 1.1],
+            ['Body', 'monospace, 400', '2u', 1.6],
+            ['Eyebrow / nav / button label', 'monospace, 500, uppercase, tracking +8%', '1.5u', 1.3]
+          ],
+          components: [
+            ['Sunburst illustration', 'centred figure with radiating hairline strokes extending to the canvas edge, white on the ground blue, spans 6–7 columns'],
+            ['White pill button', '5u tall, 2u × 4u padding, fully rounded, blue label on white fill'],
+            ['Platform card', 'bordered rectangle in translucent white, faint statue or figure photography ground, label + button stacked bottom-left'],
+            ['FAQ row', 'full-width, hairline top rule, question in section-head weight, answer in body directly beneath, no accordion chevron drawn'],
+            ['Cross-promo watermark band', 'oversized outline wordmark spanning the full width behind a foreground illustration, closes the page below a single CTA']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ──────────────────────────────────────────── 12 ─┐',
+          '│  NAV  brand left · links centre · install right  5u  │',
+          '├───────────────────────────────────────────────────────┤',
+          '│  HERO — full-bleed ultramarine                        │',
+          '│  ┌ 1–6 ─────────────┐        ┌ 7–12 ─────────────┐    │',
+          '│  │ eyebrow            │        │ sunburst figure    │  │',
+          '│  │ display wordmark    │       │ illustration        │  │',
+          '│  │ body                │        │ (bleeds off top/R) │  │',
+          '│  │ [white pill button] │       │                     │  │',
+          '│  └────────────────────┘        └────────────────────┘  │',
+          '├───────────────────────────────────────────────────────┤',
+          '│  WHY — H2 + body left, illustration right, repeated   │',
+          '│  twice at smaller scale                                │',
+          '├───────────────────────────────────────────────────────┤',
+          '│  PLATFORM ROW — 3-up bordered cards, same ground blue  │',
+          '├───────────────────────────────────────────────────────┤',
+          '│  FAQ — single column, hairline-ruled question rows      │',
+          '├───────────────────────────────────────────────────────┤',
+          '│  CROSS-PROMO — oversized watermark wordmark, single CTA │',
+          '└───────────────────────────────────────────────────────┘',
+          'The hero illustration is the only element permitted to bleed off a page edge; every other block stays inside the grid margins. The 3-up platform row never drops below three columns — on a narrower canvas the cards stack full-width rather than going to two-up. The cross-promo band is optional and belongs only where a second, related product genuinely exists to promote.'
+        ]
+      },
+      {
+        id: 'navy-serif-dashboard',
+        name: 'Navy Serif Dashboard',
+        description: 'An account-management shell built on a near-black navy canvas, lit by a slim indigo gradient bar along the very top edge. Page headlines run in a light, high-contrast serif — a section name, a dollar figure — against a UI otherwise set entirely in tracked grotesk and monospace, and a fixed sidebar carries a stacked wordmark, an account balance chip and grouped nav sections over a faint dot-pattern map watermark. Content resolves into hairline-bordered rectangular cards, tables and pill badges rather than photography — pricing figures, usage stats and subscription tiers all read as instrumentation. Reads as operational rather than persuasive: the job is account management, not conversion, even where one page argues a sales case.',
+        vocabulary: [
+          'slim top gradient bar',
+          'stacked sidebar wordmark',
+          'account balance chip',
+          'monospace breadcrumb',
+          'serif page headline',
+          'hairline-bordered data card',
+          'colour-coded pill badge',
+          'dot-pattern map watermark'
+        ],
+        imageryTechnique: 'no photography inside the dashboard chrome itself — data is shown as tables, stat tiles, line charts and bordered cards; where product photography does appear (subscription tier cards, marketing feature tiles) it is grainy and blue-toned, sitting inside a card rather than as a page ground',
+        imageryExclusions: 'no full-bleed photography, no illustration, no gradients beyond the single top edge bar',
+        fonts: {
+          roles: [
+            ['Page headline (H1)', 'a light, high-contrast serif — Canela, GT Sectra or Freight Display — set at display size, never bold'],
+            ['Sidebar wordmark', 'a heavy condensed grotesk or slab — Archivo Expanded, Druk or similar — stacked two lines'],
+            ['UI body, nav, table & card text', 'a neutral grotesk — Inter, Söhne or General Sans'],
+            ['Breadcrumbs, pricing figures & badges', 'a monospace face — IBM Plex Mono or JetBrains Mono']
+          ],
+          never: 'the display serif anywhere outside the H1 role; a script or handwritten face anywhere'
+        },
+        copyRegister: [
+          'Breadcrumbs: a slash-prefixed section path, monospace, all-caps',
+          'Page headline: the section name alone, one to three words, serif, sentence case',
+          'Stat tile labels: one or two words, all-caps, small, beneath the figure they describe',
+          'Card and button labels: imperative or noun-phrase, 1–3 words, all-caps for buttons, sentence case for card titles',
+          'Badges: a single fact, all-caps or mixed-case as the fact demands'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: the line chart draws in left-to-right over 400ms ease-out on first paint; stat tiles fade up 8px, staggered 40ms apart; nothing else moves.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Solid blue CTA button', 'hover: fill lightens 8%; focus-visible: 2px white outline, 2px offset; active: translateY(1px); disabled: 40% opacity'],
+          ['Sidebar nav item', 'resting: muted grey label; hover: label brightens to white; current page: white label plus a 2px left rule in the accent blue; focus-visible: 2px accent outline'],
+          ['Data table row', 'hover: row fill lightens one step; focus-visible: 2px accent outline around the row'],
+          ['Filter chip / tab', 'resting: 1px border, muted label; selected: filled white, near-black label; hover (unselected): border brightens; focus-visible: 2px accent outline'],
+          ['Top-up amount chip', 'resting: 1px border; hover: border brightens; selected: filled, the state persists until another chip or a custom entry is chosen']
+        ],
+        adaptation: {
+          yields: 'Palette hexes may be re-derived from the target brand IF the role structure holds: one near-black navy page ground, one step-lighter panel/sidebar ground, a further step-lighter card/table-row fill, a slim gradient bar at the very top in a saturated tint of the ground hue, one saturated accent carrying every primary CTA and the current-page nav rule, and white for headlines and primary body. Badge colours (free/green, discount/amber, warning/yellow) are semantic and stay fixed regardless of brand — they read as status, not brand voice. The sidebar wordmark and dot-pattern watermark may be redrawn in the target\'s own mark, but the balance chip, grouped nav sections and fixed-sidebar structure carry as-is.',
+          locked: [
+            'A slim saturated gradient bar running the full width of the very top edge only',
+            'A light display serif reserved for the page H1 and nothing else',
+            'A fixed sidebar with a stacked wordmark, an account balance chip and chevron-grouped nav sections',
+            'Data shown as hairline-bordered cards and tables rather than illustration or photography'
+          ],
+          register: 'operational and instrumented. Wrong for a page whose job is to persuade a first-time visitor — this shell reads as an account you already hold, not a landing page, even on the one screen that argues a sales case.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns · fixed 280px sidebar + fluid content, 48px content margin, 24px gutter',
+          rhythm: 'section 8u · card 4u · inline 1.5u',
+          typeScale: [
+            ['H1', 'serif, 400', '6u', 1.05],
+            ['Large numeral (e.g. balance)', 'serif, 400', '9u', 1.0],
+            ['Card title / H2', 'grotesk, 600', '2.5u', 1.2],
+            ['Body / table cell', 'grotesk, 400', '1.75u', 1.5],
+            ['Breadcrumb / badge / figure', 'monospace, 500, tracking +4%', '1.5u', 1.3]
+          ],
+          components: [
+            ['Top gradient bar', 'full-width, 0.5u tall, indigo-to-transparent, fixed to the very top of the viewport'],
+            ['Sidebar', 'fixed 280px, stacked wordmark + mark top, balance chip beneath, chevron-grouped nav sections, faint dot-pattern watermark bottom, account row pinned to the bottom edge'],
+            ['Data card', 'hairline 1px border, square or barely-rounded corners, 3u padding, title + figure + supporting row'],
+            ['Stat tile', 'part of a borderless row, figure in the large-numeral scale, label in badge scale beneath, one tile highlighted with a filled ground'],
+            ['Pill badge', 'fully rounded, 0.5u × 1.5u padding, semantic fill (green/amber/yellow) with a contrasting label'],
+            ['Data table row', 'hairline bottom rule only, no vertical rules, figures right-aligned in monospace']
+          ]
+        },
+        wireframe: [
+          '┌ SIDEBAR 280px ─┬─ 1 ────────────────────────────── 12 ─┐',
+          '│ ▬▬▬▬▬▬▬▬▬▬▬▬▬▬ top gradient bar, full width, 0.5u ▬▬▬▬▬│',
+          '│ mark + wordmark │ // SECTION > SUBSECTION   breadcrumb   │',
+          '│ ┌ balance chip ┐│                                        │',
+          '│ └──────────────┘│ H1 — serif                              │',
+          '├ ACCOUNT ─────────┤                                        │',
+          '│  nav · nav · nav │ ┌ data card ─┐┌ data card ─┐┌ card ───┐│',
+          '├ CLOUD ────────────┤ │            ││            ││        ││',
+          '│  nav · nav · nav │ └────────────┘└────────────┘└────────┘│',
+          '├ RESOURCES ────────┤                                        │',
+          '│  nav · nav · nav │ ┌ table or chart, full content width ─┐│',
+          '│  (dot-map watermark, faint, behind lower nav groups)     │',
+          '│ account row — pinned bottom  │ └───────────────────────────┘│',
+          '└──────────────────┴────────────────────────────────────────┘',
+          'The sidebar never scrolls with the content column; only the content column scrolls, and the balance chip, nav groups and account row stay fixed to viewport height in that order top to bottom. The content column\'s card row is one to four cards wide depending on how many the page needs, but every card in a row shares the same height. Tables and charts always run the full content width, never inside a card alongside other cards.'
+        ]
+      },
+      {
+        id: 'cyanotype-output-readout',
+        name: 'Cyanotype Output Readout',
+        description: 'A near-white canvas holds duotone cyanotype-blue photography in a strict two-column row — image left, headline and body right — each row closing with a monospace output-number and seed-number tag and a single small line-icon glyph, as if every block were a generative print labelled with its own render metadata. Dashed hairline rules divide each row full-bleed. Reads as documentary and process-driven rather than promotional — a company describing itself the way it would caption a dataset.',
+        vocabulary: [
+          'duotone cyanotype photography',
+          'dashed full-bleed divider',
+          'output/seed monospace tag',
+          'small line-icon glyph',
+          'underlined section label',
+          'two-column image-text row',
+          'centred nav with social glyphs',
+          'consistent single-hue accent'
+        ],
+        imageryTechnique: 'photography toned into a single blue duotone — near-white highlights, saturated blue shadows — documentary and observational in subject rather than staged or illustrative',
+        imageryExclusions: 'no full-colour photography, no illustration, no gradients, no UI screenshots',
+        fonts: {
+          roles: [
+            ['Nav & section labels', 'a classic serif in small caps or tracked capitals — Times, Freight Text or Tiempos'],
+            ['Body, headings & metadata tags', 'a monospace face — IBM Plex Mono, JetBrains Mono or Courier — set bold for headings, regular for body']
+          ],
+          never: 'a grotesk or geometric sans as the primary body face; a display serif at large decorative size'
+        },
+        copyRegister: [
+          'Section labels: 2–4 words, all-caps, underlined, monospace bold',
+          'Nav labels: 1–2 words, small caps serif',
+          'Body: short declarative paragraphs, third person, plain statement of fact — no imperative, no exclamation',
+          'Metadata tags: an output number and a seed number, stacked, always both present, monospace bold'
+        ],
+        motion: [
+          'No motion was observed — the reference is a static screenshot.',
+          'Default: static. If animating: each row fades up 8px on scroll entry, 200ms ease-out, staggered by row; the dashed divider draws left-to-right via stroke-dashoffset ahead of the row above it.',
+          'Transform and opacity only. No parallax, no scroll-jacking. Honour prefers-reduced-motion by reducing to opacity alone.'
+        ],
+        states: [
+          ['Nav link', 'resting: accent-blue small caps; hover: underline appears; focus-visible: 2px accent outline, 2px offset'],
+          ['Section label', 'resting: underlined by default; hover: underline thickens; focus-visible: 2px accent outline'],
+          ['Row', 'no interactive affordance was observed — rows are not links; hover and focus states default to none']
+        ],
+        adaptation: {
+          yields: 'The single accent may be re-derived as any brand hue IF the photography is toned into a true duotone of it — near-white highlight to a saturated shadow in the one hue — rather than left in full colour, and IF the same hue carries every nav link, section label and metadata tag with no second colour introduced. The metadata-tag convention — a two-line output-number / seed-number pair — is a specific device of this reference and may be swapped for a different two-line technical-sounding tag pair, but the row must keep exactly two lines and a monospace bold weight.',
+          locked: [
+            'A single-hue duotone applied to every photograph on the page',
+            'Dashed, full-bleed hairline rules dividing every row',
+            'A two-line monospace metadata tag beside every row',
+            'A small single line-icon glyph unique to each row, sitting beside its metadata tag'
+          ],
+          register: 'documentary and process-driven. Wrong for a page that needs to sell urgency or emotion — the captioned, dataset-like presentation reads as observational, not persuasive.'
+        },
+        system: {
+          baseUnit: 8,
+          canvas: '1440 × 900 desktop',
+          grid: '12 columns, 24px gutter, 64px side margin',
+          rhythm: 'row 10u · inline 2u',
+          typeScale: [
+            ['Section label', 'monospace, 700, uppercase, underlined', '1.75u', 1.3],
+            ['Body', 'monospace, 500', '1.75u', 1.5],
+            ['Metadata tag', 'monospace, 700', '1.5u', 1.4],
+            ['Nav', 'serif, small caps, tracking +6%', '1.5u', 1.3]
+          ],
+          components: [
+            ['Image tile', 'square or near-square duotone photograph, fixed column width, no border'],
+            ['Metadata tag', 'two stacked lines, an output number then a seed number, monospace bold, accent colour'],
+            ['Line-icon glyph', 'single small outlined icon (globe, note, gem, …) beneath the metadata tag, accent colour, no fill'],
+            ['Dashed divider', 'full-bleed, 1px, evenly dashed, accent colour at reduced weight']
+          ]
+        },
+        wireframe: [
+          '┌─ 1 ──────────────────────────────────────────── 12 ─┐',
+          '│  NAV — centred small-caps links, home icon left  3u    │',
+          '├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤',
+          '│  ┌ 1–5 image ┐   ┌ 6–10 text ──────────┐ ┌11–12 tag┐│',
+          '│  │ duotone    │   │ label (underlined)   │ │ output # │',
+          '│  │ photograph │   │ heading + body        │ │ seed #  │',
+          '│  └────────────┘   └───────────────────────┘ │ glyph  │',
+          '│                                               └────────┘',
+          '├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤',
+          '│  (row repeats — image always column 1–5, text 6–10,   │',
+          '│   tag 11–12 — the image side never alternates)          │',
+          '└───────────────────────────────────────────────────────┘',
+          'Every row shares the same three-column split; only the photograph and copy change. A dashed full-bleed divider separates every row from the next, including the first row from the nav. Extend the page by repeating rows in document order — there is no alternation to track.'
+        ]
       }
     ],
     images: [
@@ -3757,6 +4119,372 @@
             'The product name appears inside display lines, section headings and the mockup copy; substitute the target\'s name everywhere and re-check the breaks, because the display face is set tight enough that a longer name reflows the whole stack',
             'The advisor wall names four real institutions and the testimonials name real parents and children with their ages; carry neither — use only endorsements the target genuinely holds, and drop the section rather than filling it with placeholders',
             'The ticker is a run of questions specific to this product\'s subject matter; write questions from the target\'s own domain, keeping them first-person and leaving them unanswered'
+          ]
+        }
+      },
+      {
+        id: 'hermes-agent-docs-home',
+        file: 'images/Hermes-Agent-Docs-Homepage.png',
+        thumb: 'images/thumbs/Hermes-Agent-Docs-Homepage.webp',
+        display: 'images/display/Hermes-Agent-Docs-Homepage.webp',
+        categoryId: 'amber-terminal-docs',
+        title: 'Hermes Agent — Documentation Home',
+        descriptor: 'A near-black docs shell where amber marks every button, active tab and link, anchored by a two-column quick-link table and a green tip callout.',
+        keywords: [
+          'amber Get Started button',
+          'green tip callout',
+          'icon-plus-label quick-link table',
+          'collapsible sidebar TOC',
+          'bordered ghost button row',
+          'numbered feature bullets',
+          'monospace install command',
+          'three-column footer'
+        ],
+        colors: [
+          { name: 'Charcoal ground', hex: '#1B1B1B', usage: 'page ground, sidebar and content background' },
+          { name: 'Slate panel', hex: '#2D2D2D', usage: 'quick-link table alternating row fill, card and table borders' },
+          { name: 'Forest green', hex: '#092D09', usage: 'the "fastest path to a working agent" tip callout fill' },
+          { name: 'Near-black', hex: '#090909', usage: 'top nav bar fill' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: 'H1/H2 headings and body copy' },
+          { name: 'Amber', hex: '#FFCF09', usage: 'Get Started button fill, active "Docs" tab, inline links' },
+          { name: 'Muted grey', hex: '#999999', usage: 'sidebar inactive nav items and secondary description text' }
+        ],
+        typography: 'A neutral grotesk carries every role — H1 at roughly 40px/700, section H2s at 28px/700, body at 16px/400, sidebar nav items at 14px/500. Code and the install command run in a monospace face at 15px inside a bordered dark panel. The amber accent is set only on the Get Started fill, the active "Docs" tab, and inline links — nothing else in the type system changes weight or face to carry emphasis.',
+        layoutNotes: 'A near-black top bar carries the wordmark and avatar left, primary nav centre-left with "Docs" underlined in amber, and utility links (language, Home, GitHub, Discord, theme toggle, search) right. A fixed sidebar lists grouped, chevron-expandable sections in muted grey with no active-state background change — only the label brightens. The content column opens on an H1, a one-paragraph description linking "Nous Research" in amber, then a row of four buttons — one solid amber, three bordered ghost. An "Install" H2 gives OS-specific monospace commands in bordered dark panels, followed by a full-width green tip callout highlighting a single command in a brighter monospace. Below that, a two-column icon-plus-label table serves as the page\'s real table of contents, each row pairing an emoji-style icon, a bold amber title and a one-line grey description. A bulleted "Key Features" list and a two-line "For LLMs and coding agents" note close the content column above a three-column footer (Docs / Community / More) on the near-black ground.',
+        imagerySubject: 'none — the page carries a small circular avatar mark and line icons only, no photography or illustration',
+        mood: ['utilitarian', 'developer-facing', 'dense', 'direct'],
+        signature: {
+          carry: [
+            'A single amber accent marks every actionable element — CTA fill, active tab, inline links — with no second accent anywhere on the page',
+            'A two-column icon-plus-label table serves as the page\'s real table of contents, each row pairing an icon, a bold title and a one-line description',
+            'A tinted callout breaks the panel rhythm once to flag a single recommended path, its key command set in a brighter monospace than the body code',
+            'The primary CTA is paired with three bordered ghost buttons in a single row, all four sized identically so none reads as more final than the others',
+            'Sidebar sections are chevron-collapsible and the current item changes only its text colour, never gaining a background fill or border'
+          ],
+          rewrite: [
+            'Quick-link titles and descriptions name this project\'s own doc sections; write the target\'s own section names and one-line summaries',
+            'The tip callout names a specific command and a specific claim; write the target\'s own single highest-value shortcut',
+            'The four button labels name this product\'s own entry points; write the target\'s own primary and secondary calls to action'
+          ]
+        }
+      },
+      {
+        id: 'hermes-desktop-landing',
+        file: 'images/Hermes-Desktop-Landing-Hero.png',
+        thumb: 'images/thumbs/Hermes-Desktop-Landing-Hero.webp',
+        display: 'images/display/Hermes-Desktop-Landing-Hero.webp',
+        categoryId: 'engraved-ultramarine-hero',
+        title: 'Hermes Desktop — Landing Hero',
+        descriptor: 'A full-bleed ultramarine hero with a white steel-engraving of a many-armed figure radiating sunburst lines behind the tracked serif wordmark.',
+        keywords: [
+          'radiating sunburst engraving',
+          'many-armed figure illustration',
+          'tracked serif wordmark',
+          'monospace eyebrow and nav',
+          'white pill download button',
+          'three-up platform card row',
+          'grainy statue photography',
+          'oversized cross-promo watermark'
+        ],
+        colors: [
+          { name: 'Ultramarine', hex: '#0909F3', usage: 'full-bleed page ground throughout' },
+          { name: 'Mid ultramarine', hex: '#2D2DF3', usage: 'secondary section ground, slightly lighter than the hero' },
+          { name: 'White', hex: '#FFFFFF', usage: 'download button fill, wordmark and eyebrow type, illustration hairline strokes' },
+          { name: 'Mid blue', hex: '#5151F3', usage: 'illustration mid-tone hairline shading' },
+          { name: 'Pale lavender', hex: '#E1E1F3', usage: 'platform card ground and statue photography wash' },
+          { name: 'Light periwinkle', hex: '#BDBDF3', usage: 'statue photography highlights inside platform cards' },
+          { name: 'Deep indigo', hex: '#090963', usage: 'top nav bar fill, one band tall' }
+        ],
+        typography: 'A tracked, full-capitals high-contrast serif sets the wordmark and every section head at large sizes — "HERMES DESKTOP" spans two stacked lines at roughly 90px. Everything else — nav, eyebrows, button labels, body copy and FAQ questions — runs in a monospace face, uppercase for labels and eyebrows, sentence case for body and FAQ prose.',
+        layoutNotes: 'A full-bleed ultramarine ground runs the entire page. A centred nav sits on a marginally darker one-band-tall strip: "NOUS" and "DOCS" left, the stacked "HERMES AGENT" wordmark and social glyphs centred, "PRODUCTS" and "INSTALL" right. The hero splits left copy — eyebrow, two-line wordmark, three-line body, a white pill "DOWNLOAD FOR MAC OS" button — against a sunburst engraving of a many-armed figure bleeding off the top and right edges. Two "Why Hermes Agent" blocks repeat the same left-copy/right-illustration split at a smaller scale. A three-up row of bordered cards (Mac OS / Windows / Linux) each carries a faint statue-photography ground, a platform label and its own download button. An FAQ runs as a single hairline-ruled column of question/answer pairs. The page closes on a promotional band for the companion subscription product: a giant outline wordmark watermark behind a duotone illustrated figure, a single CTA button above it.',
+        imagerySubject: 'a many-armed classical figure, rendered as a white line engraving radiating sunburst hairlines, repeated smaller as a duotone illustration in the closing band',
+        mood: ['mythic', 'premium', 'considered', 'bold'],
+        signature: {
+          carry: [
+            'A single fully saturated hue fills the entire canvas with no gradient and no second colour anywhere outside pure white',
+            'The hero illustration is a white hairline engraving radiating a sunburst of strokes from the figure outward to the canvas edge',
+            'Nav, eyebrows, button labels and body all run in monospace while the wordmark and section heads alone carry the tracked serif',
+            'Three platform options are presented as identically sized bordered cards in one row, each with its own faint photographic ground and its own button rather than one shared download control',
+            'The page closes on an oversized outline wordmark watermark for a second, related product rather than a repeated CTA for the page\'s own subject'
+          ],
+          rewrite: [
+            'The wordmark and eyebrow name this specific product and category; write the target\'s own product name and eyebrow',
+            'FAQ questions and answers describe this product\'s own licensing, platform support and account requirements; write the target\'s genuine FAQ content',
+            'The closing band promotes a specific companion product by name and plan tiers; substitute the target\'s own cross-sell, or drop the band entirely if none exists'
+          ]
+        }
+      },
+      {
+        id: 'nous-portal-usage',
+        file: 'images/Nous-Portal-Usage.png',
+        thumb: 'images/thumbs/Nous-Portal-Usage.webp',
+        display: 'images/display/Nous-Portal-Usage.webp',
+        categoryId: 'navy-serif-dashboard',
+        title: 'Nous Portal — Usage',
+        descriptor: 'Six zero-state stat tiles sit above an empty line chart with its own display-range and grouping controls, closing on a tool-pricing accordion.',
+        keywords: [
+          'six-tile stat row',
+          'zero-state line chart',
+          'display-range button row',
+          'by-model chart dropdown',
+          'tool-pricing accordion list',
+          'chart-export icon',
+          'breadcrumb overview label',
+          'sidebar balance chip'
+        ],
+        colors: [
+          { name: 'Navy panel', hex: '#1B1B2D', usage: 'sidebar and stat-tile row ground' },
+          { name: 'Near-black', hex: '#09091B', usage: 'main content page ground' },
+          { name: 'Indigo bar', hex: '#090951', usage: 'slim gradient bar across the very top edge' },
+          { name: 'Slate card', hex: '#2D2D3F', usage: 'chart panel and accordion row fill' },
+          { name: 'Cool grey', hex: '#757587', usage: 'stat-tile labels and chart axis figures' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: '"Usage" H1 and stat-tile figures' }
+        ],
+        typography: 'The "Usage" H1 runs in a light serif at roughly 40px against a monospace breadcrumb above it. Stat-tile figures are set large in a neutral grotesk at around 28px/500 with their all-caps labels beneath at 11px tracked wide. Axis figures on the chart and the display-range buttons run in the same tracked monospace as the breadcrumb.',
+        layoutNotes: 'Six unbordered stat tiles sit in a single row on a shared panel ground, the first ("SPEND") distinguished only by a slightly lighter tile fill and a leading dollar figure; the other five show token/request counts at zero. Below, a bordered chart panel pairs two dropdowns (grouping and chart type) with a row of display-range buttons and a download icon, framing an empty axis grid at $0–$1.00 with no data drawn. A "Top 8 / Show all" toggle and a legend key sit at the panel\'s lower-right corner. A "Tool Pricing" H2 introduces an accordion list of provider names, each row closed with a chevron and no pricing shown until expanded.',
+        imagerySubject: 'none — the page is entirely stat tiles, an axis chart and list rows',
+        mood: ['instrumented', 'sparse', 'quiet', 'precise'],
+        signature: {
+          carry: [
+            'Six stat tiles share one borderless row and one ground, with only the first tile\'s fill distinguishing it as the primary figure',
+            'The chart panel pairs a grouping dropdown and a chart-type dropdown on one side with a row of preset display-range buttons on the other, both controlling the same axis',
+            'A provider accordion list closes the page with every row collapsed and no pricing visible until a row is opened',
+            'The chart\'s empty state still draws its full axis grid and legend controls rather than substituting an empty-state illustration or message',
+            'A range toggle governing how many series the legend lists sits at the chart\'s lower corner rather than beside its title'
+          ],
+          rewrite: [
+            'The six stat tiles measure this product\'s own usage metrics; substitute the target\'s own metered quantities in its own units',
+            'The accordion lists this product\'s own priced tool integrations by name; write the target\'s own list of metered add-ons, or drop the section if none exist',
+            'The breadcrumb and H1 name this specific section; write the target\'s own section name'
+          ]
+        }
+      },
+      {
+        id: 'nous-portal-billing',
+        file: 'images/Nous-Portal-Billing.png',
+        thumb: 'images/thumbs/Nous-Portal-Billing.webp',
+        display: 'images/display/Nous-Portal-Billing.webp',
+        categoryId: 'navy-serif-dashboard',
+        title: 'Nous Portal — Billing',
+        descriptor: 'A single oversized balance sits above a three-row breakdown table, four subscription tier cards, and a top-up stepper beside a cracked-glass texture image.',
+        keywords: [
+          'oversized balance numeral',
+          'three-row balance breakdown',
+          'four-tier subscription row',
+          'bonus ribbon badge',
+          'grainy statue tier photography',
+          'payment method module',
+          'top-up chip stepper',
+          'cracked-glass texture panel'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#09091B', usage: 'main content page ground' },
+          { name: 'Navy panel', hex: '#1B1B2D', usage: 'sidebar ground' },
+          { name: 'Indigo bar', hex: '#090951', usage: 'slim gradient bar across the very top edge' },
+          { name: 'Ultramarine', hex: '#0909F3', usage: 'the "Plus" tier card fill and its button' },
+          { name: 'Slate card', hex: '#2D2D3F', usage: 'balance breakdown row fill' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: '"Billing" H1, the balance numeral and breakdown figures' },
+          { name: 'Cool grey', hex: '#ABABAB', usage: 'breakdown row secondary labels' }
+        ],
+        typography: 'The "Billing" H1 and the balance numeral both run in the same light serif, the balance scaled to roughly triple the H1 size with a thin stroke that stays legible even that large. Breakdown-row labels and tier-card copy run in a neutral grotesk, bullet points at 14px/400; tier prices are set large and bold with "PER MONTH" beneath in tracked monospace caps. Badge and button labels are tracked monospace uppercase throughout.',
+        layoutNotes: 'Below the H1 and a one-line description, the balance is stated once at very large size with no card around it. A three-row breakdown table (Top-up credits / Subscription credits / Spent this period) pairs an icon glyph, the row\'s own figure, a status note and a right-column detail, one underlined link among them. A "Subscription" H2 introduces four tier cards in one row, each carrying a grainy blue-toned statue photograph, a bulleted feature list and its own CTA button; the second tier is highlighted with a filled blue ground and a bonus ribbon the others also carry in outline. A "Payment Method" module states no card is on file beside an add-a-card button. A "Topup" module pairs a row of preset amount chips and a custom dollar figure with a pay button, beside a full-height cracked-glass texture image, and closes on a one-line note about payment throttling for new accounts.',
+        imagerySubject: 'grainy blue-duotone photography of classical statue busts, one per subscription tier, escalating in apparent formality from a bare figure to an armoured one; a cracked-glass texture beside the top-up module',
+        mood: ['instrumented', 'transactional', 'tiered', 'precise'],
+        signature: {
+          carry: [
+            'The account balance is stated once at roughly triple the page headline\'s size with no card, border or label crowding it',
+            'A three-row breakdown table pairs each figure with its own icon glyph and a plain-language expiry or status note rather than leaving the figure to speak alone',
+            'Four subscription tiers run in one row as identically structured cards — photograph, bulleted features, price, button — with only the second tier\'s ground filled to mark it recommended',
+            'A top-up module pairs preset amount chips with a free-entry figure and states the exact conditions that unlock higher limits, rather than hiding the throttle behind a support link',
+            'Grainy duotone statue photography escalates in apparent formality one tier at a time, standing in for a feature-seniority ladder without naming it'
+          ],
+          rewrite: [
+            'Tier names, prices and feature bullets belong to this specific product; write the target\'s own tiers, pricing and feature lists',
+            'The payment-throttle note states this account\'s specific unlock conditions; write the target\'s own genuine throttle rule or drop the note if none applies',
+            'The statue photography is this brand\'s own art direction; choose imagery that escalates in the target\'s own register — it need not be classical sculpture'
+          ]
+        }
+      },
+      {
+        id: 'nous-portal-models',
+        file: 'images/Nous-Portal-Models.png',
+        thumb: 'images/thumbs/Nous-Portal-Models.webp',
+        display: 'images/display/Nous-Portal-Models.webp',
+        categoryId: 'navy-serif-dashboard',
+        title: 'Nous Portal — Models',
+        descriptor: 'Amber promo cards and a free-model chip row sit above a dense, filterable pricing table with struck-through list prices and a percent-saved column.',
+        keywords: [
+          'amber percent-off badge',
+          'green free chip row',
+          'strikethrough list price',
+          'sortable pricing table',
+          'provider filter dropdown',
+          'per-page count selector',
+          'model-type toggle row',
+          'ranked daily-usage column'
+        ],
+        colors: [
+          { name: 'Navy panel', hex: '#1B1B2D', usage: 'promo-card and table-row ground' },
+          { name: 'Near-black', hex: '#09091B', usage: 'page ground behind the promo-card grid' },
+          { name: 'Indigo bar', hex: '#090951', usage: 'slim gradient bar across the very top edge' },
+          { name: 'Slate card', hex: '#2D2D3F', usage: 'promo card border fill and alternating table rows' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: '"Models" H1, table headers and model names' },
+          { name: 'Muted green', hex: '#099963', usage: '"FREE" pill badge fill' },
+          { name: 'Muted amber', hex: '#BD8751', usage: '"% OFF" pill badge fill' }
+        ],
+        typography: 'The "Models" H1 runs in the shared light serif at roughly 40px. Promo-card headlines and the pricing table\'s model names run in a neutral grotesk at 15–16px/500; per-token figures and list-price strikethroughs run in tracked monospace, as do the percent-off and FREE badges. Table headers are small tracked monospace caps.',
+        layoutNotes: 'Three amber-bordered promo cards sit in a row beneath "Active Promos," each pairing a model name, a percent-off badge and its discounted per-token rate over a struck-through list rate; a fourth card spans the full row width for the catalog-wide discount claim. A "Free Models" row lists model names as bordered chips. The "All Models" table below runs a search field, provider dropdown and per-page selector above a tab row (All/Text/Embeddings/Other/Free/Discounted) and a result count, then a dense table — rank, model, type, portal price, struck-through list price, percent saved — with FREE and percent-off badges replacing the price columns where they apply. Pagination sits at the table\'s foot beside a note on how often prices refresh.',
+        imagerySubject: 'none — the page is entirely promo cards, chips and a data table',
+        mood: ['dense', 'comparative', 'transactional', 'exhaustive'],
+        signature: {
+          carry: [
+            'Promo cards state the discount as a badge in the corner rather than in the headline, keeping the model name the most prominent text on the card',
+            'Every discounted price is shown paired with its struck-through list price in the same row, so the saving is always checkable rather than asserted',
+            'A tab row filters by content type independently of a second filter for pricing status, so the two axes compose rather than exclude each other',
+            'A ranked usage column orders the table by observed popularity rather than by price or name, putting demand ahead of cost as the default sort',
+            'Free models get their own unbadged chip row above the priced table entirely, rather than being sorted to the top of the same table'
+          ],
+          rewrite: [
+            'The promo cards and table rows name this platform\'s own catalogue of third-party models and their real per-token prices; write the target\'s own priced catalogue',
+            'The result count and pagination reflect this catalogue\'s actual size; recompute for the target\'s own inventory',
+            'The refresh-cadence note states this platform\'s own data-freshness guarantee; write the target\'s own genuine cadence or drop the note'
+          ]
+        }
+      },
+      {
+        id: 'nous-portal-api-docs',
+        file: 'images/Nous-Portal-API-Docs.png',
+        thumb: 'images/thumbs/Nous-Portal-API-Docs.webp',
+        display: 'images/display/Nous-Portal-API-Docs.webp',
+        categoryId: 'navy-serif-dashboard',
+        title: 'Nous Portal — API Docs',
+        descriptor: 'An OpenAPI reference page pairing a numbered auth-options list with a bordered server selector, collapsible method rows and nested schema trees.',
+        keywords: [
+          'version chip pair',
+          'numbered auth options list',
+          'bordered server-selector row',
+          'lock-icon authorize button',
+          'collapsible method row',
+          'colour-coded HTTP verb badge',
+          'nested schema tree',
+          'inline monospace token'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#09091B', usage: 'main content page ground' },
+          { name: 'Navy panel', hex: '#1B1B2D', usage: 'sidebar ground' },
+          { name: 'Indigo bar', hex: '#090951', usage: 'slim gradient bar across the very top edge' },
+          { name: 'Slate row', hex: '#3F3F51', usage: 'schema-tree row and method-row alternating fill' },
+          { name: 'Mid slate', hex: '#515163', usage: 'bordered server-selector row and inline code-token background' },
+          { name: 'Cool grey', hex: '#757587', usage: 'body prose and secondary schema field labels', contrastNote: '4.36:1 on the near-black page ground — a narrow miss of the 4.5:1 body copy needs. Close enough to read as intentional but does not clear AA; darken toward #8686A0 to pass cleanly.' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: '"API Docs" H1, endpoint titles and schema type names' }
+        ],
+        typography: 'The "API Docs" H1 runs in the shared light serif; the API title beneath it is set in a bold tracked grotesk with two small monospace version chips beside it. Body prose runs in a neutral grotesk at 15px/400 with inline code tokens (endpoint paths, header names) set in monospace on a slightly lighter fill. Method rows show the HTTP verb in a small bold monospace badge beside the endpoint path in monospace.',
+        layoutNotes: 'A title block states the API name, version chips and a link to its OpenAPI spec, followed by prose sections mixing bulleted lists with inline monospace tokens and a two-option numbered choice (API keys vs. an alternative payment protocol) each broken into its own numbered sub-steps. A rate-limit list and an available-models list follow as plain bullets. A bordered row pairs a server-URL dropdown with a lock-icon authorize button. Below that, collapsible method rows (verb badge + path + one-line description) expand into full request/response detail, and a "Schemas" section holds nested, indentable type trees showing each field\'s name, type and whether it is required.',
+        imagerySubject: 'none — the page is prose, code tokens and a schema tree',
+        mood: ['technical', 'exhaustive', 'precise', 'referential'],
+        signature: {
+          carry: [
+            'Two version chips sit directly beside the API title rather than in a metadata row, making the spec version as visually prominent as the title itself',
+            'Authentication is presented as two independent numbered paths rather than one procedure, letting the reader skip straight to the option relevant to them',
+            'A single bordered row pairs the environment selector with the authorize control, so choosing a server and authorizing against it read as one action',
+            'Rate limits are tabulated by account tier as plain bullets rather than a table, keeping them scannable without implying the tiers can be compared cell by cell',
+            'Schema trees show required fields marked inline at the field level rather than in a separate list, so requiredness never has to be cross-referenced'
+          ],
+          rewrite: [
+            'The API name, base URL, available models and rate limits are this platform\'s own; write the target\'s own service name, endpoint and real limits',
+            'The two authentication paths are this platform\'s own supported methods; write the target\'s own genuine auth options, which may be only one',
+            'Schema names and field lists belong to this API\'s own contract; write the target\'s own schemas from its real spec'
+          ]
+        }
+      },
+      {
+        id: 'nous-portal-overview',
+        file: 'images/Nous-Portal-Overview.png',
+        thumb: 'images/thumbs/Nous-Portal-Overview.webp',
+        display: 'images/display/Nous-Portal-Overview.webp',
+        categoryId: 'navy-serif-dashboard',
+        title: 'Nous Portal — Overview',
+        descriptor: 'A two-column hero over a numbered, halftone-illustrated feature list, closing on the same Getting-Started, subscription and top-up modules the utility pages use.',
+        keywords: [
+          'halftone feature illustration',
+          'numbered why-us list',
+          'three-card getting-started row',
+          'inline model search preview',
+          'reused subscription tier row',
+          'reused top-up module',
+          'single blue CTA hero',
+          'sidebar map watermark'
+        ],
+        colors: [
+          { name: 'Near-black', hex: '#09091B', usage: 'main content page ground' },
+          { name: 'Navy panel', hex: '#1B1B2D', usage: 'sidebar ground and feature-row alternating fill' },
+          { name: 'Slate card', hex: '#2D2D3F', usage: 'getting-started and subscription card fill' },
+          { name: 'Indigo bar', hex: '#090951', usage: 'slim gradient bar across the very top edge' },
+          { name: 'Slate row', hex: '#3F3F51', usage: 'model-search table and topup card fill' },
+          { name: 'Off-white', hex: '#F3F3F3', usage: 'H1 and body copy' },
+          { name: 'Ultramarine', hex: '#0909F3', usage: 'the "See Plans" CTA button fill' }
+        ],
+        typography: 'The H1 runs in the shared light serif at roughly twice the size used on the utility pages, wrapping to two lines. Body intro copy is a neutral grotesk at 18px/400; the numbered "Why Nous Portal?" list sets each numeral in tracked monospace beside a grotesk sub-heading and body. Getting-Started and subscription cards reuse the same grotesk/monospace pairing as Billing.',
+        layoutNotes: 'A two-column hero pairs a large serif headline, intro paragraph and single blue CTA button on the left against empty space on the right, where a faint halftone globe graphic bleeds in from below. A "Why Nous Portal?" section runs four numbered blocks, each pairing a monospace numeral, a grotesk sub-heading and body copy against a bitmap halftone photograph, alternating which side the image sits on. A "Getting Started" H2 introduces three cards each holding a small product screenshot and its own CTA button. A "What\'s Included?" section pairs a models blurb with an inline scrollable table preview and a tools blurb with an icon-list graphic. The page closes by reusing the Billing page\'s subscription-tier row and top-up module verbatim.',
+        imagerySubject: 'halftone-textured bitmap photography (a stone bust, a hand, a wall of monitor eyes, a reaching figure) illustrating each numbered feature; small product screenshots inside the Getting-Started cards',
+        mood: ['persuasive', 'instrumented', 'comprehensive', 'confident'],
+        signature: {
+          carry: [
+            'The hero pairs a single CTA with genuinely empty space beside it rather than a product screenshot, deferring all product proof to the sections below',
+            'Each numbered feature block pairs its explanation with a halftone-textured photograph rather than a flat icon, giving an otherwise all-UI page its only imagery',
+            'Getting-Started is presented as three parallel onboarding paths rather than one, each with its own screenshot and its own CTA, so the reader picks an entry point rather than following one funnel',
+            'The page closes by reusing the account page\'s own subscription and top-up modules verbatim rather than a simplified marketing summary, so pricing is never inconsistent between the sales and account views',
+            'A live, scrollable table preview stands in for the models section\'s proof rather than a static screenshot of one'
+          ],
+          rewrite: [
+            'The four numbered claims and their headlines are this product\'s own value propositions; write the target\'s own, matched one-for-one against real capabilities',
+            'The Getting-Started cards name this product\'s own three onboarding paths; write the target\'s own entry points, which may number fewer or more than three',
+            'The hero headline and intro state this specific product\'s promise; write the target\'s own'
+          ]
+        }
+      },
+      {
+        id: 'nous-research-home',
+        file: 'images/Nous-Research-Homepage.png',
+        thumb: 'images/thumbs/Nous-Research-Homepage.webp',
+        display: 'images/display/Nous-Research-Homepage.webp',
+        categoryId: 'cyanotype-output-readout',
+        title: 'Nous Research — Homepage',
+        descriptor: 'A near-white page presenting each statement as a captioned dataset row: a cyanotype photograph, a heading and body, and a monospace output/seed tag with its own glyph.',
+        keywords: [
+          'cyanotype duotone photograph',
+          'dashed full-bleed divider',
+          'output/seed metadata tag',
+          'globe/note/gem line-icon',
+          'underlined section label',
+          'small-caps serif nav',
+          'consistent single-blue accent',
+          'documentary photography subject'
+        ],
+        colors: [
+          { name: 'White', hex: '#FFFFFF', usage: 'page ground throughout' },
+          { name: 'Mid slate-blue', hex: '#2D6387', usage: 'primary duotone photograph mid-tone' },
+          { name: 'Deep blue', hex: '#1B5175', usage: 'duotone photograph shadow tone and nav/heading text colour' },
+          { name: 'Ink navy', hex: '#093F51', usage: 'darkest duotone shadow in the interior/night photographs' },
+          { name: 'Sky blue', hex: '#3F87AB', usage: 'duotone photograph highlight tone' },
+          { name: 'Pale cyan', hex: '#E1F3F3', usage: 'the dashed divider rule' }
+        ],
+        typography: 'Nav links run in a serif set in small caps, tracked wide, centred with a small home glyph at the left edge. Every row uses the same pairing: an underlined monospace bold section label, a monospace bold two-line lead sentence, and monospace regular body beneath it — there is no separate serif body face despite the serif nav. The output/seed metadata tag is the same monospace bold as the section label, right-aligned in its own column.',
+        layoutNotes: 'A centred nav (Home, Hermes Agent, Nous Portal, Careers, Releases, Shop, Blog) sits above a dashed full-bleed rule that recurs after every row. Each row runs a fixed three-column split: a square duotone photograph at left, an underlined label plus bold lead sentence and body in the centre, and a right-aligned metadata column carrying a two-line output-number / seed-number tag above a single small outlined glyph (globe, musical note, gem) that has no stated relationship to the copy beside it. The photograph column never swaps sides; only its subject, the copy and the tag values change row to row.',
+        imagerySubject: 'documentary photography toned into a single blue duotone — a forest cabin, a glass sphere on a snowy field, a rippled water reflection — one per row, unrelated to each other in subject',
+        mood: ['documentary', 'considered', 'quiet', 'process-driven'],
+        signature: {
+          carry: [
+            'Every row is captioned with a two-line monospace output-number and seed-number pair, as if the row itself were a labelled generative print',
+            'A single small outlined glyph sits beneath each metadata tag with no explained relationship to the row\'s subject, functioning as an icon without a legend',
+            'All photography is toned into the same single blue duotone regardless of its original subject or colour',
+            'The image column holds a fixed position at the row\'s left edge across every row rather than alternating sides',
+            'A dashed, full-bleed rule recurs after every row including the first, so the nav reads as its own row rather than page chrome sitting outside the system'
+          ],
+          rewrite: [
+            'The section labels and body copy state this specific company\'s mission, model work and research focus; write the target\'s own statements',
+            'The nav lists this company\'s own site sections; write the target\'s own',
+            'The output and seed numbers are specific values with no stated meaning; generate the target\'s own values in the same two-line format, or drop the tag if the target has no equivalent generative-process framing'
           ]
         }
       }
